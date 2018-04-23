@@ -30,7 +30,7 @@ public abstract class ModBlockContainer extends ModBlock implements ITileEntityP
     public ModBlockContainer(Material material, MapColor color, String regName)
     {
         super(material, color, regName);
-        this.isBlockContainer = true;
+        this.hasTileEntity = true;
     }
 
     protected boolean isInvalidNeighbor(World worldIn, BlockPos pos, EnumFacing facing)
