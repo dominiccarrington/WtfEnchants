@@ -2,26 +2,37 @@ package com.ragegamingpe.wtfenchants.common;
 
 import com.ragegamingpe.wtfenchants.common.block.base.ModBlock;
 import com.ragegamingpe.wtfenchants.common.enchantment.AutoFeedEnchantment;
+import com.ragegamingpe.wtfenchants.common.enchantment.QuickDrawEnchantment;
 import com.ragegamingpe.wtfenchants.common.enchantment.base.ModBaseEnchantment;
 import com.ragegamingpe.wtfenchants.common.item.base.ModItem;
 import com.ragegamingpe.wtfenchants.common.lib.ModBlocks;
+import com.ragegamingpe.wtfenchants.common.lib.ModEnchantments;
 import com.ragegamingpe.wtfenchants.common.lib.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.entity.player.ArrowLooseEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nullable;
 import java.util.Map;
 
 public class CommonProxy
@@ -36,16 +47,16 @@ public class CommonProxy
             registeredEvents = true;
         }
 
-//        Items.BOW.addPropertyOverride(new ResourceLocation("pull"), new IItemPropertyGetter()
-//        {
-//            @Override
-//            @SideOnly(Side.CLIENT)
-//            public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn)
-//            {
-//                int quickDraw = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.QUICK_DRAW, stack);
-//                return (entityIn == null || entityIn.getActiveItemStack().getItem() != Items.BOW) ? 0.0F : (float) (stack.getMaxItemUseDuration() - entityIn.getItemInUseCount()) / 20.0F;
-//            }
-//        });
+        Items.BOW.addPropertyOverride(new ResourceLocation("pull"), new IItemPropertyGetter()
+        {
+            @Override
+            @SideOnly(Side.CLIENT)
+            public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn)
+            {
+                int quickDraw = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.QUICK_DRAW, stack);
+                return (entityIn == null || entityIn.getActiveItemStack().getItem() != Items.BOW) ? 0.0F : (float) (stack.getMaxItemUseDuration() - entityIn.getItemInUseCount()) / (20.0F / quickDraw);
+            }
+        });
     }
 
     public void init(FMLInitializationEvent event)
@@ -83,14 +94,15 @@ public class CommonProxy
     public void registerEnchantments(RegistryEvent.Register<Enchantment> event)
     {
         event.getRegistry().registerAll(
-                new AutoFeedEnchantment()
+                new AutoFeedEnchantment(),
+                new QuickDrawEnchantment()
         );
     }
 
     @SubscribeEvent
     public void onPlayerTick(TickEvent.PlayerTickEvent event)
     {
-        if (event.phase == TickEvent.Phase.END) {
+        if (event.phase == TickEvent.Phase.END && event.side == Side.SERVER) {
             EntityPlayer player = event.player;
 
             Iterable<ItemStack> armorInv = player.getArmorInventoryList();
@@ -100,10 +112,17 @@ public class CommonProxy
 
                 for (Map.Entry<Enchantment, Integer> enchant : enchantments.entrySet()) {
                     if (enchant.getKey() instanceof ModBaseEnchantment) {
-                        ((ModBaseEnchantment) enchant.getKey()).onArmorTick(armorPiece, enchant.getValue());
+                        ((ModBaseEnchantment) enchant.getKey()).onArmorTick(player, armorPiece, enchant.getValue());
                     }
                 }
             }
         }
+    }
+
+    @SubscribeEvent
+    public void arrowFiredEvent(ArrowLooseEvent event)
+    {
+        int level = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.QUICK_DRAW, event.getBow());
+        if (level > 0) event.setCharge(event.getCharge() * level);
     }
 }
