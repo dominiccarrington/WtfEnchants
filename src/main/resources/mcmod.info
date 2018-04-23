@@ -1,0 +1,16 @@
+[
+{
+  "modid": "wtfenchants",
+  "name": "WTF Enchants",
+  "description": "New Enchantments",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["RageGamingPE"],
+  "credits": "RageGamingPE [Programming], DragonFlame1380 [Ideas and stuff]",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
