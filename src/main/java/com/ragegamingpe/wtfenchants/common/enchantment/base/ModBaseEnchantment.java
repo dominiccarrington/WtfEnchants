@@ -1,11 +1,14 @@
 package com.ragegamingpe.wtfenchants.common.enchantment.base;
 
 import com.ragegamingpe.wtfenchants.common.lib.LibMisc;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+
+import java.util.List;
 
 public class ModBaseEnchantment extends Enchantment
 {
@@ -17,6 +20,11 @@ public class ModBaseEnchantment extends Enchantment
     }
 
     public void onArmorTick(EntityPlayer player, ItemStack armorPiece, int lvl)
+    {
+
+    }
+
+    public void onToolUse(EntityPlayer harvester, IBlockState state, ItemStack stack, int fortuneLevel, List<ItemStack> drops)
     {
 
     }

@@ -2,6 +2,7 @@ package com.ragegamingpe.wtfenchants.common;
 
 import com.ragegamingpe.wtfenchants.common.block.base.ModBlock;
 import com.ragegamingpe.wtfenchants.common.enchantment.AutoFeedEnchantment;
+import com.ragegamingpe.wtfenchants.common.enchantment.AutoSmeltEnchantment;
 import com.ragegamingpe.wtfenchants.common.enchantment.QuickDrawEnchantment;
 import com.ragegamingpe.wtfenchants.common.enchantment.base.ModBaseEnchantment;
 import com.ragegamingpe.wtfenchants.common.item.base.ModItem;
@@ -23,6 +24,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.ArrowLooseEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -95,6 +97,7 @@ public class CommonProxy
     {
         event.getRegistry().registerAll(
                 new AutoFeedEnchantment(),
+                new AutoSmeltEnchantment(),
                 new QuickDrawEnchantment()
         );
     }
@@ -115,6 +118,19 @@ public class CommonProxy
                         ((ModBaseEnchantment) enchant.getKey()).onArmorTick(player, armorPiece, enchant.getValue());
                     }
                 }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onBlockBroken(BlockEvent.HarvestDropsEvent event)
+    {
+        ItemStack stack = event.getHarvester().getHeldItemMainhand();
+        Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(stack);
+
+        for (Map.Entry<Enchantment, Integer> enchant : enchantments.entrySet()) {
+            if (enchant.getKey() instanceof ModBaseEnchantment) {
+                ((ModBaseEnchantment) enchant.getKey()).onToolUse(event.getHarvester(), event.getState(), stack, event.getFortuneLevel(), event.getDrops());
             }
         }
     }

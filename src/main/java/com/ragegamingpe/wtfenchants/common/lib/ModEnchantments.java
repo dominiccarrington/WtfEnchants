@@ -7,5 +7,6 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class ModEnchantments
 {
     public static final Enchantment AUTO_FEED = null;
+    public static final Enchantment AUTO_SMELT = null;
     public static final Enchantment QUICK_DRAW = null;
 }
