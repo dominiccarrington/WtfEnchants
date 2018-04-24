@@ -14,7 +14,7 @@ public class QuickDrawEnchantment extends ModBaseEnchantment
     @Override
     public int getMinEnchantability(int enchantmentLevel)
     {
-        return 10 + 5 * enchantmentLevel;
+        return 10 + 6 * enchantmentLevel;
     }
 
     @Override
