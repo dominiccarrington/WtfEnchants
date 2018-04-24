@@ -4,9 +4,12 @@ import com.ragegamingpe.wtfenchants.common.lib.LibMisc;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
 
 import java.util.List;
 
@@ -25,6 +28,11 @@ public class ModBaseEnchantment extends Enchantment
     }
 
     public void onToolUse(EntityPlayer harvester, IBlockState state, ItemStack stack, int fortuneLevel, List<ItemStack> drops)
+    {
+
+    }
+
+    public void onEntityDeath(EntityLivingBase player, DamageSource source, ItemStack enchantItem, List<EntityItem> drops)
     {
 
     }

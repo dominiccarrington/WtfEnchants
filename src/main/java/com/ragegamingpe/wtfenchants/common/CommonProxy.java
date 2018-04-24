@@ -3,6 +3,8 @@ package com.ragegamingpe.wtfenchants.common;
 import com.ragegamingpe.wtfenchants.common.block.base.ModBlock;
 import com.ragegamingpe.wtfenchants.common.enchantment.*;
 import com.ragegamingpe.wtfenchants.common.enchantment.base.ModBaseEnchantment;
+import com.ragegamingpe.wtfenchants.common.enchantment.handler.HandlerQuickDraw;
+import com.ragegamingpe.wtfenchants.common.enchantment.handler.HandlerSoulbound;
 import com.ragegamingpe.wtfenchants.common.item.base.ModItem;
 import com.ragegamingpe.wtfenchants.common.lib.ModBlocks;
 import com.ragegamingpe.wtfenchants.common.lib.ModEnchantments;
@@ -56,6 +58,9 @@ public class CommonProxy
                 return (entityIn == null || entityIn.getActiveItemStack().getItem() != Items.BOW) ? 0.0F : (float) (stack.getMaxItemUseDuration() - entityIn.getItemInUseCount()) / (20.0F / quickDraw);
             }
         });
+
+        MinecraftForge.EVENT_BUS.register(new HandlerSoulbound());
+        MinecraftForge.EVENT_BUS.register(new HandlerQuickDraw());
     }
 
     public void init(FMLInitializationEvent event)
@@ -97,7 +102,8 @@ public class CommonProxy
                 new AutoSmeltEnchantment(),
                 new EnvenomationEnchantment(),
                 new GodsEyeEnchantment(),
-                new QuickDrawEnchantment()
+                new QuickDrawEnchantment(),
+                new SoulboundEnchantment()
         );
     }
 

@@ -8,5 +8,8 @@ public class ModEnchantments
 {
     public static final Enchantment AUTO_FEED = null;
     public static final Enchantment AUTO_SMELT = null;
+    public static final Enchantment ENVENOMATION = null;
+    public static final Enchantment GODS_EYE = null;
     public static final Enchantment QUICK_DRAW = null;
+    public static final Enchantment SOULBOUND = null;
 }
