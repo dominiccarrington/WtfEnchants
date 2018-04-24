@@ -25,7 +25,7 @@ public class AutoFeedEnchantment extends ModBaseEnchantment
         if (++delay >= 100) {
             delay = 0;
             if (lvl >= 2) {
-                player.addPotionEffect(new PotionEffect(MobEffects.SATURATION, 5, 0, true, true));
+                player.addPotionEffect(new PotionEffect(MobEffects.SATURATION, 5, 0, true, false));
             } else {
                 if (player.getFoodStats().needFood()) {
                     ItemStack food = ItemStack.EMPTY;
