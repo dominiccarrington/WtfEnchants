@@ -24,7 +24,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.event.entity.player.ArrowLooseEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -137,12 +136,5 @@ public class CommonProxy
                 }
             }
         }
-    }
-
-    @SubscribeEvent
-    public void arrowFiredEvent(ArrowLooseEvent event)
-    {
-        int level = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.QUICK_DRAW, event.getBow());
-        if (level > 0) event.setCharge(event.getCharge() * level);
     }
 }
