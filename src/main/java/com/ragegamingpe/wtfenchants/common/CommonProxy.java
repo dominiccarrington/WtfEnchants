@@ -1,10 +1,7 @@
 package com.ragegamingpe.wtfenchants.common;
 
 import com.ragegamingpe.wtfenchants.common.block.base.ModBlock;
-import com.ragegamingpe.wtfenchants.common.enchantment.AutoFeedEnchantment;
-import com.ragegamingpe.wtfenchants.common.enchantment.AutoSmeltEnchantment;
-import com.ragegamingpe.wtfenchants.common.enchantment.GodsEyeEnchantment;
-import com.ragegamingpe.wtfenchants.common.enchantment.QuickDrawEnchantment;
+import com.ragegamingpe.wtfenchants.common.enchantment.*;
 import com.ragegamingpe.wtfenchants.common.enchantment.base.ModBaseEnchantment;
 import com.ragegamingpe.wtfenchants.common.item.base.ModItem;
 import com.ragegamingpe.wtfenchants.common.lib.ModBlocks;
@@ -98,6 +95,7 @@ public class CommonProxy
         event.getRegistry().registerAll(
                 new AutoFeedEnchantment(),
                 new AutoSmeltEnchantment(),
+                new EnvenomationEnchantment(),
                 new GodsEyeEnchantment(),
                 new QuickDrawEnchantment()
         );
