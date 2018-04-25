@@ -26,6 +26,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -103,11 +104,14 @@ public class CommonProxy
                 new AutoFeedEnchantment(),
                 new AutoSmeltEnchantment(),
                 new EnvenomationEnchantment(),
+                new ExplosionEnchantment(),
                 new GodsEyeEnchantment(),
-                new QuickDrawEnchantment(),
-                new SoulboundEnchantment(),
-                new ExplosionEnchantment()
+                new QuickDrawEnchantment()
         );
+
+        if (!Loader.isModLoaded("enderio")) {
+            event.getRegistry().register(new SoulboundEnchantment());
+        }
     }
 
     @SubscribeEvent
