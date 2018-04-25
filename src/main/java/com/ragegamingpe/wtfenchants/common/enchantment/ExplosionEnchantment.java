@@ -5,13 +5,10 @@ import com.ragegamingpe.wtfenchants.common.lib.ModEnchantments;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
-
-import java.util.List;
 
 public class ExplosionEnchantment extends ModBaseEnchantment
 {
@@ -25,12 +22,6 @@ public class ExplosionEnchantment extends ModBaseEnchantment
     {
         World world = entity.getEntityWorld();
         world.createExplosion(entity, entity.posX, entity.posY, entity.posZ, 1.5F * lvl, false);
-    }
-
-    @Override
-    public void onEntityDeathDrops(EntityLivingBase entity, DamageSource source, ItemStack stack, List<EntityItem> drops, Integer lvl)
-    {
-        drops.removeIf((dropsStack) -> dropsStack.getItem().equals(stack));
     }
 
     @Override
