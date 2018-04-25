@@ -23,6 +23,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -103,7 +105,8 @@ public class CommonProxy
                 new EnvenomationEnchantment(),
                 new GodsEyeEnchantment(),
                 new QuickDrawEnchantment(),
-                new SoulboundEnchantment()
+                new SoulboundEnchantment(),
+                new ExplosionEnchantment()
         );
     }
 
@@ -137,6 +140,40 @@ public class CommonProxy
             for (Map.Entry<Enchantment, Integer> enchant : enchantments.entrySet()) {
                 if (enchant.getKey() instanceof ModBaseEnchantment) {
                     ((ModBaseEnchantment) enchant.getKey()).onToolUse(event.getHarvester(), event.getState(), stack, event.getFortuneLevel(), event.getDrops());
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onEntityDeath(LivingDeathEvent event)
+    {
+        EntityLivingBase entity = event.getEntityLiving();
+        Iterable<ItemStack> stacks = entity.getEquipmentAndArmor();
+
+        for (ItemStack stack : stacks) {
+            Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(stack);
+
+            for (Map.Entry<Enchantment, Integer> enchant : enchantments.entrySet()) {
+                if (enchant.getKey() instanceof ModBaseEnchantment) {
+                    ((ModBaseEnchantment) enchant.getKey()).onEntityDeath(event.getEntityLiving(), event.getSource(), stack, enchant.getValue());
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onEntityDrops(LivingDropsEvent event)
+    {
+        EntityLivingBase entity = event.getEntityLiving();
+        Iterable<ItemStack> stacks = entity.getEquipmentAndArmor();
+
+        for (ItemStack stack : stacks) {
+            Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(stack);
+
+            for (Map.Entry<Enchantment, Integer> enchant : enchantments.entrySet()) {
+                if (enchant.getKey() instanceof ModBaseEnchantment) {
+                    ((ModBaseEnchantment) enchant.getKey()).onEntityDeathDrops(event.getEntityLiving(), event.getSource(), stack, event.getDrops(), enchant.getValue());
                 }
             }
         }

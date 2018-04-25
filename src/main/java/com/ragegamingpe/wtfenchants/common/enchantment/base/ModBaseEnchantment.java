@@ -32,7 +32,12 @@ public class ModBaseEnchantment extends Enchantment
 
     }
 
-    public void onEntityDeath(EntityLivingBase player, DamageSource source, ItemStack enchantItem, List<EntityItem> drops)
+    public void onEntityDeath(EntityLivingBase entity, DamageSource source, ItemStack enchantItem, Integer lvl)
+    {
+
+    }
+
+    public void onEntityDeathDrops(EntityLivingBase entity, DamageSource source, ItemStack stack, List<EntityItem> drops, Integer lvl)
     {
 
     }
@@ -42,4 +47,5 @@ public class ModBaseEnchantment extends Enchantment
     {
         return "enchantment." + LibMisc.MOD_ID + ":" + name + ".name";
     }
+
 }
