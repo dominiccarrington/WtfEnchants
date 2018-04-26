@@ -15,6 +15,11 @@ import java.util.List;
 
 public class ModBaseEnchantment extends Enchantment
 {
+    protected ModBaseEnchantment(String name, Rarity rarityIn, EnumEnchantmentType typeIn)
+    {
+        this(name, rarityIn, typeIn, calculateSlots(typeIn));
+    }
+
     protected ModBaseEnchantment(String name, Rarity rarityIn, EnumEnchantmentType typeIn, EntityEquipmentSlot[] slots)
     {
         super(rarityIn, typeIn, slots);
@@ -48,4 +53,54 @@ public class ModBaseEnchantment extends Enchantment
         return "enchantment." + LibMisc.MOD_ID + ":" + name + ".name";
     }
 
+    private static EntityEquipmentSlot[] calculateSlots(EnumEnchantmentType typeIn)
+    {
+        EntityEquipmentSlot[] slots;
+        switch (typeIn) {
+            case BOW:
+            case WEAPON:
+            case BREAKABLE:
+            case DIGGER:
+            case FISHING_ROD:
+                slots = new EntityEquipmentSlot[]{
+                        EntityEquipmentSlot.MAINHAND,
+                        EntityEquipmentSlot.OFFHAND
+                };
+
+            case WEARABLE:
+            case ARMOR:
+                slots = new EntityEquipmentSlot[]{
+                        EntityEquipmentSlot.HEAD,
+                        EntityEquipmentSlot.CHEST,
+                        EntityEquipmentSlot.LEGS,
+                        EntityEquipmentSlot.FEET
+                };
+
+            case ARMOR_HEAD:
+                slots = new EntityEquipmentSlot[]{
+                        EntityEquipmentSlot.HEAD
+                };
+
+            case ARMOR_CHEST:
+                slots = new EntityEquipmentSlot[]{
+                        EntityEquipmentSlot.CHEST
+                };
+
+            case ARMOR_LEGS:
+                slots = new EntityEquipmentSlot[]{
+                        EntityEquipmentSlot.LEGS
+                };
+
+            case ARMOR_FEET:
+                slots = new EntityEquipmentSlot[]{
+                        EntityEquipmentSlot.FEET
+                };
+
+            case ALL:
+            default:
+                slots = EntityEquipmentSlot.values();
+        }
+
+        return slots;
+    }
 }

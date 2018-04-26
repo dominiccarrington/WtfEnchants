@@ -15,10 +15,7 @@ public class DisarmEnchantment extends ModBaseEnchantment
 
     public DisarmEnchantment()
     {
-        super("disarm", Rarity.RARE, EnumEnchantmentType.WEAPON, new EntityEquipmentSlot[]{
-                EntityEquipmentSlot.MAINHAND,
-                EntityEquipmentSlot.OFFHAND
-        });
+        super("disarm", Rarity.RARE, EnumEnchantmentType.WEAPON);
     }
 
     @Override

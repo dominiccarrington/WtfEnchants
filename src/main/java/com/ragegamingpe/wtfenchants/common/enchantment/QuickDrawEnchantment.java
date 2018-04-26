@@ -2,13 +2,12 @@ package com.ragegamingpe.wtfenchants.common.enchantment;
 
 import com.ragegamingpe.wtfenchants.common.enchantment.base.ModBaseEnchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
-import net.minecraft.inventory.EntityEquipmentSlot;
 
 public class QuickDrawEnchantment extends ModBaseEnchantment
 {
     public QuickDrawEnchantment()
     {
-        super("quick_draw", Rarity.RARE, EnumEnchantmentType.BOW, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND, EntityEquipmentSlot.OFFHAND});
+        super("quick_draw", Rarity.RARE, EnumEnchantmentType.BOW);
     }
 
     @Override

@@ -5,14 +5,13 @@ import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.MobEffects;
-import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.potion.PotionEffect;
 
 public class EnvenomationEnchantment extends ModBaseEnchantment
 {
     public EnvenomationEnchantment()
     {
-        super("envenomation", Rarity.RARE, EnumEnchantmentType.WEAPON, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND, EntityEquipmentSlot.OFFHAND});
+        super("envenomation", Rarity.RARE, EnumEnchantmentType.WEAPON);
     }
 
     @Override

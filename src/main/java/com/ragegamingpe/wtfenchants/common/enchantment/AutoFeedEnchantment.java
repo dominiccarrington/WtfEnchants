@@ -4,7 +4,6 @@ import com.ragegamingpe.wtfenchants.common.enchantment.base.ModBaseEnchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
-import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
@@ -16,7 +15,7 @@ public class AutoFeedEnchantment extends ModBaseEnchantment
 
     public AutoFeedEnchantment()
     {
-        super("auto_feed", Rarity.UNCOMMON, EnumEnchantmentType.ARMOR_HEAD, new EntityEquipmentSlot[]{EntityEquipmentSlot.HEAD});
+        super("auto_feed", Rarity.UNCOMMON, EnumEnchantmentType.ARMOR_HEAD);
     }
 
     @Override

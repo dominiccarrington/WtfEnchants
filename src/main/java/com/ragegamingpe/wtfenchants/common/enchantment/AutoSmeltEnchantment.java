@@ -7,7 +7,6 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
-import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 
@@ -18,7 +17,7 @@ public class AutoSmeltEnchantment extends ModBaseEnchantment
 {
     public AutoSmeltEnchantment()
     {
-        super("auto_smelt", Rarity.VERY_RARE, EnumEnchantmentType.DIGGER, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND, EntityEquipmentSlot.OFFHAND});
+        super("auto_smelt", Rarity.VERY_RARE, EnumEnchantmentType.DIGGER);
     }
 
     @Override

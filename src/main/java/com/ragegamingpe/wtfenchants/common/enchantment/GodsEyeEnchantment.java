@@ -4,7 +4,6 @@ import com.ragegamingpe.wtfenchants.common.enchantment.base.ModBaseEnchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
-import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 
@@ -12,7 +11,7 @@ public class GodsEyeEnchantment extends ModBaseEnchantment
 {
     public GodsEyeEnchantment()
     {
-        super("gods_eye", Rarity.RARE, EnumEnchantmentType.ARMOR_HEAD, new EntityEquipmentSlot[]{EntityEquipmentSlot.HEAD});
+        super("gods_eye", Rarity.RARE, EnumEnchantmentType.ARMOR_HEAD);
     }
 
     @Override
