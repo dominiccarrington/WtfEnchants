@@ -27,7 +27,7 @@ public class ExplosionEnchantment extends ModBaseEnchantment
     @Override
     public int getMinEnchantability(int enchantmentLevel)
     {
-        return 15 + (enchantmentLevel - 1) * 4;
+        return 20 + (enchantmentLevel - 1) * 4;
     }
 
     @Override
