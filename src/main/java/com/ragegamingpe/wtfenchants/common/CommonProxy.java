@@ -106,7 +106,8 @@ public class CommonProxy
                 new EnvenomationEnchantment(),
                 new ExplosionEnchantment(),
                 new GodsEyeEnchantment(),
-                new QuickDrawEnchantment()
+                new QuickDrawEnchantment(),
+                new DisarmEnchantment()
         );
 
         if (!Loader.isModLoaded("enderio")) {
