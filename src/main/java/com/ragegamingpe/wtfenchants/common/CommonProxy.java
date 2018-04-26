@@ -103,11 +103,11 @@ public class CommonProxy
         event.getRegistry().registerAll(
                 new AutoFeedEnchantment(),
                 new AutoSmeltEnchantment(),
+                new DisarmEnchantment(),
                 new EnvenomationEnchantment(),
                 new ExplosionEnchantment(),
                 new GodsEyeEnchantment(),
-                new QuickDrawEnchantment(),
-                new DisarmEnchantment()
+                new QuickDrawEnchantment()
         );
 
         if (!Loader.isModLoaded("enderio")) {
