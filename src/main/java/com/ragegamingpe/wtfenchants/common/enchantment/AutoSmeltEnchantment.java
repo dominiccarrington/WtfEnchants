@@ -43,7 +43,7 @@ public class AutoSmeltEnchantment extends ModBaseEnchantment
         if (result != ItemStack.EMPTY) {
             drops.clear();
             int count = 1;
-            if (fortuneLevel > 0) count += rand.nextInt(fortuneLevel);
+            if (fortuneLevel > 0) count += (int) Math.floor(rand.nextFloat() * fortuneLevel);
             result.setCount(count);
 
             drops.add(result);
