@@ -9,3 +9,15 @@ Open an issue. We will think about all submissions and decide whether to impleme
 - Tools to be affected
 - What does the enchantment do?
 - Any additional information
+
+Ideas?
+---
+Submit an issue! I am always happy to hear ideas from people!
+
+Bugs
+---
+Well it is bound to happen. In order for me to be able to fix the issue please include
+- Forge Version
+- Mod Version
+- Method to replicate the bug
+- Full crash report
