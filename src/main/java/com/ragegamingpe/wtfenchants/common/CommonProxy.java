@@ -1,6 +1,7 @@
 package com.ragegamingpe.wtfenchants.common;
 
 import com.ragegamingpe.wtfenchants.common.block.base.ModBlock;
+import com.ragegamingpe.wtfenchants.common.command.WtfCommand;
 import com.ragegamingpe.wtfenchants.common.enchantment.*;
 import com.ragegamingpe.wtfenchants.common.enchantment.base.ModBaseEnchantment;
 import com.ragegamingpe.wtfenchants.common.enchantment.handler.HandlerQuickDraw;
@@ -76,6 +77,7 @@ public class CommonProxy
 
     public void serverStarting(FMLServerStartingEvent event)
     {
+        event.registerServerCommand(new WtfCommand());
     }
 
     @SubscribeEvent
@@ -107,7 +109,8 @@ public class CommonProxy
                 new EnvenomationEnchantment(),
                 new ExplosionEnchantment(),
                 new GodsEyeEnchantment(),
-                new QuickDrawEnchantment()
+                new QuickDrawEnchantment(),
+                new WtfEnchantEnchantment()
         );
 
         if (!Loader.isModLoaded("enderio")) {
