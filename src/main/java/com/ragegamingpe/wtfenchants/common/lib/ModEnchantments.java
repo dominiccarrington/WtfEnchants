@@ -12,4 +12,5 @@ public class ModEnchantments
     public static final Enchantment GODS_EYE = null;
     public static final Enchantment QUICK_DRAW = null;
     public static final Enchantment SOULBOUND = null;
+    public static final Enchantment WTF = null;
 }

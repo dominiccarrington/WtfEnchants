@@ -1,15 +1,19 @@
 package com.ragegamingpe.wtfenchants.common;
 
 import com.ragegamingpe.wtfenchants.common.block.base.ModBlock;
+import com.ragegamingpe.wtfenchants.common.block.te.TileEntityBookshelf;
 import com.ragegamingpe.wtfenchants.common.command.WtfCommand;
 import com.ragegamingpe.wtfenchants.common.enchantment.*;
 import com.ragegamingpe.wtfenchants.common.enchantment.base.ModBaseEnchantment;
 import com.ragegamingpe.wtfenchants.common.enchantment.handler.HandlerQuickDraw;
 import com.ragegamingpe.wtfenchants.common.enchantment.handler.HandlerSoulbound;
 import com.ragegamingpe.wtfenchants.common.item.base.ModItem;
+import com.ragegamingpe.wtfenchants.common.lib.LibMisc;
 import com.ragegamingpe.wtfenchants.common.lib.ModBlocks;
 import com.ragegamingpe.wtfenchants.common.lib.ModEnchantments;
 import com.ragegamingpe.wtfenchants.common.lib.ModItems;
+import com.ragegamingpe.wtfenchants.common.network.GuiHandler;
+import com.ragegamingpe.wtfenchants.common.network.MessageHandler;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -34,6 +38,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -52,6 +58,22 @@ public class CommonProxy
             registeredEvents = true;
         }
 
+        NetworkRegistry.INSTANCE.registerGuiHandler(WtfEnchants.instance, new GuiHandler());
+        MessageHandler.init();
+
+        MinecraftForge.EVENT_BUS.register(new HandlerSoulbound());
+        MinecraftForge.EVENT_BUS.register(new HandlerQuickDraw());
+
+        GameRegistry.registerTileEntity(TileEntityBookshelf.class, LibMisc.MOD_ID + ":bookshelf");
+
+    }
+
+    public void init(FMLInitializationEvent event)
+    {
+    }
+
+    public void postInit(FMLPostInitializationEvent event)
+    {
         Items.BOW.addPropertyOverride(new ResourceLocation("pull"), new IItemPropertyGetter()
         {
             @Override
@@ -63,16 +85,7 @@ public class CommonProxy
             }
         });
 
-        MinecraftForge.EVENT_BUS.register(new HandlerSoulbound());
-        MinecraftForge.EVENT_BUS.register(new HandlerQuickDraw());
-    }
-
-    public void init(FMLInitializationEvent event)
-    {
-    }
-
-    public void postInit(FMLPostInitializationEvent event)
-    {
+        System.out.println(Enchantment.getEnchantmentID(ModEnchantments.WTF));
     }
 
     public void serverStarting(FMLServerStartingEvent event)
@@ -110,7 +123,8 @@ public class CommonProxy
                 new ExplosionEnchantment(),
                 new GodsEyeEnchantment(),
                 new QuickDrawEnchantment(),
-                new WtfEnchantEnchantment()
+                new WtfEnchantEnchantment(),
+                new FellingEnchantment()
         );
 
         if (!Loader.isModLoaded("enderio")) {
@@ -147,7 +161,7 @@ public class CommonProxy
 
             for (Map.Entry<Enchantment, Integer> enchant : enchantments.entrySet()) {
                 if (enchant.getKey() instanceof ModBaseEnchantment) {
-                    ((ModBaseEnchantment) enchant.getKey()).onToolUse(event.getHarvester(), event.getState(), stack, event.getFortuneLevel(), event.getDrops());
+                    event.setDropChance(((ModBaseEnchantment) enchant.getKey()).onToolUse(event.getHarvester(), event.getState(), event.getPos(), stack, event.getFortuneLevel(), event.getDrops()));
                 }
             }
         }
