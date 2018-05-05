@@ -7,17 +7,20 @@ import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Enchantments;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -42,15 +45,23 @@ public class WtfEnchantEnchantment extends ModBaseEnchantment
 
         registerEvent(Rarity.COMMON, "message", (player) -> player.sendMessage(new TextComponentString("Well... This is awkward.")));
 
+        registerEvent(Rarity.COMMON, "dead_bush", (player) -> {
+            NonNullList<ItemStack> inventory = player.inventory.mainInventory;
+
+            for (int i = 0; i < inventory.size(); i++) {
+                ItemStack current = inventory.get(i);
+                if (current == ItemStack.EMPTY) {
+                    inventory.set(i, new ItemStack(Blocks.DEADBUSH, 1, 0));
+                }
+            }
+        });
+
         registerEvent(Rarity.UNCOMMON, "rename", (player) -> {
             World world = player.getEntityWorld();
             List<Entity> entities = world.getEntitiesInAABBexcluding(player, player.getEntityBoundingBox().grow(10), entity -> entity != null && !(entity instanceof EntityPlayer) && entity instanceof EntityLiving);
             if (entities.size() > 0) {
-                Entity target = entities.get((int) Math.floor(rand.nextFloat() * entities.size()));
-                target.setCustomNameTag(getRandomElement(rand, RANDOM_NAMES));
-
-                if (target instanceof EntityLiving) {
-                    ((EntityLiving) target).enablePersistence();
+                for (Entity target : entities) {
+                    target.setCustomNameTag(getRandomElement(rand, RANDOM_NAMES));
                 }
             }
         });
@@ -65,7 +76,7 @@ public class WtfEnchantEnchantment extends ModBaseEnchantment
             }
         });
 
-        registerEvent(Rarity.RARE, "bane_of_arth", (player) -> {
+        registerEvent(Rarity.RARE, "enchant", (player) -> {
             NonNullList<ItemStack> mainInventory = player.inventory.mainInventory;
             ItemStack stack;
             int maxTries = (int) Math.floor(mainInventory.size() * 1.5);
@@ -75,19 +86,22 @@ public class WtfEnchantEnchantment extends ModBaseEnchantment
             } while (stack == ItemStack.EMPTY && maxTries > 0);
 
             if (stack != ItemStack.EMPTY) {
-                stack.addEnchantment(Enchantments.BANE_OF_ARTHROPODS, (int) Math.floor(rand.nextFloat() * 5));
+                Collection<Enchantment> enchants = ForgeRegistries.ENCHANTMENTS.getValuesCollection();
+                Enchantment enchant = getRandomElement(rand, enchants.toArray(new Enchantment[enchants.size()]));
+                stack.addEnchantment(enchant, (int) (1 + Math.floor(rand.nextFloat() * enchant.getMaxLevel())));
             }
         });
 
         registerEvent(Rarity.RARE, "levitation", (player) -> player.addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 20, 0)));
 
-        registerEvent(Rarity.VERY_RATE, "vomit", (player) -> player.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 160, 40)));
+        registerEvent(Rarity.VERY_RARE, "vomit", (player) -> player.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 160, 40)));
 
-        registerEvent(Rarity.VERY_RATE, "creepers", (player) -> {
+        registerEvent(Rarity.VERY_RARE, "creepers", (player) -> {
             World world = player.getEntityWorld();
             for (int i = 0; i < 1 + rand.nextFloat() * 5; i++) {
                 EntityCreeper creeper = new EntityCreeper(world);
                 ReflectionHelper.setPrivateValue(EntityCreeper.class, creeper, 0, "explosionRadius");
+                DataParameter<Boolean> poweredBool = ReflectionHelper.getPrivateValue(EntityCreeper.class, creeper, "POWERED");
                 creeper.setHealth(20.0F);
 
                 float x = (float) (player.posX - 5 + (rand.nextFloat() * 10));
@@ -95,8 +109,17 @@ public class WtfEnchantEnchantment extends ModBaseEnchantment
                 int y = world.getHeight((int) x, (int) z);
 
                 creeper.setLocationAndAngles(x, y, z, 0, 0);
+                if (rand.nextFloat() < 0.25) creeper.getDataManager().set(poweredBool, true);
                 world.spawnEntity(creeper);
             }
+        });
+
+        registerEvent(Rarity.HOLY_WHY_PLZ, "wither", (player) -> {
+            World world = player.getEntityWorld();
+            EntityWither wither = new EntityWither(world);
+
+            wither.setPositionAndRotation(player.posX, player.posY, player.posZ, 0F, 0F);
+            world.spawnEntity(wither);
         });
 
         calculateWeights();
@@ -171,9 +194,10 @@ public class WtfEnchantEnchantment extends ModBaseEnchantment
 
     static class Rarity
     {
-        static final int COMMON = 8;
-        static final int UNCOMMON = 4;
-        static final int RARE = 2;
-        static final int VERY_RATE = 1;
+        static final int COMMON = 32;
+        static final int UNCOMMON = 16;
+        static final int RARE = 8;
+        static final int VERY_RARE = 4;
+        static final int HOLY_WHY_PLZ = 1;
     }
 }

@@ -10,6 +10,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.List;
 
@@ -32,9 +33,9 @@ public class ModBaseEnchantment extends Enchantment
 
     }
 
-    public void onToolUse(EntityPlayer harvester, IBlockState state, ItemStack stack, int fortuneLevel, List<ItemStack> drops)
+    public float onToolUse(EntityPlayer harvester, IBlockState state, BlockPos pos, ItemStack stack, int fortuneLevel, List<ItemStack> drops)
     {
-
+        return 1.0F;
     }
 
     public void onEntityDeath(EntityLivingBase entity, DamageSource source, ItemStack enchantItem, Integer lvl)
