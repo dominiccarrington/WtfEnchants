@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.List;
 import java.util.Random;
@@ -33,7 +34,7 @@ public class AutoSmeltEnchantment extends ModBaseEnchantment
     }
 
     @Override
-    public void onToolUse(EntityPlayer harvester, IBlockState brokenBlock, ItemStack stack, int fortuneLevel, List<ItemStack> drops)
+    public float onToolUse(EntityPlayer harvester, IBlockState brokenBlock, BlockPos pos, ItemStack stack, int fortuneLevel, List<ItemStack> drops)
     {
         Random rand = new Random();
         Block currentBlock = brokenBlock.getBlock();
@@ -48,6 +49,8 @@ public class AutoSmeltEnchantment extends ModBaseEnchantment
 
             drops.add(result);
         }
+
+        return 1.0F;
     }
 
     @Override
