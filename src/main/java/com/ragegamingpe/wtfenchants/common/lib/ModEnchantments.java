@@ -13,4 +13,6 @@ public class ModEnchantments
     public static final Enchantment QUICK_DRAW = null;
     public static final Enchantment SOULBOUND = null;
     public static final Enchantment WTF = null;
+    public static final Enchantment HEIGHT = null;
+    public static final Enchantment WIDTH = null;
 }
