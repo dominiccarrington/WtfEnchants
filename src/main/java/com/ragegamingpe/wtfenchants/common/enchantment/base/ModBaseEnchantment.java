@@ -67,6 +67,7 @@ public class ModBaseEnchantment extends Enchantment
                         EntityEquipmentSlot.MAINHAND,
                         EntityEquipmentSlot.OFFHAND
                 };
+                break;
 
             case WEARABLE:
             case ARMOR:
@@ -76,26 +77,31 @@ public class ModBaseEnchantment extends Enchantment
                         EntityEquipmentSlot.LEGS,
                         EntityEquipmentSlot.FEET
                 };
+                break;
 
             case ARMOR_HEAD:
                 slots = new EntityEquipmentSlot[]{
                         EntityEquipmentSlot.HEAD
                 };
+                break;
 
             case ARMOR_CHEST:
                 slots = new EntityEquipmentSlot[]{
                         EntityEquipmentSlot.CHEST
                 };
+                break;
 
             case ARMOR_LEGS:
                 slots = new EntityEquipmentSlot[]{
                         EntityEquipmentSlot.LEGS
                 };
+                break;
 
             case ARMOR_FEET:
                 slots = new EntityEquipmentSlot[]{
                         EntityEquipmentSlot.FEET
                 };
+                break;
 
             case ALL:
             default:

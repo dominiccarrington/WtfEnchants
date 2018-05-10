@@ -8,3 +8,8 @@ enchantment.wtfenchants:quick_draw.name=Quick Draw
 enchantment.wtfenchants:soulbound.name=Soulbound
 enchantment.wtfenchants:wtf.name=Wtf???
 enchantment.wtfenchants:felling.name=Felling
+enchantment.wtfenchants:height.name=Height
+enchantment.wtfenchants:width.name=Width
+
+tile.wtfenchants:bookshelf.name=Bookshelf
+container.wtfenchants:bookshelf.name=Bookshelf

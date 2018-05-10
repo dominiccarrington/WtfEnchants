@@ -62,7 +62,9 @@ public class CommonProxy
         MessageHandler.init();
 
         MinecraftForge.EVENT_BUS.register(new HandlerSoulbound());
-        MinecraftForge.EVENT_BUS.register(new HandlerQuickDraw());
+
+        if (!Loader.isModLoaded("enderio"))
+            MinecraftForge.EVENT_BUS.register(new HandlerQuickDraw());
 
         GameRegistry.registerTileEntity(TileEntityBookshelf.class, LibMisc.MOD_ID + ":bookshelf");
 
@@ -96,7 +98,7 @@ public class CommonProxy
     @SubscribeEvent
     public void registerBlocks(RegistryEvent.Register<Block> event)
     {
-        event.getRegistry().registerAll(ModBlocks.ALL_BLOCKS.toArray(new ModBlock[ModBlocks.ALL_BLOCKS.size()]));
+        event.getRegistry().registerAll(ModBlocks.ALL_BLOCKS.toArray(new ModBlock[0]));
     }
 
     @SubscribeEvent
@@ -109,7 +111,7 @@ public class CommonProxy
         }
         event.getRegistry().registerAll(itemBlocks);
 
-        event.getRegistry().registerAll(ModItems.ALL_ITEMS.toArray(new ModItem[ModItems.ALL_ITEMS.size()]));
+        event.getRegistry().registerAll(ModItems.ALL_ITEMS.toArray(new ModItem[0]));
     }
 
     @SubscribeEvent
@@ -124,7 +126,9 @@ public class CommonProxy
                 new GodsEyeEnchantment(),
                 new QuickDrawEnchantment(),
                 new WtfEnchantEnchantment(),
-                new FellingEnchantment()
+                new FellingEnchantment(),
+                new WidthEnchantment(),
+                new HeightEnchantment()
         );
 
         if (!Loader.isModLoaded("enderio")) {
@@ -153,7 +157,7 @@ public class CommonProxy
     }
 
     @SubscribeEvent
-    public void onBlockBroken(BlockEvent.HarvestDropsEvent event)
+    public void onBlockBrokenDrops(BlockEvent.HarvestDropsEvent event)
     {
         if (event.getHarvester() != null) {
             ItemStack stack = event.getHarvester().getHeldItemMainhand();

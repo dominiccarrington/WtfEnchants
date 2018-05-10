@@ -51,7 +51,7 @@ public class FellingEnchantment extends ModBaseEnchantment
             if (fired) {
                 world.destroyBlock(pos, false);
                 stack.attemptDamageItem(1, world.rand, (EntityPlayerMP) harvester);
-                drops.add(new ItemStack(state.getBlock(), 1, state.getBlock().damageDropped(state)));
+                drops.add(new ItemStack(state.getBlock().getItemDropped(state, world.rand, fortuneLevel), state.getBlock().quantityDropped(state, fortuneLevel, world.rand), state.getBlock().damageDropped(state)));
             }
 
             for (int i = -1; i <= 1; i++) {
