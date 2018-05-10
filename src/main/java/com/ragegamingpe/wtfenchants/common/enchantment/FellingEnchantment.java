@@ -20,9 +20,9 @@ public class FellingEnchantment extends ModBaseEnchantment
     }
 
     @Override
-    public boolean canApply(ItemStack stack)
+    public boolean canApplyAtEnchantingTable(ItemStack stack)
     {
-        return super.canApply(stack) && stack.getItem() instanceof ItemAxe;
+        return super.canApplyAtEnchantingTable(stack) && stack.getItem() instanceof ItemAxe;
     }
 
     @Override
