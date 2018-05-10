@@ -6,6 +6,7 @@ import com.ragegamingpe.wtfenchants.common.lib.LibMisc;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.EntityPlayer;
@@ -108,7 +109,18 @@ public class GuiContainerSorter extends BaseGuiContainer
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
+        this.drawDefaultBackground();
+        this.scrollingEnchants.drawScreen(mouseX, mouseY, partialTicks);
+        GlStateManager.color(1.0F, 1.0F, 1.0F);
+
+        this.searchBox.drawTextBox();
+        GlStateManager.color(1.0F, 1.0F, 1.0F);
+        GlStateManager.disableAlpha();
+
+        GlStateManager.pushMatrix();
         super.drawScreen(mouseX, mouseY, partialTicks);
+        GlStateManager.popMatrix();
+
 
         boolean flag = Mouse.isButtonDown(0);
         int i = this.guiLeft;
@@ -133,9 +145,6 @@ public class GuiContainerSorter extends BaseGuiContainer
             this.currentScroll = MathHelper.clamp(this.currentScroll, 0.0F, 1.0F);
             ((ContainerSorter) this.inventorySlots).changeShownSlots(this.currentScroll);
         }
-
-        this.scrollingEnchants.drawScreen(mouseX, mouseY, partialTicks);
-        this.searchBox.drawTextBox();
     }
 
     @Override

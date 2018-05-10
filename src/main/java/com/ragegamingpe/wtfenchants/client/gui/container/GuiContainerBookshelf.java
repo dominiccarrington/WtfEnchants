@@ -18,4 +18,11 @@ public class GuiContainerBookshelf extends BaseGuiContainer
                 154
         );
     }
+
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks)
+    {
+        this.drawDefaultBackground();
+        super.drawScreen(mouseX, mouseY, partialTicks);
+    }
 }
