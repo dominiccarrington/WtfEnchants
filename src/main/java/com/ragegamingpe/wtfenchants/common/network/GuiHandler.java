@@ -38,7 +38,7 @@ public class GuiHandler implements IGuiHandler
             case BOOKSHELF:
                 return new GuiContainerBookshelf(player.inventory, (TileEntityBookshelf) te);
             case SORTER:
-                return new GuiContainerSorter(player.inventory, BlockSorter.getAllBookshelvesConnected(world, new BlockPos(x, y, z)), new BlockPos(x, y, z));
+                return new GuiContainerSorter(player, BlockSorter.getAllBookshelvesConnected(world, new BlockPos(x, y, z)), new BlockPos(x, y, z));
         }
         return null;
     }

@@ -7,29 +7,23 @@ import com.ragegamingpe.wtfenchants.common.lib.ModBlocks;
 import com.ragegamingpe.wtfenchants.common.network.GuiHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 public class BlockSorter extends ModBlock
 {
     public BlockSorter()
     {
         super(Material.IRON, "sorter");
-    }
-
-    @Override
-    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
-    {
-        super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
-        System.out.println(Arrays.toString(getAllBookshelvesConnected(worldIn, pos)));
     }
 
     @Override

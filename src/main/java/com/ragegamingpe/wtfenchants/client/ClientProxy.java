@@ -2,6 +2,7 @@ package com.ragegamingpe.wtfenchants.client;
 
 import com.ragegamingpe.wtfenchants.common.CommonProxy;
 import com.ragegamingpe.wtfenchants.common.block.base.IModBlock;
+import com.ragegamingpe.wtfenchants.common.enchantment.handler.HandlerHeightWidth;
 import com.ragegamingpe.wtfenchants.common.item.base.IModItem;
 import com.ragegamingpe.wtfenchants.common.lib.ModBlocks;
 import com.ragegamingpe.wtfenchants.common.lib.ModItems;
@@ -36,6 +37,8 @@ public class ClientProxy extends CommonProxy
         super.preInit(event);
         ModBlocks.ALL_BLOCKS.forEach(IModBlock::registerModels);
         ModItems.ALL_ITEMS.forEach(IModItem::registerModels);
+
+        MinecraftForge.EVENT_BUS.register(new HandlerHeightWidth());
     }
 
     @Override
@@ -62,7 +65,7 @@ public class ClientProxy extends CommonProxy
         int j = gui.height - Mouse.getEventY() * gui.height / gui.mc.displayHeight - 1;
 //        System.out.println(i + " - " + j);
 
-        if (true) {
+        if (false) {
             if (event.getGui() instanceof GuiEnchantment) {
                 GuiEnchantment guiEnchantment = (GuiEnchantment) event.getGui();
                 ContainerEnchantment container = (ContainerEnchantment) guiEnchantment.inventorySlots;

@@ -1,14 +1,22 @@
 package com.ragegamingpe.wtfenchants.common.container;
 
 
+import com.ragegamingpe.wtfenchants.client.gui.container.GuiContainerSorter;
 import com.ragegamingpe.wtfenchants.common.container.base.BaseContainer;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class ContainerSorter extends Container
 {
@@ -20,6 +28,11 @@ public class ContainerSorter extends Container
 
     public ContainerSorter(IInventory player, IInventory[] bookshelves, BlockPos pos)
     {
+        if (bookshelves.length == 0) {
+            bookshelves = new IInventory[]{
+                    new InventoryBasic(null, false, 0)
+            };
+        }
         this.playerInv = player;
         this.bookshelves = bookshelves;
         this.pos = pos;
@@ -96,13 +109,37 @@ public class ContainerSorter extends Container
             }
         }
 
-        int slotID = (int) (sliderPos * this.numSlots);
+        List<Slot> validSlots = new ArrayList<>(inventorySlots);
+
+        validSlots.removeIf((slot) -> {
+            if (slot.inventory instanceof InventoryPlayer) {
+                return true;
+            }
+
+            if (GuiContainerSorter.selectedEnchant == null) return false;
+            ItemStack stack = slot.getStack();
+
+            if (stack.isEmpty()) {
+                return true;
+            }
+
+            Map<Enchantment, Integer> enchants = EnchantmentHelper.getEnchantments(stack);
+            for (Enchantment enchant : enchants.keySet()) {
+                if (GuiContainerSorter.matchesSelectedEnchant(enchant)) {
+                    return false;
+                }
+            }
+
+            return true;
+        });
+
+        int slotID = (int) (sliderPos * (validSlots.size() - 1));
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 9; j++) {
-                if (slotID > this.numSlots)
+                if (slotID >= validSlots.size())
                     break;
 
-                Slot slot = inventorySlots.get(slotID);
+                Slot slot = validSlots.get(slotID);
 
                 slot.xPos = 8 + j * 18;
                 slot.yPos = 18 + i * 18;
