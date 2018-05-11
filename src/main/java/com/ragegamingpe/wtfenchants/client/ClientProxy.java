@@ -65,7 +65,7 @@ public class ClientProxy extends CommonProxy
         int j = gui.height - Mouse.getEventY() * gui.height / gui.mc.displayHeight - 1;
 //        System.out.println(i + " - " + j);
 
-        if (false) {
+        if (true) {
             if (event.getGui() instanceof GuiEnchantment) {
                 GuiEnchantment guiEnchantment = (GuiEnchantment) event.getGui();
                 ContainerEnchantment container = (ContainerEnchantment) guiEnchantment.inventorySlots;
