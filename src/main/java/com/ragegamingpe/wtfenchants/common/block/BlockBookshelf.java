@@ -204,7 +204,7 @@ public class BlockBookshelf extends ModBlockInventory
         return new IProperty[]{BOOKS, FACING};
     }
 
-    public static JsonObject generateModel(Integer books, EnumFacing facing)
+    public static JsonObject generateBlockState(Integer books, EnumFacing facing)
     {
         JsonObject object = new JsonObject();
 

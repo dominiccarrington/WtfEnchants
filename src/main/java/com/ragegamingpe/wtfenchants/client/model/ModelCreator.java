@@ -40,7 +40,7 @@ public class ModelCreator
                     stateString.append(",").append(properties[i].getName()).append("=%s");
                 }
 
-                Method generateModelMethod = clazzBlock.getMethod("generateModel", parameters);
+                Method generateModelMethod = clazzBlock.getMethod("generateBlockState", parameters);
                 if (generateModelMethod.getReturnType() != JsonObject.class)
                     throw new Exception("Return type MUST be JsonObject");
                 JsonObject variants = new JsonObject();
