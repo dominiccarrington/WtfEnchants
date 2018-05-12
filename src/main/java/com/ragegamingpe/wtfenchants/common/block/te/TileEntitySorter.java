@@ -154,7 +154,7 @@ public class TileEntitySorter extends TileEntity implements IInventory
     @Override
     public void clear()
     {
-
+        for (IInventory inventory : this.inventories) inventory.clear();
     }
 
     public void deleteCachedInventories()
