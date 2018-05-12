@@ -159,7 +159,6 @@ public class TileEntitySorter extends TileEntity implements IInventory
 
     public void deleteCachedInventories()
     {
-        System.out.println("Delete");
         this.inventories = null;
     }
 
