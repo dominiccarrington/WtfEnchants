@@ -20,7 +20,7 @@ public class HeightEnchantment extends ModBaseEnchantment
     @Override
     public int getMinEnchantability(int enchantmentLevel)
     {
-        return 30 + 5 * enchantmentLevel;
+        return 25 + 5 * enchantmentLevel;
     }
 
     @Override
