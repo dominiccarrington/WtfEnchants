@@ -1,6 +1,8 @@
 package com.ragegamingpe.wtfenchants.common.enchantment.base;
 
+import com.ragegamingpe.wtfenchants.common.helper.Config;
 import com.ragegamingpe.wtfenchants.common.lib.LibMisc;
+import com.ragegamingpe.wtfenchants.common.lib.ModEnchantments;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
@@ -26,6 +28,7 @@ public class ModBaseEnchantment extends Enchantment
         super(rarityIn, typeIn, slots);
         this.setName(name);
         this.setRegistryName(LibMisc.MOD_ID, name);
+        ModEnchantments.ALL_ENCHANTMENTS.add(this);
     }
 
     public void onArmorTick(EntityPlayer player, ItemStack armorPiece, int lvl)
@@ -52,6 +55,11 @@ public class ModBaseEnchantment extends Enchantment
     public String getName()
     {
         return "enchantment." + LibMisc.MOD_ID + ":" + name + ".name";
+    }
+
+    public boolean isEnabled()
+    {
+        return Config.enchantsEnabled.get(this.getClass());
     }
 
     private static EntityEquipmentSlot[] calculateSlots(EnumEnchantmentType typeIn)

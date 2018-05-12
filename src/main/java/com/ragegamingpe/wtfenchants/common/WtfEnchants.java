@@ -13,7 +13,8 @@ import org.apache.logging.log4j.Logger;
         modid = LibMisc.MOD_ID,
         name = LibMisc.MOD_NAME,
         version = LibMisc.VERSION,
-        dependencies = LibMisc.DEPENDENCIES
+        dependencies = LibMisc.DEPENDENCIES,
+        guiFactory = LibMisc.CONFIG_GUI_FACTORY
 )
 public class WtfEnchants
 {

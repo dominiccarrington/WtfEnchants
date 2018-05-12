@@ -1,6 +1,6 @@
 package com.ragegamingpe.wtfenchants.common.command;
 
-import com.ragegamingpe.wtfenchants.common.enchantment.WtfEnchantEnchantment;
+import com.ragegamingpe.wtfenchants.common.enchantment.WtfEnchantment;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -14,7 +14,7 @@ import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 
-import static com.ragegamingpe.wtfenchants.common.enchantment.WtfEnchantEnchantment.EVENTS;
+import static com.ragegamingpe.wtfenchants.common.enchantment.WtfEnchantment.EVENTS;
 
 public class WtfCommand extends CommandBase
 {
@@ -44,7 +44,7 @@ public class WtfCommand extends CommandBase
                 // Subcommand
                 if (args[1].equals("regenerate_weights")) {
                     sender.sendMessage(new TextComponentString("Recalculating!"));
-                    WtfEnchantEnchantment.calculateWeights();
+                    WtfEnchantment.calculateWeights();
                 }
             } else {
                 boolean flag = false;

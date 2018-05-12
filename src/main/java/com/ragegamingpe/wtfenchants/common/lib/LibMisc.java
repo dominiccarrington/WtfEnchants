@@ -12,4 +12,5 @@ public class LibMisc
 
     public static final String CLIENT_PROXY = "com.ragegamingpe.wtfenchants.client.ClientProxy";
     public static final String COMMON_PROXY = "com.ragegamingpe.wtfenchants.common.CommonProxy";
+    public static final String CONFIG_GUI_FACTORY = "com.ragegamingpe.wtfenchants.client.gui.config.GuiFactory";
 }
