@@ -3,6 +3,7 @@ package com.ragegamingpe.wtfenchants.common.block;
 import com.google.gson.JsonObject;
 import com.ragegamingpe.wtfenchants.common.block.base.ModBlockInventory;
 import com.ragegamingpe.wtfenchants.common.block.te.TileEntityBookshelf;
+import com.ragegamingpe.wtfenchants.common.block.te.TileEntitySorter;
 import com.ragegamingpe.wtfenchants.common.lib.LibMisc;
 import com.ragegamingpe.wtfenchants.common.lib.ModBlocks;
 import com.ragegamingpe.wtfenchants.common.network.GuiHandler;
@@ -17,6 +18,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
@@ -117,6 +119,35 @@ public class BlockBookshelf extends ModBlockInventory
             facing = EnumFacing.NORTH;
 
         return this.getDefaultState().withProperty(FACING, facing);
+    }
+
+    @Override
+    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
+    {
+        super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
+
+        // Force inventory check on sorters
+        for (EnumFacing direction : EnumFacing.values()) {
+            BlockPos check = pos.offset(direction, 1);
+            TileEntity te = worldIn.getTileEntity(check);
+
+            if (te instanceof TileEntitySorter) {
+                ((TileEntitySorter) te).deleteCachedInventories();
+                break;
+            } else if (te instanceof TileEntityBookshelf) {
+                ((TileEntityBookshelf) te).updateSorters();
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
+    {
+        TileEntity te = worldIn.getTileEntity(pos);
+        if (te instanceof TileEntityBookshelf) ((TileEntityBookshelf) te).updateSorters();
+
+        super.breakBlock(worldIn, pos, state);
     }
 
     @Override

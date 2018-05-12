@@ -2,6 +2,7 @@ package com.ragegamingpe.wtfenchants.common.container;
 
 
 import com.ragegamingpe.wtfenchants.client.gui.container.GuiContainerSorter;
+import com.ragegamingpe.wtfenchants.common.block.te.TileEntitySorter;
 import com.ragegamingpe.wtfenchants.common.container.base.BaseContainer;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -9,7 +10,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
@@ -20,27 +20,18 @@ import java.util.Map;
 
 public class ContainerSorter extends Container
 {
-    public final int numSlots;
-
     private final IInventory playerInv;
-    private IInventory[] bookshelves;
+    public TileEntitySorter sorter;
     private final BlockPos pos;
 
-    public ContainerSorter(IInventory player, IInventory[] bookshelves, BlockPos pos)
+    public ContainerSorter(IInventory player, TileEntitySorter sorter, BlockPos pos)
     {
-        if (bookshelves.length == 0) {
-            bookshelves = new IInventory[]{
-                    new InventoryBasic(null, false, 0)
-            };
-        }
         this.playerInv = player;
-        this.bookshelves = bookshelves;
+        this.sorter = sorter;
         this.pos = pos;
 
-        for (IInventory bookshelf : bookshelves) {
-            for (int j = 0; j < bookshelf.getSizeInventory(); j++) {
-                this.addSlotToContainer(new BaseContainer.BaseSlot(bookshelf, j, Integer.MIN_VALUE, Integer.MIN_VALUE));
-            }
+        for (int j = 0; j < sorter.getSizeInventory(); j++) {
+            this.addSlotToContainer(new BaseContainer.BaseSlot(sorter, j, Integer.MIN_VALUE, Integer.MIN_VALUE));
         }
 
         for (int i = 0; i < 3; i++) {
@@ -52,8 +43,6 @@ public class ContainerSorter extends Container
         for (int i = 0; i < 9; i++) {
             this.addSlotToContainer(new BaseContainer.BaseSlot(player, i, 8 + i * 18, 198));
         }
-
-        numSlots = this.bookshelves.length * this.bookshelves[0].getSizeInventory() - 1;
         this.changeShownSlots(0.0F);
     }
 
@@ -73,11 +62,11 @@ public class ContainerSorter extends Container
             ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
 
-            if (index < this.numSlots) {
-                if (!this.mergeItemStack(itemstack1, this.numSlots, this.numSlots + 36, true)) {
+            if (index < this.sorter.getSizeInventory()) {
+                if (!this.mergeItemStack(itemstack1, this.sorter.getSizeInventory(), this.sorter.getSizeInventory() + 36, true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.mergeItemStack(itemstack1, 0, this.numSlots, false)) {
+            } else if (!this.mergeItemStack(itemstack1, 0, this.sorter.getSizeInventory(), false)) {
                 return ItemStack.EMPTY;
             }
 

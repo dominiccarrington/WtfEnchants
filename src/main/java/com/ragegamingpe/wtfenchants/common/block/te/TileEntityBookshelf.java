@@ -6,10 +6,16 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TileEntityBookshelf extends ModBaseTEInventory
 {
     private int books;
+    public final List<BlockPos> accessedBySorters = new ArrayList<>();
 
     public TileEntityBookshelf()
     {
@@ -51,6 +57,27 @@ public class TileEntityBookshelf extends ModBaseTEInventory
             }
         }
         return this.books;
+    }
+
+    @Override
+    public void invalidate()
+    {
+        super.invalidate();
+    }
+
+    public void addSorter(BlockPos pos)
+    {
+        if (!accessedBySorters.contains(pos))
+            accessedBySorters.add(pos);
+    }
+
+    public void updateSorters()
+    {
+        for (BlockPos sorterPos : accessedBySorters) {
+            TileEntity te = this.world.getTileEntity(sorterPos);
+            if (te instanceof TileEntitySorter)
+                ((TileEntitySorter) te).deleteCachedInventories();
+        }
     }
 
     @Override

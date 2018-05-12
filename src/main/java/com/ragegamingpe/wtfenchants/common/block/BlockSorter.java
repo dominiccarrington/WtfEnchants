@@ -1,25 +1,26 @@
 package com.ragegamingpe.wtfenchants.common.block;
 
 import com.ragegamingpe.wtfenchants.common.WtfEnchants;
-import com.ragegamingpe.wtfenchants.common.block.base.ModBlock;
+import com.ragegamingpe.wtfenchants.common.block.base.ModBlockContainer;
 import com.ragegamingpe.wtfenchants.common.block.te.TileEntityBookshelf;
+import com.ragegamingpe.wtfenchants.common.block.te.TileEntitySorter;
 import com.ragegamingpe.wtfenchants.common.lib.ModBlocks;
 import com.ragegamingpe.wtfenchants.common.network.GuiHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryBasic;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import javax.annotation.Nullable;
+import java.util.*;
 
-public class BlockSorter extends ModBlock
+public class BlockSorter extends ModBlockContainer
 {
     public BlockSorter()
     {
@@ -37,7 +38,9 @@ public class BlockSorter extends ModBlock
 
     public static IInventory[] getAllBookshelvesConnected(World world, BlockPos pos)
     {
-        if (world.getBlockState(pos).getBlock() != ModBlocks.SORTER) return null;
+        if (world == null || pos == null) return null;
+
+        if (!(world.getBlockState(pos).getBlock() instanceof BlockSorter)) return null;
 
         List<IInventory> bookshelves = new ArrayList<>(); // What I am finding
 
@@ -59,6 +62,8 @@ public class BlockSorter extends ModBlock
 
                         if (world.getBlockState(check).getBlock() == ModBlocks.BOOKSHELF && world.getTileEntity(check) instanceof TileEntityBookshelf) {
                             bookshelves.add((IInventory) world.getTileEntity(check));
+                            ((TileEntityBookshelf) Objects.requireNonNull(world.getTileEntity(check))).addSorter(pos);
+
                             checkedLocations.add(check);
                             currentChecks.add(check);
                         }
@@ -69,6 +74,17 @@ public class BlockSorter extends ModBlock
             currentChecks.remove(current);
         }
 
+        if (bookshelves.size() == 0) {
+            return new IInventory[]{new InventoryBasic("", false, 0)};
+        }
+
         return bookshelves.toArray(new IInventory[0]);
+    }
+
+    @Nullable
+    @Override
+    public TileEntity createNewTileEntity(World worldIn, int meta)
+    {
+        return new TileEntitySorter();
     }
 }

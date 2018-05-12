@@ -50,7 +50,7 @@ public abstract class ModBlockContainer extends ModBlock implements ITileEntityP
     @Override
     public EnumBlockRenderType getRenderType(IBlockState state)
     {
-        return EnumBlockRenderType.INVISIBLE;
+        return EnumBlockRenderType.MODEL;
     }
 
     /**

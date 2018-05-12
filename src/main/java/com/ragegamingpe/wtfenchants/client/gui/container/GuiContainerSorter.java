@@ -1,6 +1,7 @@
 package com.ragegamingpe.wtfenchants.client.gui.container;
 
 import com.ragegamingpe.wtfenchants.client.gui.container.base.BaseGuiContainer;
+import com.ragegamingpe.wtfenchants.common.block.te.TileEntitySorter;
 import com.ragegamingpe.wtfenchants.common.container.ContainerSorter;
 import com.ragegamingpe.wtfenchants.common.lib.LibMisc;
 import net.minecraft.client.Minecraft;
@@ -10,7 +11,6 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -62,10 +62,10 @@ public class GuiContainerSorter extends BaseGuiContainer
         addFilterPattern('@', GuiContainerSorter::filterByModName);
     }
 
-    public GuiContainerSorter(EntityPlayer player, IInventory[] bookshelves, BlockPos pos)
+    public GuiContainerSorter(EntityPlayer player, TileEntitySorter sorter, BlockPos pos)
     {
         super(
-                new ContainerSorter(player.inventory, bookshelves, pos),
+                new ContainerSorter(player.inventory, sorter, pos),
                 new ResourceLocation(LibMisc.MOD_ID, "textures/gui/sorter.png"),
                 194,
                 222
@@ -168,7 +168,7 @@ public class GuiContainerSorter extends BaseGuiContainer
         int mouseY = this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1;
 
         if (i != 0 && this.needsScrollBars() && !scrollingEnchants.isMouseOver(mouseX, mouseY)) {
-            int j = (((ContainerSorter) this.inventorySlots).numSlots + 9 - 1) / 9 - 5;
+            int j = (((ContainerSorter) this.inventorySlots).sorter.getSizeInventory() + 9 - 1) / 9 - 5;
 
             if (i > 0) i = 1;
 
@@ -195,7 +195,7 @@ public class GuiContainerSorter extends BaseGuiContainer
 
     private boolean needsScrollBars()
     {
-        return ((ContainerSorter) this.inventorySlots).numSlots > 54;
+        return ((ContainerSorter) this.inventorySlots).sorter.getSizeInventory() > 54;
     }
 
     @Override
@@ -338,7 +338,13 @@ public class GuiContainerSorter extends BaseGuiContainer
                     + new TextComponentTranslation("enchantment.level." + enchantment.getMaxLevel()).getUnformattedComponentText();
             ModContainer modContainer = Loader.instance().getIndexedModList().get(mod);
 
-            this.fontRenderer.drawString((enchantment.isCurse() ? TextFormatting.RED : TextFormatting.RESET) + this.fontRenderer.trimStringToWidth(name, listWidth - 10), this.left + 3, slotTop + 2, 0xFFFFFF);
+            this.fontRenderer.drawString(
+                    (enchantment.isCurse() ? TextFormatting.RED : (enchantment.isTreasureEnchantment() ? TextFormatting.GOLD : TextFormatting.RESET))
+                            + this.fontRenderer.trimStringToWidth(name, listWidth - 10),
+                    this.left + 3,
+                    slotTop + 2,
+                    0xFFFFFF
+            );
             this.fontRenderer.drawString(this.fontRenderer.trimStringToWidth(modContainer.getName(), listWidth - 10), this.left + 3, slotTop + 12, 0xCCCCCC);
             this.fontRenderer.drawString(this.fontRenderer.trimStringToWidth(range, listWidth - 10), this.left + 3, slotTop + 22, 0xCCCCCC);
         }

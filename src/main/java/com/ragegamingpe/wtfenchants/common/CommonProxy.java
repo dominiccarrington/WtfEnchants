@@ -2,6 +2,7 @@ package com.ragegamingpe.wtfenchants.common;
 
 import com.ragegamingpe.wtfenchants.common.block.base.ModBlock;
 import com.ragegamingpe.wtfenchants.common.block.te.TileEntityBookshelf;
+import com.ragegamingpe.wtfenchants.common.block.te.TileEntitySorter;
 import com.ragegamingpe.wtfenchants.common.command.WtfCommand;
 import com.ragegamingpe.wtfenchants.common.enchantment.QuickDrawEnchantment;
 import com.ragegamingpe.wtfenchants.common.enchantment.base.ModBaseEnchantment;
@@ -60,7 +61,7 @@ public class CommonProxy
         MessageHandler.init();
 
         GameRegistry.registerTileEntity(TileEntityBookshelf.class, LibMisc.MOD_ID + ":bookshelf");
-
+        GameRegistry.registerTileEntity(TileEntitySorter.class, LibMisc.MOD_ID + ":sorter");
     }
 
     public void init(FMLInitializationEvent event)
