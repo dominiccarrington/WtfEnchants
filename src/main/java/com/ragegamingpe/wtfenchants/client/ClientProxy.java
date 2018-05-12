@@ -54,6 +54,8 @@ public class ClientProxy extends CommonProxy
         });
     }
 
+    private int slot = 0;
+
     @SubscribeEvent
     public void onGuiTick(GuiScreenEvent.DrawScreenEvent event)
     {
@@ -74,7 +76,11 @@ public class ClientProxy extends CommonProxy
                 try {
                     if (!container.getSlot(0).getHasStack()) {
                         // Put Item In
-                        handleMouseClick.invoke(guiEnchantment, container.getSlot(0), 0, 0, ClickType.SWAP);
+                        slot++;
+                        if (slot >= 10) {
+                            slot = 0;
+                        }
+                        handleMouseClick.invoke(guiEnchantment, container.getSlot(0), 0, slot, ClickType.SWAP);
                     } else if (container.getSlot(0).getStack() != ItemStack.EMPTY) {
                         if (EnchantmentHelper.getEnchantments(container.getSlot(0).getStack()).size() > 0) {
                             handleMouseClick.invoke(guiEnchantment, container.getSlot(0), 0, 0, ClickType.THROW);
