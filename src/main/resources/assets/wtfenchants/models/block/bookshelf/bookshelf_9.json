@@ -1,4 +1,4 @@
-﻿{
+{
   "credit": "Made with Blockbench",
   "textures": {
     "books": "wtfenchants:blocks/books",
@@ -192,256 +192,7 @@
           "texture": "#planks"
         }
       }
-    },
-    {
-      "name": "book t1",
-      "from": [13, 9, 10],
-      "to": [15, 14, 14],
-      "faces": {
-        "north": {
-          "uv": [0, 0, 1, 2.5],
-          "texture": "#books"
-        },
-        "east": {
-          "uv": [0, 0, 0.5, 2.5],
-          "texture": "#books"
-        },
-        "south": {
-          "uv": [0, 0, 2, 5],
-          "texture": "#missing"
-        },
-        "west": {
-          "uv": [0.5, 0, 1, 2.5],
-          "texture": "#books"
-        },
-        "up": {
-          "uv": [0, 2.5, 3.5, 3],
-          "texture": "#books"
-        },
-        "down": {
-          "uv": [0, 0, 2, 5],
-          "texture": "#missing"
-        }
-      }
-    },
-    {
-      "name": "book t2",
-      "from": [11, 9, 8],
-      "to": [13, 13, 14],
-      "faces": {
-        "north": {
-          "uv": [3.5, 3, 4.5, 5],
-          "texture": "#books"
-        },
-        "east": {
-          "uv": [3.5, 3, 4, 5.5],
-          "texture": "#books"
-        },
-        "south": {
-          "uv": [0, 0, 2, 5],
-          "texture": "#missing"
-        },
-        "west": {
-          "uv": [4, 3, 4.5, 5.5],
-          "texture": "#books"
-        },
-        "up": {
-          "uv": [3.5, 5.5, 7, 6],
-          "texture": "#books"
-        },
-        "down": {
-          "uv": [0, 0, 2, 5],
-          "texture": "#missing"
-        }
-      }
-    },
-    {
-      "name": "book t3",
-      "from": [9, 9, 10],
-      "to": [11, 14, 15],
-      "faces": {
-        "north": {
-          "uv": [7, 6, 8, 8.5],
-          "texture": "#books"
-        },
-        "east": {
-          "uv": [7, 6, 7.5, 8.5],
-          "texture": "#books"
-        },
-        "south": {
-          "uv": [0, 0, 2, 5],
-          "texture": "#missing"
-        },
-        "west": {
-          "uv": [7.5, 6, 8, 8],
-          "texture": "#books"
-        },
-        "up": {
-          "uv": [7, 8.5, 10.5, 9],
-          "texture": "#books"
-        },
-        "down": {
-          "uv": [0, 0, 2, 5],
-          "texture": "#missing"
-        }
-      }
-    },
-    {
-      "name": "book t4",
-      "from": [7, 9, 9],
-      "to": [9, 14, 14],
-      "faces": {
-        "north": {
-          "uv": [7, 3, 8, 5.5],
-          "texture": "#books"
-        },
-        "east": {
-          "uv": [7, 3, 8, 5.5],
-          "texture": "#books"
-        },
-        "south": {
-          "uv": [0, 0, 2, 5],
-          "texture": "#missing"
-        },
-        "west": {
-          "uv": [7.5, 3, 8, 5.5],
-          "texture": "#books"
-        },
-        "up": {
-          "uv": [7, 5.5, 10.5, 6],
-          "texture": "#books"
-        },
-        "down": {
-          "uv": [0, 0, 2, 5],
-          "texture": "#missing"
-        }
-      }
-    },
-    {
-      "name": "book t5",
-      "from": [5, 9, 9],
-      "to": [7, 13, 14],
-      "faces": {
-        "north": {
-          "uv": [0, 6, 1, 8.5],
-          "texture": "#books"
-        },
-        "east": {
-          "uv": [0, 6, 0.5, 8.5],
-          "texture": "#books"
-        },
-        "south": {
-          "uv": [0, 0, 2, 5],
-          "texture": "#missing"
-        },
-        "west": {
-          "uv": [0.5, 6, 1, 8.5],
-          "texture": "#books"
-        },
-        "up": {
-          "uv": [0, 8.5, 3.5, 9],
-          "texture": "#books"
-        },
-        "down": {
-          "uv": [0, 0, 2, 5],
-          "texture": "#missing"
-        }
-      }
-    },
-    {
-      "name": "book t6",
-      "from": [3, 9, 8],
-      "to": [5, 14, 14],
-      "faces": {
-        "north": {
-          "uv": [3.5, 0, 4.5, 2.5],
-          "texture": "#books"
-        },
-        "east": {
-          "uv": [3.5, 0, 4, 2.5],
-          "texture": "#books"
-        },
-        "south": {
-          "uv": [0, 0, 2, 5],
-          "texture": "#missing"
-        },
-        "west": {
-          "uv": [4, 0, 4.5, 2.5],
-          "texture": "#books"
-        },
-        "up": {
-          "uv": [3.5, 2.5, 7, 3],
-          "texture": "#books"
-        },
-        "down": {
-          "uv": [0, 0, 2, 5],
-          "texture": "#missing"
-        }
-      }
-    },
-    {
-      "name": "book t7",
-      "from": [1, 9, 10],
-      "to": [3, 14, 14],
-      "faces": {
-        "north": {
-          "uv": [0, 6, 1, 8.5],
-          "texture": "#books"
-        },
-        "east": {
-          "uv": [0, 6, 0.5, 8.5],
-          "texture": "#books"
-        },
-        "south": {
-          "uv": [0, 0, 2, 5],
-          "texture": "#missing"
-        },
-        "west": {
-          "uv": [0.5, 6, 1, 8.5],
-          "texture": "#books"
-        },
-        "up": {
-          "uv": [0, 8.5, 3.5, 9],
-          "texture": "#books"
-        },
-        "down": {
-          "uv": [0, 0, 2, 5],
-          "texture": "#missing"
-        }
-      }
-    },
-    {
-      "name": "book b1",
-      "from": [13, 2, 8],
-      "to": [15, 6, 14],
-      "faces": {
-        "north": {
-          "uv": [7, 0, 8, 2],
-          "texture": "#books"
-        },
-        "east": {
-          "uv": [7, 0, 7.5, 2.5],
-          "texture": "#books"
-        },
-        "south": {
-          "uv": [0, 0, 2, 5],
-          "texture": "#missing"
-        },
-        "west": {
-          "uv": [7.5, 0, 8, 2.5],
-          "texture": "#books"
-        },
-        "up": {
-          "uv": [7, 2.5, 10.5, 3],
-          "texture": "#books"
-        },
-        "down": {
-          "uv": [0, 0, 2, 5],
-          "texture": "#missing"
-        }
-      }
-    },
-    {
+    }, {
       "name": "book b2",
       "from": [11, 2, 9],
       "to": [13, 7, 15],
@@ -471,38 +222,246 @@
           "texture": "#missing"
         }
       }
-    }
-  ],
-  "groups": [
-    {
-      "name": "outline",
-      "isOpen": false,
-      "shade": true,
-      "display": {
-        "visibility": true,
-        "autouv": true
-      },
-      "children": [0, 1, 2, 3, 4, 5]
-    },
-    {
-      "name": "books top",
-      "isOpen": true,
-      "shade": true,
-      "display": {
-        "visibility": true,
-        "autouv": true
-      },
-      "children": [6, 7, 8, 9, 10, 11, 12]
-    },
-    {
-      "name": "books bottom",
-      "isOpen": true,
-      "shade": true,
-      "display": {
-        "visibility": true,
-        "autouv": true
-      },
-      "children": [13, 14, 15, 16, 17, 18, 19]
+    }, {
+      "name": "book b1",
+      "from": [13, 2, 8],
+      "to": [15, 6, 14],
+      "faces": {
+        "north": {
+          "uv": [7, 0, 8, 2],
+          "texture": "#books"
+        },
+        "east": {
+          "uv": [7, 0, 7.5, 2.5],
+          "texture": "#books"
+        },
+        "south": {
+          "uv": [0, 0, 2, 5],
+          "texture": "#missing"
+        },
+        "west": {
+          "uv": [7.5, 0, 8, 2.5],
+          "texture": "#books"
+        },
+        "up": {
+          "uv": [7, 2.5, 10.5, 3],
+          "texture": "#books"
+        },
+        "down": {
+          "uv": [0, 0, 2, 5],
+          "texture": "#missing"
+        }
+      }
+    }, {
+      "name": "book t7",
+      "from": [1, 9, 10],
+      "to": [3, 14, 14],
+      "faces": {
+        "north": {
+          "uv": [0, 6, 1, 8.5],
+          "texture": "#books"
+        },
+        "east": {
+          "uv": [0, 6, 0.5, 8.5],
+          "texture": "#books"
+        },
+        "south": {
+          "uv": [0, 0, 2, 5],
+          "texture": "#missing"
+        },
+        "west": {
+          "uv": [0.5, 6, 1, 8.5],
+          "texture": "#books"
+        },
+        "up": {
+          "uv": [0, 8.5, 3.5, 9],
+          "texture": "#books"
+        },
+        "down": {
+          "uv": [0, 0, 2, 5],
+          "texture": "#missing"
+        }
+      }
+    }, {
+      "name": "book t6",
+      "from": [3, 9, 8],
+      "to": [5, 14, 14],
+      "faces": {
+        "north": {
+          "uv": [3.5, 0, 4.5, 2.5],
+          "texture": "#books"
+        },
+        "east": {
+          "uv": [3.5, 0, 4, 2.5],
+          "texture": "#books"
+        },
+        "south": {
+          "uv": [0, 0, 2, 5],
+          "texture": "#missing"
+        },
+        "west": {
+          "uv": [4, 0, 4.5, 2.5],
+          "texture": "#books"
+        },
+        "up": {
+          "uv": [3.5, 2.5, 7, 3],
+          "texture": "#books"
+        },
+        "down": {
+          "uv": [0, 0, 2, 5],
+          "texture": "#missing"
+        }
+      }
+    }, {
+      "name": "book t5",
+      "from": [5, 9, 9],
+      "to": [7, 13, 14],
+      "faces": {
+        "north": {
+          "uv": [0, 6, 1, 8.5],
+          "texture": "#books"
+        },
+        "east": {
+          "uv": [0, 6, 0.5, 8.5],
+          "texture": "#books"
+        },
+        "south": {
+          "uv": [0, 0, 2, 5],
+          "texture": "#missing"
+        },
+        "west": {
+          "uv": [0.5, 6, 1, 8.5],
+          "texture": "#books"
+        },
+        "up": {
+          "uv": [0, 8.5, 3.5, 9],
+          "texture": "#books"
+        },
+        "down": {
+          "uv": [0, 0, 2, 5],
+          "texture": "#missing"
+        }
+      }
+    }, {
+      "name": "book t4",
+      "from": [7, 9, 9],
+      "to": [9, 14, 14],
+      "faces": {
+        "north": {
+          "uv": [7, 3, 8, 5.5],
+          "texture": "#books"
+        },
+        "east": {
+          "uv": [7, 3, 8, 5.5],
+          "texture": "#books"
+        },
+        "south": {
+          "uv": [0, 0, 2, 5],
+          "texture": "#missing"
+        },
+        "west": {
+          "uv": [7.5, 3, 8, 5.5],
+          "texture": "#books"
+        },
+        "up": {
+          "uv": [7, 5.5, 10.5, 6],
+          "texture": "#books"
+        },
+        "down": {
+          "uv": [0, 0, 2, 5],
+          "texture": "#missing"
+        }
+      }
+    }, {
+      "name": "book t3",
+      "from": [9, 9, 10],
+      "to": [11, 14, 15],
+      "faces": {
+        "north": {
+          "uv": [7, 6, 8, 8.5],
+          "texture": "#books"
+        },
+        "east": {
+          "uv": [7, 6, 7.5, 8.5],
+          "texture": "#books"
+        },
+        "south": {
+          "uv": [0, 0, 2, 5],
+          "texture": "#missing"
+        },
+        "west": {
+          "uv": [7.5, 6, 8, 8],
+          "texture": "#books"
+        },
+        "up": {
+          "uv": [7, 8.5, 10.5, 9],
+          "texture": "#books"
+        },
+        "down": {
+          "uv": [0, 0, 2, 5],
+          "texture": "#missing"
+        }
+      }
+    }, {
+      "name": "book t2",
+      "from": [11, 9, 8],
+      "to": [13, 13, 14],
+      "faces": {
+        "north": {
+          "uv": [3.5, 3, 4.5, 5],
+          "texture": "#books"
+        },
+        "east": {
+          "uv": [3.5, 3, 4, 5.5],
+          "texture": "#books"
+        },
+        "south": {
+          "uv": [0, 0, 2, 5],
+          "texture": "#missing"
+        },
+        "west": {
+          "uv": [4, 3, 4.5, 5.5],
+          "texture": "#books"
+        },
+        "up": {
+          "uv": [3.5, 5.5, 7, 6],
+          "texture": "#books"
+        },
+        "down": {
+          "uv": [0, 0, 2, 5],
+          "texture": "#missing"
+        }
+      }
+    }, {
+      "name": "book t1",
+      "from": [13, 9, 10],
+      "to": [15, 14, 14],
+      "faces": {
+        "north": {
+          "uv": [0, 0, 1, 2.5],
+          "texture": "#books"
+        },
+        "east": {
+          "uv": [0, 0, 0.5, 2.5],
+          "texture": "#books"
+        },
+        "south": {
+          "uv": [0, 0, 2, 5],
+          "texture": "#missing"
+        },
+        "west": {
+          "uv": [0.5, 0, 1, 2.5],
+          "texture": "#books"
+        },
+        "up": {
+          "uv": [0, 2.5, 3.5, 3],
+          "texture": "#books"
+        },
+        "down": {
+          "uv": [0, 0, 2, 5],
+          "texture": "#missing"
+        }
+      }
     }
   ]
 }

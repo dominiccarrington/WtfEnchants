@@ -1,4 +1,4 @@
-﻿{
+{
   "credit": "Made with Blockbench",
   "textures": {
     "books": "wtfenchants:blocks/books",
@@ -192,39 +192,7 @@
           "texture": "#planks"
         }
       }
-    },
-    {
-      "name": "book t1",
-      "from": [13, 9, 10],
-      "to": [15, 14, 14],
-      "faces": {
-        "north": {
-          "uv": [0, 0, 1, 2.5],
-          "texture": "#books"
-        },
-        "east": {
-          "uv": [0, 0, 0.5, 2.5],
-          "texture": "#books"
-        },
-        "south": {
-          "uv": [0, 0, 2, 5],
-          "texture": "#missing"
-        },
-        "west": {
-          "uv": [0.5, 0, 1, 2.5],
-          "texture": "#books"
-        },
-        "up": {
-          "uv": [0, 2.5, 3.5, 3],
-          "texture": "#books"
-        },
-        "down": {
-          "uv": [0, 0, 2, 5],
-          "texture": "#missing"
-        }
-      }
-    },
-    {
+    }, {
       "name": "book t2",
       "from": [11, 9, 8],
       "to": [13, 13, 14],
@@ -254,38 +222,36 @@
           "texture": "#missing"
         }
       }
-    }
-  ],
-  "groups": [
-    {
-      "name": "outline",
-      "isOpen": false,
-      "shade": true,
-      "display": {
-        "visibility": true,
-        "autouv": true
-      },
-      "children": [0, 1, 2, 3, 4, 5]
-    },
-    {
-      "name": "books top",
-      "isOpen": true,
-      "shade": true,
-      "display": {
-        "visibility": true,
-        "autouv": true
-      },
-      "children": [6, 7, 8, 9, 10, 11, 12]
-    },
-    {
-      "name": "books bottom",
-      "isOpen": true,
-      "shade": true,
-      "display": {
-        "visibility": true,
-        "autouv": true
-      },
-      "children": [13, 14, 15, 16, 17, 18, 19]
+    }, {
+      "name": "book t1",
+      "from": [13, 9, 10],
+      "to": [15, 14, 14],
+      "faces": {
+        "north": {
+          "uv": [0, 0, 1, 2.5],
+          "texture": "#books"
+        },
+        "east": {
+          "uv": [0, 0, 0.5, 2.5],
+          "texture": "#books"
+        },
+        "south": {
+          "uv": [0, 0, 2, 5],
+          "texture": "#missing"
+        },
+        "west": {
+          "uv": [0.5, 0, 1, 2.5],
+          "texture": "#books"
+        },
+        "up": {
+          "uv": [0, 2.5, 3.5, 3],
+          "texture": "#books"
+        },
+        "down": {
+          "uv": [0, 0, 2, 5],
+          "texture": "#missing"
+        }
+      }
     }
   ]
 }

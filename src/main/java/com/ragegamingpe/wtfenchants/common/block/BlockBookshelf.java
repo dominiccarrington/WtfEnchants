@@ -28,6 +28,8 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nullable;
 
@@ -212,5 +214,311 @@ public class BlockBookshelf extends ModBlockInventory
         object.addProperty("y", (int) facing.getOpposite().getHorizontalAngle());
 
         return object;
+    }
+
+    public static Pair<String, String> generateBlockModel(Integer books, EnumFacing facing)
+    {
+        String fileContents = "{\n" +
+                "  \"credit\": \"Made with Blockbench\",\n" +
+                "  \"textures\": {\n" +
+                "    \"books\": \"wtfenchants:blocks/books\",\n" +
+                "    \"planks\": \"minecraft:blocks/planks_oak\",\n" +
+                "    \"particle\": \"minecraft:blocks/planks_oak\",\n" +
+                "    \"missing\": \"minecraft:blocks/bedrock\"\n" +
+                "  },\n" +
+                "  \"elements\": [\n" +
+                "    {\n" +
+                "      \"name\": \"east\",\n" +
+                "      \"from\": [15, 2, 8],\n" +
+                "      \"to\": [16, 14, 15],\n" +
+                "      \"faces\": {\n" +
+                "        \"north\": {\"uv\": [0, 0, 1, 12], \"texture\": \"#planks\"},\n" +
+                "        \"east\": {\"uv\": [0, 0, 7, 12],\"texture\": \"#planks\"},\n" +
+                "        \"south\": {\"uv\": [0, 0, 1, 12],\"texture\": \"#planks\"},\n" +
+                "        \"west\": {\"uv\": [0, 0, 7, 12],\"texture\": \"#planks\"},\n" +
+                "        \"up\": {\"uv\": [0, 6, 1, 13],\"texture\": \"#planks\"},\n" +
+                "        \"down\": {\"uv\": [1, 1, 2, 8],\"texture\": \"#planks\"}\n" +
+                "      }\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"name\": \"west\",\n" +
+                "      \"from\": [0, 2, 8],\n" +
+                "      \"to\": [1, 14, 15],\n" +
+                "      \"faces\": {\n" +
+                "        \"north\": {\"uv\": [0, 0, 1, 12],\"texture\": \"#planks\"},\n" +
+                "        \"east\": {\"uv\": [0, 0, 7, 12],\"texture\": \"#planks\"},\n" +
+                "        \"south\": {\"uv\": [0, 0, 1, 12],\"texture\": \"#planks\"},\n" +
+                "        \"west\": {\"uv\": [0, 0, 7, 12],\"texture\": \"#planks\"},\n" +
+                "        \"up\": {\"uv\": [0, 6, 1, 13],\"texture\": \"#planks\"},\n" +
+                "        \"down\": {\"uv\": [1, 1, 2, 8],\"texture\": \"#planks\"}\n" +
+                "      }\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"name\": \"cube\",\n" +
+                "      \"from\": [0, 0, 15],\n" +
+                "      \"to\": [16, 16, 16],\n" +
+                "      \"faces\": {\n" +
+                "        \"north\": {\"uv\": [0, 0, 16, 16],\"texture\": \"#planks\"},\n" +
+                "        \"east\": {\"uv\": [0, 0, 1, 16],\"texture\": \"#planks\"},\n" +
+                "        \"south\": {\"uv\": [0, 0, 16, 16],\"texture\": \"#planks\"},\n" +
+                "        \"west\": {\"uv\": [0, 0, 1, 16], \"texture\": \"#planks\"},\n" +
+                "        \"up\": {\"uv\": [0, 0, 16, 1], \"texture\": \"#planks\"},\n" +
+                "        \"down\": {\"uv\": [0, 0, 16, 1], \"texture\": \"#planks\"}\n" +
+                "      }\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"name\": \"top\",\n" +
+                "      \"from\": [0, 14, 8],\n" +
+                "      \"to\": [16, 16, 15],\n" +
+                "      \"faces\": {\n" +
+                "        \"north\": {\"uv\": [0, 0, 16, 4], \"texture\": \"#planks\"},\n" +
+                "        \"east\": {\"uv\": [2, 1, 10, 3], \"texture\": \"#planks\"},\n" +
+                "        \"south\": {\"uv\": [0, 0, 16, 2], \"texture\": \"#planks\"},\n" +
+                "        \"west\": {\"uv\": [1, 1, 9, 3], \"texture\": \"#planks\"},\n" +
+                "        \"up\": {\"uv\": [0, 1, 16, 9], \"texture\": \"#planks\"},\n" +
+                "        \"down\": {\"uv\": [0, 1, 16, 9], \"texture\": \"#planks\"}\n" +
+                "      }\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"name\": \"bottom\",\n" +
+                "      \"from\": [0, 0, 8],\n" +
+                "      \"to\": [16, 2, 15],\n" +
+                "      \"faces\": {\n" +
+                "        \"north\": {\"uv\": [0, 0, 16, 2], \"texture\": \"#planks\"},\n" +
+                "        \"east\": {\"uv\": [0, 0, 7, 2], \"texture\": \"#planks\"},\n" +
+                "        \"south\": {\"uv\": [0, 0, 16, 2], \"texture\": \"#planks\"},\n" +
+                "        \"west\": {\"uv\": [0, 0, 7, 2], \"texture\": \"#planks\"},\n" +
+                "        \"up\": {\"uv\": [0, 0, 16, 7], \"texture\": \"#planks\"},\n" +
+                "        \"down\": {\"uv\": [0, 0, 16, 7], \"texture\": \"#planks\"}\n" +
+                "      }\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"name\": \"seperator\",\n" +
+                "      \"from\": [1, 7, 8],\n" +
+                "      \"to\": [15, 9, 15],\n" +
+                "      \"faces\": {\n" +
+                "        \"north\": {\"uv\": [0, 0, 14, 2], \"texture\": \"#planks\"},\n" +
+                "        \"east\": {\"uv\": [0, 0, 7, 2], \"texture\": \"#planks\"},\n" +
+                "        \"south\": {\"uv\": [0, 0, 14, 2], \"texture\": \"#planks\"},\n" +
+                "        \"west\": {\"uv\": [0, 0, 7, 2], \"texture\": \"#planks\"},\n" +
+                "        \"up\": {\"uv\": [1, 2, 15, 9], \"texture\": \"#planks\"},\n" +
+                "        \"down\": {\"uv\": [1, 2, 15, 9], \"texture\": \"#planks\"}\n" +
+                "      }\n" +
+                "    }\n";
+
+        switch (books) {
+            case 14:
+                fileContents += "    ,{\n" +
+                        "      \"name\": \"book b7\",\n" +
+                        "      \"from\": [1, 2, 9],\n" +
+                        "      \"to\": [3, 7, 14],\n" +
+                        "      \"faces\": {\n" +
+                        "        \"north\": {\"uv\": [0, 0, 1, 2.5], \"texture\": \"#books\"},\n" +
+                        "        \"east\": {\"uv\": [0, 0, 0.5, 2.5], \"texture\": \"#books\"},\n" +
+                        "        \"south\": {\"uv\": [0, 0, 2, 5], \"texture\": \"#missing\"},\n" +
+                        "        \"west\": {\"uv\": [0.5, 0, 1, 2.5], \"texture\": \"#books\"},\n" +
+                        "        \"up\": {\"uv\": [0, 2.5, 3.5, 3], \"texture\": \"#books\"},\n" +
+                        "        \"down\": {\"uv\": [0, 0, 2, 5], \"texture\": \"#missing\"}\n" +
+                        "      }\n" +
+                        "    }\n";
+
+            case 13:
+                fileContents += "    ,{\n" +
+                        "      \"name\": \"book b6\",\n" +
+                        "      \"from\": [3, 2, 8],\n" +
+                        "      \"to\": [5, 7, 14],\n" +
+                        "      \"faces\": {\n" +
+                        "        \"north\": {\"uv\": [3.5, 3, 4.5, 5.5], \"texture\": \"#books\"},\n" +
+                        "        \"east\": {\"uv\": [3.5, 3, 4, 5.5], \"texture\": \"#books\"},\n" +
+                        "        \"south\": {\"uv\": [0, 0, 2, 5], \"texture\": \"#missing\"},\n" +
+                        "        \"west\": {\"uv\": [4, 3, 4.5, 5.5], \"texture\": \"#books\"},\n" +
+                        "        \"up\": {\"uv\": [3.5, 5.5, 7, 6], \"texture\": \"#books\"},\n" +
+                        "        \"down\": {\"uv\": [0, 0, 2, 6], \"texture\": \"#missing\"}\n" +
+                        "      }\n" +
+                        "    }\n";
+
+            case 12:
+                fileContents += "    ,{\n" +
+                        "      \"name\": \"book b5\",\n" +
+                        "      \"from\": [5, 2, 11],\n" +
+                        "      \"to\": [7, 7, 14],\n" +
+                        "      \"faces\": {\n" +
+                        "        \"north\": {\"uv\": [7, 6, 8, 8.5], \"texture\": \"#books\"},\n" +
+                        "        \"east\": {\"uv\": [7, 6, 7.5, 8.5], \"texture\": \"#books\"},\n" +
+                        "        \"south\": {\"uv\": [0, 0, 2, 5], \"texture\": \"#missing\"},\n" +
+                        "        \"west\": {\"uv\": [7.5, 6, 8, 8.5], \"texture\": \"#books\"},\n" +
+                        "        \"up\": {\"uv\": [7, 8.5, 10, 9], \"texture\": \"#books\"},\n" +
+                        "        \"down\": {\"uv\": [0, 0, 2, 5], \"texture\": \"#missing\"}\n" +
+                        "      }\n" +
+                        "    }\n";
+
+            case 11:
+                fileContents += "    ,{\n" +
+                        "      \"name\": \"book b4\",\n" +
+                        "      \"from\": [7, 2, 9],\n" +
+                        "      \"to\": [9, 6, 14],\n" +
+                        "      \"faces\": {\n" +
+                        "        \"north\": {\"uv\": [0, 6, 1, 8.5], \"texture\": \"#books\"},\n" +
+                        "        \"east\": {\"uv\": [0, 6, 0.5, 8.5], \"texture\": \"#books\"},\n" +
+                        "        \"south\": {\"uv\": [0, 0, 2, 5], \"texture\": \"#missing\"},\n" +
+                        "        \"west\": {\"uv\": [0.5, 6, 1, 8.5], \"texture\": \"#books\"},\n" +
+                        "        \"up\": {\"uv\": [0, 8.5, 3.5, 9], \"texture\": \"#books\"},\n" +
+                        "        \"down\": {\"uv\": [0, 0, 2, 5], \"texture\": \"#missing\"}\n" +
+                        "      }\n" +
+                        "    }\n";
+
+            case 10:
+                fileContents += "    ,{\n" +
+                        "      \"name\": \"book b3\",\n" +
+                        "      \"from\": [9, 2, 10],\n" +
+                        "      \"to\": [11, 7, 14],\n" +
+                        "      \"faces\": {\n" +
+                        "        \"north\": {\"uv\": [3.5, 6, 4.5, 8.5], \"texture\": \"#books\"},\n" +
+                        "        \"east\": {\"uv\": [3.5, 6, 4, 8.5], \"texture\": \"#books\"},\n" +
+                        "        \"south\": {\"uv\": [0, 0, 2, 5], \"texture\": \"#missing\"},\n" +
+                        "        \"west\": {\"uv\": [4, 6, 4.5, 8.5], \"texture\": \"#books\"},\n" +
+                        "        \"up\": {\"uv\": [3.5, 8.5, 7, 9], \"texture\": \"#books\"},\n" +
+                        "        \"down\": {\"uv\": [0, 0, 2, 5], \"texture\": \"#missing\"}\n" +
+                        "      }\n" +
+                        "    }\n";
+
+            case 9:
+                fileContents += "    ,{\n" +
+                        "      \"name\": \"book b2\",\n" +
+                        "      \"from\": [11, 2, 9],\n" +
+                        "      \"to\": [13, 7, 15],\n" +
+                        "      \"faces\": {\n" +
+                        "        \"north\": {\"uv\": [0, 3, 1, 5.5], \"texture\": \"#books\"},\n" +
+                        "        \"east\": {\"uv\": [0, 3, 0.5, 5.5], \"texture\": \"#books\"},\n" +
+                        "        \"south\": {\"uv\": [0, 0, 2, 5], \"texture\": \"#missing\"},\n" +
+                        "        \"west\": {\"uv\": [0.5, 3, 1, 5.5], \"texture\": \"#books\"},\n" +
+                        "        \"up\": {\"uv\": [0, 5.5, 3.5, 6], \"texture\": \"#books\"},\n" +
+                        "        \"down\": {\"uv\": [0, 0, 2, 5], \"texture\": \"#missing\"}\n" +
+                        "      }\n" +
+                        "    }\n";
+
+            case 8:
+                fileContents += "    ,{\n" +
+                        "      \"name\": \"book b1\",\n" +
+                        "      \"from\": [13, 2, 8],\n" +
+                        "      \"to\": [15, 6, 14],\n" +
+                        "      \"faces\": {\n" +
+                        "        \"north\": {\"uv\": [7, 0, 8, 2], \"texture\": \"#books\"},\n" +
+                        "        \"east\": {\"uv\": [7, 0, 7.5, 2.5], \"texture\": \"#books\"},\n" +
+                        "        \"south\": {\"uv\": [0, 0, 2, 5], \"texture\": \"#missing\"},\n" +
+                        "        \"west\": {\"uv\": [7.5, 0, 8, 2.5], \"texture\": \"#books\"},\n" +
+                        "        \"up\": {\"uv\": [7, 2.5, 10.5, 3], \"texture\": \"#books\"},\n" +
+                        "        \"down\": {\"uv\": [0, 0, 2, 5], \"texture\": \"#missing\"}\n" +
+                        "      }\n" +
+                        "    }\n";
+
+            case 7:
+                fileContents += "    ,{\n" +
+                        "      \"name\": \"book t7\",\n" +
+                        "      \"from\": [1, 9, 10],\n" +
+                        "      \"to\": [3, 14, 14],\n" +
+                        "      \"faces\": {\n" +
+                        "        \"north\": {\"uv\": [0, 6, 1, 8.5], \"texture\": \"#books\"},\n" +
+                        "        \"east\": {\"uv\": [0, 6, 0.5, 8.5], \"texture\": \"#books\"},\n" +
+                        "        \"south\": {\"uv\": [0, 0, 2, 5], \"texture\": \"#missing\"},\n" +
+                        "        \"west\": {\"uv\": [0.5, 6, 1, 8.5], \"texture\": \"#books\"},\n" +
+                        "        \"up\": {\"uv\": [0, 8.5, 3.5, 9], \"texture\": \"#books\"},\n" +
+                        "        \"down\": {\"uv\": [0, 0, 2, 5], \"texture\": \"#missing\"}\n" +
+                        "      }\n" +
+                        "    }\n";
+
+            case 6:
+                fileContents += "    ,{\n" +
+                        "      \"name\": \"book t6\",\n" +
+                        "      \"from\": [3, 9, 8],\n" +
+                        "      \"to\": [5, 14, 14],\n" +
+                        "      \"faces\": {\n" +
+                        "        \"north\": {\"uv\": [3.5, 0, 4.5, 2.5], \"texture\": \"#books\"},\n" +
+                        "        \"east\": {\"uv\": [3.5, 0, 4, 2.5], \"texture\": \"#books\"},\n" +
+                        "        \"south\": {\"uv\": [0, 0, 2, 5], \"texture\": \"#missing\"},\n" +
+                        "        \"west\": {\"uv\": [4, 0, 4.5, 2.5], \"texture\": \"#books\"},\n" +
+                        "        \"up\": {\"uv\": [3.5, 2.5, 7, 3], \"texture\": \"#books\"},\n" +
+                        "        \"down\": {\"uv\": [0, 0, 2, 5], \"texture\": \"#missing\"}\n" +
+                        "      }\n" +
+                        "    }\n";
+
+            case 5:
+                fileContents += "    ,{\n" +
+                        "      \"name\": \"book t5\",\n" +
+                        "      \"from\": [5, 9, 9],\n" +
+                        "      \"to\": [7, 13, 14],\n" +
+                        "      \"faces\": {\n" +
+                        "        \"north\": {\"uv\": [0, 6, 1, 8.5], \"texture\": \"#books\"},\n" +
+                        "        \"east\": {\"uv\": [0, 6, 0.5, 8.5], \"texture\": \"#books\"},\n" +
+                        "        \"south\": {\"uv\": [0, 0, 2, 5], \"texture\": \"#missing\"},\n" +
+                        "        \"west\": {\"uv\": [0.5, 6, 1, 8.5], \"texture\": \"#books\"},\n" +
+                        "        \"up\": {\"uv\": [0, 8.5, 3.5, 9], \"texture\": \"#books\"},\n" +
+                        "        \"down\": {\"uv\": [0, 0, 2, 5], \"texture\": \"#missing\"}\n" +
+                        "      }\n" +
+                        "    }\n";
+
+            case 4:
+                fileContents += "    ,{\n" +
+                        "      \"name\": \"book t4\",\n" +
+                        "      \"from\": [7, 9, 9],\n" +
+                        "      \"to\": [9, 14, 14],\n" +
+                        "      \"faces\": {\n" +
+                        "        \"north\": {\"uv\": [7, 3, 8, 5.5], \"texture\": \"#books\"},\n" +
+                        "        \"east\": {\"uv\": [7, 3, 8, 5.5], \"texture\": \"#books\"},\n" +
+                        "        \"south\": {\"uv\": [0, 0, 2, 5], \"texture\": \"#missing\"},\n" +
+                        "        \"west\": {\"uv\": [7.5, 3, 8, 5.5], \"texture\": \"#books\"},\n" +
+                        "        \"up\": {\"uv\": [7, 5.5, 10.5, 6], \"texture\": \"#books\"},\n" +
+                        "        \"down\": {\"uv\": [0, 0, 2, 5], \"texture\": \"#missing\"}\n" +
+                        "      }\n" +
+                        "    }\n";
+
+            case 3:
+                fileContents += "    ,{\n" +
+                        "      \"name\": \"book t3\",\n" +
+                        "      \"from\": [9, 9, 10],\n" +
+                        "      \"to\": [11, 14, 15],\n" +
+                        "      \"faces\": {\n" +
+                        "        \"north\": {\"uv\": [7, 6, 8, 8.5], \"texture\": \"#books\"},\n" +
+                        "        \"east\": {\"uv\": [7, 6, 7.5, 8.5], \"texture\": \"#books\"},\n" +
+                        "        \"south\": {\"uv\": [0, 0, 2, 5], \"texture\": \"#missing\"},\n" +
+                        "        \"west\": {\"uv\": [7.5, 6, 8, 8], \"texture\": \"#books\"},\n" +
+                        "        \"up\": {\"uv\": [7, 8.5, 10.5, 9], \"texture\": \"#books\"},\n" +
+                        "        \"down\": {\"uv\": [0, 0, 2, 5], \"texture\": \"#missing\"}\n" +
+                        "      }\n" +
+                        "    }\n";
+
+            case 2:
+                fileContents += "    ,{\n" +
+                        "      \"name\": \"book t2\",\n" +
+                        "      \"from\": [11, 9, 8],\n" +
+                        "      \"to\": [13, 13, 14],\n" +
+                        "      \"faces\": {\n" +
+                        "        \"north\": {\"uv\": [3.5, 3, 4.5, 5], \"texture\": \"#books\"},\n" +
+                        "        \"east\": {\"uv\": [3.5, 3, 4, 5.5], \"texture\": \"#books\"},\n" +
+                        "        \"south\": {\"uv\": [0, 0, 2, 5], \"texture\": \"#missing\"},\n" +
+                        "        \"west\": {\"uv\": [4, 3, 4.5, 5.5], \"texture\": \"#books\"},\n" +
+                        "        \"up\": {\"uv\": [3.5, 5.5, 7, 6], \"texture\": \"#books\"},\n" +
+                        "        \"down\": {\"uv\": [0, 0, 2, 5], \"texture\": \"#missing\"}\n" +
+                        "      }\n" +
+                        "    }\n";
+
+            case 1:
+                fileContents += "    ,{\n" +
+                        "      \"name\": \"book t1\",\n" +
+                        "      \"from\": [13, 9, 10],\n" +
+                        "      \"to\": [15, 14, 14],\n" +
+                        "      \"faces\": {\n" +
+                        "        \"north\": {\"uv\": [0, 0, 1, 2.5], \"texture\": \"#books\"},\n" +
+                        "        \"east\": {\"uv\": [0, 0, 0.5, 2.5], \"texture\": \"#books\"},\n" +
+                        "        \"south\": {\"uv\": [0, 0, 2, 5], \"texture\": \"#missing\"},\n" +
+                        "        \"west\": {\"uv\": [0.5, 0, 1, 2.5], \"texture\": \"#books\"},\n" +
+                        "        \"up\": {\"uv\": [0, 2.5, 3.5, 3], \"texture\": \"#books\"},\n" +
+                        "        \"down\": {\"uv\": [0, 0, 2, 5], \"texture\": \"#missing\"}\n" +
+                        "      }\n" +
+                        "    }\n";
+        }
+
+        fileContents += "]}";
+        return new ImmutablePair<>("bookshelf/bookshelf_" + books, fileContents);
     }
 }
