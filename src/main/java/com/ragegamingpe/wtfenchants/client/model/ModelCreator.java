@@ -18,6 +18,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 
+/**
+ * Add getAllProperties, generateBlockState, generateBlockModel and register block to create models
+ * Item models coming soon
+ */
 public class ModelCreator
 {
     private static final Map<String, Class<? extends ModBlock>> BLOCKS = new HashMap<>();
@@ -105,6 +109,7 @@ public class ModelCreator
                     }
                 }
             } else {
+                System.out.println("Generating default block state for " + regName);
                 JsonObject object = new JsonObject();
                 object.addProperty("model", LibMisc.MOD_ID + ":" + regName);
                 variants.add("normal", object);
@@ -155,6 +160,7 @@ public class ModelCreator
             }
 
         } catch (NoSuchMethodException e) {
+            System.out.println("Creating default model for " + fileName);
             file = "{\n" +
                     "    \"parent\": \"block/cube_all\",\n" +
                     "    \"textures\": {\n" +
