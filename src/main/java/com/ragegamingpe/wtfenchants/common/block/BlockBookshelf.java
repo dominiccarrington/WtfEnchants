@@ -17,7 +17,6 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
@@ -38,16 +37,18 @@ public class BlockBookshelf extends ModBlockInventory
     public static final PropertyInteger BOOKS = PropertyInteger.create("books", 0, 14);
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
     public static final AxisAlignedBB[] BOUNDING_BOXES_AABB = new AxisAlignedBB[]{
-            new AxisAlignedBB(0, 0, 8 / 16D, 1, 1, 1),
-            new AxisAlignedBB(0, 0, 0, 1, 1, 8 / 16D),
-            new AxisAlignedBB(8 / 16D, 0, 0, 1, 1, 1),
-            new AxisAlignedBB(0, 0, 0, 8 / 16D, 1, 1)
+            createAABB(0, 0, 8, 16, 16, 16),
+            createAABB(0, 0, 0, 16, 16, 8),
+            createAABB(8, 0, 0, 16, 16, 16),
+            createAABB(0, 0, 0, 8, 16, 16)
     };
 
     public BlockBookshelf()
     {
         super(Material.WOOD, "bookshelf");
-        this.setHardness(Blocks.PLANKS.getBlockHardness(null, null, null));
+
+        this.setHardness(2.0F);
+        this.setResistance(5.0F);
         this.setDefaultState(this.blockState.getBaseState().withProperty(BOOKS, 0).withProperty(FACING, EnumFacing.NORTH));
         this.setCreativeTab(CreativeTabs.DECORATIONS);
     }
