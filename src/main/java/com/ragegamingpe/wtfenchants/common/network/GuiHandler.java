@@ -1,10 +1,12 @@
 package com.ragegamingpe.wtfenchants.common.network;
 
 import com.ragegamingpe.wtfenchants.client.gui.container.GuiContainerBookshelf;
+import com.ragegamingpe.wtfenchants.client.gui.container.GuiContainerDisenchantment;
 import com.ragegamingpe.wtfenchants.client.gui.container.GuiContainerSorter;
 import com.ragegamingpe.wtfenchants.common.block.te.TileEntityBookshelf;
 import com.ragegamingpe.wtfenchants.common.block.te.TileEntitySorter;
 import com.ragegamingpe.wtfenchants.common.container.ContainerBookshelf;
+import com.ragegamingpe.wtfenchants.common.container.ContainerDisenchantment;
 import com.ragegamingpe.wtfenchants.common.container.ContainerSorter;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -16,6 +18,7 @@ public class GuiHandler implements IGuiHandler
 {
     public static final int BOOKSHELF = 0;
     public static final int SORTER = 1;
+    public static final int DISENCHANTING_TABLE = 2;
 
     @Override
     public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
@@ -26,6 +29,8 @@ public class GuiHandler implements IGuiHandler
                 return new ContainerBookshelf(player.inventory, (TileEntityBookshelf) te);
             case SORTER:
                 return new ContainerSorter(player.inventory, (TileEntitySorter) te, new BlockPos(x, y, z));
+            case DISENCHANTING_TABLE:
+                return new ContainerDisenchantment(player, world, new BlockPos(x, y, z));
         }
         return null;
     }
@@ -39,6 +44,8 @@ public class GuiHandler implements IGuiHandler
                 return new GuiContainerBookshelf(player.inventory, (TileEntityBookshelf) te);
             case SORTER:
                 return new GuiContainerSorter(player, (TileEntitySorter) te, new BlockPos(x, y, z));
+            case DISENCHANTING_TABLE:
+                return new GuiContainerDisenchantment(player, world, new BlockPos(x, y, z));
         }
         return null;
     }

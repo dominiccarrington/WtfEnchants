@@ -173,7 +173,6 @@ public class ModBaseTEInventory extends TileEntity implements IInventory
     public boolean isUsableByPlayer(EntityPlayer player)
     {
         return this.getWorld().getTileEntity(this.getPos()) == this && player.getDistanceSq(this.pos.add(0.5, 0.5, 0.5)) <= 64;
-
     }
 
     @Override

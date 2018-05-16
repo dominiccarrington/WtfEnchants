@@ -13,3 +13,8 @@ enchantment.wtfenchants:width.name=Width
 
 tile.wtfenchants:bookshelf.name=Bookshelf
 container.wtfenchants:bookshelf.name=Bookshelf
+
+tile.wtfenchants:sorter.name=Sorter
+
+tile.wtfenchants:disenchanting_table.name=Disenchanting Table
+container.wtfenchants:disenchantment.name=Disenchanting

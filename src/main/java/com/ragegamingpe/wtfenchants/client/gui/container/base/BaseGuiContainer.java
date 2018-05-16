@@ -40,8 +40,13 @@ public class BaseGuiContainer extends GuiContainer
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
+        this.drawScreen(mouseX, mouseY, partialTicks, true);
+    }
+
+    protected void drawScreen(int mouseX, int mouseY, float partialTicks, boolean autoDraw)
+    {
         super.drawScreen(mouseX, mouseY, partialTicks);
-        this.renderHoveredToolTip(mouseX, mouseY);
+        if (autoDraw) this.renderHoveredToolTip(mouseX, mouseY);
     }
 
     @Override
