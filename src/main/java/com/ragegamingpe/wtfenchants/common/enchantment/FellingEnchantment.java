@@ -28,7 +28,7 @@ public class FellingEnchantment extends ModBaseEnchantment
     @Override
     public int getMinEnchantability(int enchantmentLevel)
     {
-        return 15;
+        return 25;
     }
 
     @Override
