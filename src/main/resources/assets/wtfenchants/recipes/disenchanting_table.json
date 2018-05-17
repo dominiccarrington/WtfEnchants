@@ -1,0 +1,23 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    " b ",
+    "ded",
+    "eee"
+  ],
+  "key": {
+    "b": {
+      "item": "minecraft:book"
+    },
+    "d": {
+      "type": "forge:ore_dict",
+      "ore": "gemDiamond"
+    },
+    "e": {
+      "item": "minecraft:end_stone"
+    }
+  },
+  "result": {
+    "item": "wtfenchants:disenchanting_table"
+  }
+}
