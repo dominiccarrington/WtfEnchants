@@ -6,6 +6,7 @@ import com.ragegamingpe.wtfenchants.common.network.GuiHandler;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -23,6 +24,7 @@ public class BlockDisenchantment extends ModBlock
         super(Material.ROCK, MapColor.RED, "disenchanting_table");
         this.setHardness(5.0F);
         this.setResistance(2000.0F);
+        this.setCreativeTab(CreativeTabs.DECORATIONS);
     }
 
     @Override
@@ -73,7 +75,8 @@ public class BlockDisenchantment extends ModBlock
                 " \"textures\": {\n" +
                 "  \"bottom\": \"wtfenchants:blocks/disenchanting_table_bottom\",\n" +
                 "  \"top\": \"wtfenchants:blocks/disenchanting_table_top\",\n" +
-                "  \"side\": \"wtfenchants:blocks/disenchanting_table_side\"\n" +
+                "  \"side\": \"wtfenchants:blocks/disenchanting_table_side,\n" +
+                "  \"particle\": \"wtfenchants:blocks/disenchanting_table_bottom\"\n" +
                 " },\n" +
                 " \"elements\": [\n" +
                 "  {\n" +

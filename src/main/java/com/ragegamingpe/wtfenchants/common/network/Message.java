@@ -1,6 +1,7 @@
 package com.ragegamingpe.wtfenchants.common.network;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
@@ -8,6 +9,7 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.relauncher.Side;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.Serializable;
@@ -201,12 +203,18 @@ public abstract class Message<REQ extends Message> implements Serializable, IMes
     }
 
     // The thing you override!
-    public abstract IMessage handleMessage(MessageContext context);
+    public abstract void handleMessage(MessageContext context);
 
     @Override
     public final IMessage onMessage(REQ message, MessageContext context)
     {
-        return message.handleMessage(context);
+        if (context.side == Side.SERVER) {
+            context.getServerHandler().player.getServerWorld().addScheduledTask(() -> message.handleMessage(context));
+        } else if (context.side == Side.CLIENT) {
+            Minecraft.getMinecraft().addScheduledTask(() -> message.handleMessage(context));
+        }
+
+        return null;
     }
 
     @Override

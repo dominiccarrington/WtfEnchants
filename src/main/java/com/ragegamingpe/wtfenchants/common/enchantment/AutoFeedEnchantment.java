@@ -15,7 +15,7 @@ public class AutoFeedEnchantment extends ModBaseEnchantment
 
     public AutoFeedEnchantment()
     {
-        super("auto_feed", Rarity.UNCOMMON, EnumEnchantmentType.ARMOR_HEAD);
+        super("auto_feed", Rarity.VERY_RARE, EnumEnchantmentType.ARMOR_HEAD);
     }
 
     @Override
