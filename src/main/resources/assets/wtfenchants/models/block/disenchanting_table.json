@@ -5,7 +5,7 @@
     "bottom": "wtfenchants:blocks/disenchanting_table_bottom",
     "top": "wtfenchants:blocks/disenchanting_table_top",
     "side": "wtfenchants:blocks/disenchanting_table_side",
-    "particle": "minecraft:blocks/disenchanting_table_bottom"
+    "particle": "wtfenchants:blocks/disenchanting_table_bottom"
   },
   "elements": [
     {
