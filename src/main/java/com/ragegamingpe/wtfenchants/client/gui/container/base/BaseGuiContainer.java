@@ -2,6 +2,7 @@ package com.ragegamingpe.wtfenchants.client.gui.container.base;
 
 import com.ragegamingpe.wtfenchants.common.container.base.BaseContainer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
@@ -41,10 +42,18 @@ public class BaseGuiContainer extends GuiContainer
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
         this.drawScreen(mouseX, mouseY, partialTicks, true);
+
+        for (GuiButton button : this.buttonList) {
+            if (button instanceof GuiTooltipButton) {
+                if (button.isMouseOver())
+                    this.drawHoveringText(((GuiTooltipButton) button).tooltip, mouseX, mouseY);
+            }
+        }
     }
 
     protected void drawScreen(int mouseX, int mouseY, float partialTicks, boolean autoDraw)
     {
+        if (autoDraw) this.drawDefaultBackground();
         super.drawScreen(mouseX, mouseY, partialTicks);
         if (autoDraw) this.renderHoveredToolTip(mouseX, mouseY);
     }
@@ -64,5 +73,21 @@ public class BaseGuiContainer extends GuiContainer
     {
         this.mc.getTextureManager().bindTexture(this.background);
         this.drawTexturedModalRect(topLeft[0], topLeft[1], 0, 0, this.xSize, this.ySize);
+    }
+
+    protected class GuiTooltipButton extends GuiButton
+    {
+        private final String tooltip;
+
+        public GuiTooltipButton(int buttonId, int x, int y, String buttonText, String tooltip)
+        {
+            this(buttonId, x, y, 200, 16, buttonText, tooltip);
+        }
+
+        public GuiTooltipButton(int buttonId, int x, int y, int widthIn, int heightIn, String buttonText, String tooltip)
+        {
+            super(buttonId, x, y, widthIn, heightIn, buttonText);
+            this.tooltip = tooltip;
+        }
     }
 }

@@ -118,7 +118,8 @@ public class GuiContainerSorter extends BaseGuiContainer
         GlStateManager.disableAlpha();
 
         GlStateManager.pushMatrix();
-        super.drawScreen(mouseX, mouseY, partialTicks);
+        super.drawScreen(mouseX, mouseY, partialTicks, false);
+        this.renderHoveredToolTip(mouseX, mouseY);
         GlStateManager.popMatrix();
 
 
