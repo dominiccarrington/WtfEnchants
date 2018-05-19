@@ -5,7 +5,6 @@ import com.ragegamingpe.wtfenchants.common.block.te.TileEntityBookshelf;
 import com.ragegamingpe.wtfenchants.common.block.te.TileEntitySorter;
 import com.ragegamingpe.wtfenchants.common.block.te.TileEntityXpStore;
 import com.ragegamingpe.wtfenchants.common.command.WtfCommand;
-import com.ragegamingpe.wtfenchants.common.enchantment.QuickDrawEnchantment;
 import com.ragegamingpe.wtfenchants.common.enchantment.base.ModBaseEnchantment;
 import com.ragegamingpe.wtfenchants.common.helper.Config;
 import com.ragegamingpe.wtfenchants.common.item.base.ModItem;
@@ -72,8 +71,10 @@ public class CommonProxy
 
     public void postInit(FMLPostInitializationEvent event)
     {
-        if (ModEnchantments.QUICK_DRAW.isEnabled())
-            ((QuickDrawEnchantment) ModEnchantments.QUICK_DRAW).overridePullProperty();
+        for (ModBaseEnchantment enchant : ModEnchantments.ALL_ENCHANTMENTS) {
+            if (enchant.isEnabled())
+                enchant.onPostInit();
+        }
     }
 
     public void serverStarting(FMLServerStartingEvent event)

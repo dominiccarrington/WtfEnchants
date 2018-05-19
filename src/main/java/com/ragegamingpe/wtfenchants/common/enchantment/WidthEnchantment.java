@@ -7,6 +7,7 @@ import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.common.MinecraftForge;
 
 import java.util.List;
 
@@ -15,6 +16,15 @@ public class WidthEnchantment extends ModBaseEnchantment
     public WidthEnchantment()
     {
         super("width", Rarity.RARE, EnumEnchantmentType.DIGGER);
+    }
+
+    @Override
+    public void onPostInit()
+    {
+        if (!HandlerHeightWidth.registered) {
+            HandlerHeightWidth.registered = true;
+            MinecraftForge.EVENT_BUS.register(new HandlerHeightWidth());
+        }
     }
 
     @Override

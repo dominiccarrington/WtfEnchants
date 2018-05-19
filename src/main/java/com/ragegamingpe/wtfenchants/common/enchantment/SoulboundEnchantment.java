@@ -10,6 +10,11 @@ public class SoulboundEnchantment extends ModBaseEnchantment
     public SoulboundEnchantment()
     {
         super("soulbound", Rarity.VERY_RARE, EnumEnchantmentType.ALL);
+    }
+
+    @Override
+    public void onPostInit()
+    {
         MinecraftForge.EVENT_BUS.register(new HandlerSoulbound());
     }
 

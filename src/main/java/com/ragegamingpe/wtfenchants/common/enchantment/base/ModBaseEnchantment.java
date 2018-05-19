@@ -31,6 +31,11 @@ public class ModBaseEnchantment extends Enchantment
         ModEnchantments.ALL_ENCHANTMENTS.add(this);
     }
 
+    public void onPostInit()
+    {
+
+    }
+
     public void onArmorTick(EntityPlayer player, ItemStack armorPiece, int lvl)
     {
 

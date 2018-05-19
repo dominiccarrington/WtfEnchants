@@ -22,7 +22,13 @@ public class QuickDrawEnchantment extends ModBaseEnchantment
     public QuickDrawEnchantment()
     {
         super("quick_draw", Rarity.RARE, EnumEnchantmentType.BOW);
+    }
+
+    @Override
+    public void onPostInit()
+    {
         MinecraftForge.EVENT_BUS.register(new HandlerQuickDraw());
+        this.overridePullProperty();
     }
 
     @Override

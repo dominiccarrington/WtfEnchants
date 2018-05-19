@@ -33,6 +33,8 @@ import java.util.function.Predicate;
 
 public class HandlerHeightWidth
 {
+    public static boolean registered;
+
     private static final Method RAY_TRACE;
     private static boolean currentlyHandling;
     private static List<ItemStack> storeDrops;

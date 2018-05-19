@@ -2,7 +2,6 @@ package com.ragegamingpe.wtfenchants.client;
 
 import com.ragegamingpe.wtfenchants.common.CommonProxy;
 import com.ragegamingpe.wtfenchants.common.block.base.IModBlock;
-import com.ragegamingpe.wtfenchants.common.enchantment.handler.HandlerHeightWidth;
 import com.ragegamingpe.wtfenchants.common.item.base.IModItem;
 import com.ragegamingpe.wtfenchants.common.lib.ModBlocks;
 import com.ragegamingpe.wtfenchants.common.lib.ModItems;
@@ -37,8 +36,6 @@ public class ClientProxy extends CommonProxy
         super.preInit(event);
         ModBlocks.ALL_BLOCKS.forEach(IModBlock::registerModels);
         ModItems.ALL_ITEMS.forEach(IModItem::registerModels);
-
-        MinecraftForge.EVENT_BUS.register(new HandlerHeightWidth());
     }
 
     @Override
