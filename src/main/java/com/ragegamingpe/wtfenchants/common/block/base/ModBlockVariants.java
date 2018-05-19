@@ -9,7 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ModBlockVariants extends ModBlock
+public class ModBlockVariants extends ModBlock implements IModBlockVariants
 {
     protected IBaseVariant variant;
 
@@ -24,16 +24,16 @@ public class ModBlockVariants extends ModBlock
         this(materialIn, materialIn.getMaterialMapColor(), regName, variant);
     }
 
-    public static <T extends Enum & IBaseVariant, B extends ModBlockVariants> Map<T, B> constructVariants(Class<B> clazz, Class<T> variants)
+    public static <T extends Enum & IBaseVariant, B extends IModBlockVariants> Map<T, B> constructVariants(Class<B> clazz, Class<T> variants)
     {
         return constructVariants(clazz, null, null, variants);
     }
 
-    public static <T extends Enum & IBaseVariant, B extends ModBlockVariants> Map<T, B> constructVariants(Class<B> clazz, Material material, String baseName, Class<T> variants)
+    public static <T extends Enum & IBaseVariant, B extends IModBlockVariants> Map<T, B> constructVariants(Class<B> clazz, Material material, String baseName, Class<T> variants)
     {
         T[] types = variants.getEnumConstants();
 
-        Constructor<? extends ModBlockVariants> constructor = null;
+        Constructor<? extends IModBlockVariants> constructor;
         int parameters = 0;
         try {
             constructor = clazz.getConstructor(IBaseVariant.class);
@@ -65,13 +65,5 @@ public class ModBlockVariants extends ModBlock
         }
 
         return allBlocks;
-    }
-
-    public interface IBaseVariant
-    {
-        public default String getName()
-        {
-            return ((Enum) this).name().toLowerCase();
-        }
     }
 }

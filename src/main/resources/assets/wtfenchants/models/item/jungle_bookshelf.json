@@ -1,5 +1,5 @@
 {
-  "parent": "wtfenchants:block/bookshelf/bookshelf_14",
+  "parent": "wtfenchants:block/bookshelf/jungle/bookshelf_14",
   "display": {
     "gui": {
       "rotation": [30, 225, 0],

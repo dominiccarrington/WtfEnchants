@@ -75,7 +75,7 @@ public class BlockDisenchantment extends ModBlock
                 " \"textures\": {\n" +
                 "  \"bottom\": \"wtfenchants:blocks/disenchanting_table_bottom\",\n" +
                 "  \"top\": \"wtfenchants:blocks/disenchanting_table_top\",\n" +
-                "  \"side\": \"wtfenchants:blocks/disenchanting_table_side,\n" +
+                "  \"side\": \"wtfenchants:blocks/disenchanting_table_side\",\n" +
                 "  \"particle\": \"wtfenchants:blocks/disenchanting_table_bottom\"\n" +
                 " },\n" +
                 " \"elements\": [\n" +

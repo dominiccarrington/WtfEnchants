@@ -6,7 +6,6 @@ import com.ragegamingpe.wtfenchants.common.block.base.ModBlockContainer;
 import com.ragegamingpe.wtfenchants.common.block.te.TileEntityBookshelf;
 import com.ragegamingpe.wtfenchants.common.block.te.TileEntitySorter;
 import com.ragegamingpe.wtfenchants.common.lib.LibMisc;
-import com.ragegamingpe.wtfenchants.common.lib.ModBlocks;
 import com.ragegamingpe.wtfenchants.common.network.GuiHandler;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
@@ -305,7 +304,7 @@ public class BlockSorter extends ModBlockContainer
 
                         if (checkedLocations.contains(check)) continue;
 
-                        if (world.getBlockState(check).getBlock() == ModBlocks.BOOKSHELF && world.getTileEntity(check) instanceof TileEntityBookshelf) {
+                        if (world.getBlockState(check).getBlock() instanceof BlockBookshelf && world.getTileEntity(check) instanceof TileEntityBookshelf) {
                             bookshelves.add((IInventory) world.getTileEntity(check));
                             ((TileEntityBookshelf) Objects.requireNonNull(world.getTileEntity(check))).addSorter(pos);
 

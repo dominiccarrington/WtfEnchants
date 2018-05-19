@@ -1,16 +1,18 @@
 package com.ragegamingpe.wtfenchants.common.block;
 
 import com.google.gson.JsonObject;
+import com.ragegamingpe.wtfenchants.client.model.ModelCreator;
+import com.ragegamingpe.wtfenchants.common.block.base.IModBlockVariants;
 import com.ragegamingpe.wtfenchants.common.block.base.ModBlockInventory;
 import com.ragegamingpe.wtfenchants.common.block.te.TileEntityBookshelf;
 import com.ragegamingpe.wtfenchants.common.block.te.TileEntitySorter;
 import com.ragegamingpe.wtfenchants.common.lib.LibMisc;
-import com.ragegamingpe.wtfenchants.common.lib.ModBlocks;
 import com.ragegamingpe.wtfenchants.common.network.GuiHandler;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
+import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
@@ -32,7 +34,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nullable;
 
-public class BlockBookshelf extends ModBlockInventory
+public class BlockBookshelf extends ModBlockInventory implements IModBlockVariants
 {
     public static final PropertyInteger BOOKS = PropertyInteger.create("books", 0, 14);
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
@@ -43,9 +45,13 @@ public class BlockBookshelf extends ModBlockInventory
             createAABB(0, 0, 0, 8, 16, 16)
     };
 
-    public BlockBookshelf()
+    protected IBaseVariant variant;
+
+    public BlockBookshelf(IBaseVariant variant)
     {
-        super(Material.WOOD, "bookshelf");
+        super(Material.WOOD, variant.getName() + "_bookshelf");
+
+        this.variant = variant;
 
         this.setHardness(2.0F);
         this.setResistance(5.0F);
@@ -100,7 +106,7 @@ public class BlockBookshelf extends ModBlockInventory
         IBlockState iblockstate = worldIn.getBlockState(pos);
         TileEntity tileentity = worldIn.getTileEntity(pos);
 
-        worldIn.setBlockState(pos, ModBlocks.BOOKSHELF.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)).withProperty(BOOKS, books), 3);
+        worldIn.setBlockState(pos, iblockstate.getBlock().getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)).withProperty(BOOKS, books), 3);
 
         if (tileentity != null) {
             tileentity.validate();
@@ -187,7 +193,7 @@ public class BlockBookshelf extends ModBlockInventory
     @Override
     protected BlockStateContainer createBlockState()
     {
-        return new BlockStateContainer(this, getAllProperties());
+        return new BlockStateContainer(this, BOOKS, FACING);
     }
 
     @Override
@@ -202,29 +208,41 @@ public class BlockBookshelf extends ModBlockInventory
         return GuiHandler.BOOKSHELF;
     }
 
+    private static final PropertyEnum TYPE = PropertyEnum.create("type", Variant.class);
+
+    @SuppressWarnings("unused")
     public static IProperty[] getAllProperties()
     {
-        return new IProperty[]{BOOKS, FACING};
+        return new IProperty[]{TYPE, BOOKS, FACING};
     }
 
-    public static JsonObject generateBlockState(Integer books, EnumFacing facing)
+    @SuppressWarnings("unused")
+    public static IProperty[] getIgnoredProperties()
+    {
+        return new IProperty[]{TYPE};
+    }
+
+    @SuppressWarnings("unused")
+    public static Pair<String, JsonObject> generateBlockState(Variant type, Integer books, EnumFacing facing)
     {
         JsonObject object = new JsonObject();
 
-        object.addProperty("model", LibMisc.MOD_ID + ":bookshelf/bookshelf_" + books);
+        object.addProperty("model", LibMisc.MOD_ID + ":bookshelf/" + type.getName() + "/bookshelf_" + books);
         object.addProperty("y", (int) facing.getOpposite().getHorizontalAngle());
 
-        return object;
+        return new ImmutablePair<>(type.getName() + "_bookshelf", object);
     }
 
-    public static Pair<String, String> generateBlockModel(Integer books, EnumFacing facing)
+    @SuppressWarnings("unused")
+    public static Pair<String, String> generateBlockModel(Variant type, Integer books, EnumFacing facing)
     {
+        String woodType = type.getFileName();
         String fileContents = "{\n" +
                 "  \"credit\": \"Made with Blockbench\",\n" +
                 "  \"textures\": {\n" +
                 "    \"books\": \"wtfenchants:blocks/books\",\n" +
-                "    \"planks\": \"minecraft:blocks/planks_oak\",\n" +
-                "    \"particle\": \"minecraft:blocks/planks_oak\",\n" +
+                "    \"planks\": \"minecraft:blocks/planks_" + woodType + "\",\n" +
+                "    \"particle\": \"minecraft:blocks/planks_" + woodType + "\",\n" +
                 "    \"missing\": \"minecraft:blocks/bedrock\"\n" +
                 "  },\n" +
                 "  \"elements\": [\n" +
@@ -520,6 +538,40 @@ public class BlockBookshelf extends ModBlockInventory
         }
 
         fileContents += "]}";
-        return new ImmutablePair<>("bookshelf/bookshelf_" + books, fileContents);
+        return new ImmutablePair<>("bookshelf/" + type.getName() + "/bookshelf_" + books, fileContents);
+    }
+
+    @SuppressWarnings("unused")
+    public static Pair<String, JsonObject> generateItemModel(Variant type, Integer books, EnumFacing facing)
+    {
+        return new ImmutablePair<>(type.getName() + "_bookshelf", ModelCreator.generateDefaultItemModel("bookshelf/" + type.getName() + "/bookshelf_14"));
+    }
+
+    public enum Variant implements IBaseVariant
+    {
+        OAK,
+        SPRUCE,
+        BIRCH,
+        JUNGLE,
+        ACACIA,
+        DARK_OAK("big_oak");
+
+        private String fileName;
+
+        Variant()
+        {
+            this.fileName = this.getName();
+        }
+
+        Variant(String fileName)
+        {
+            this();
+            this.fileName = fileName;
+        }
+
+        public String getFileName()
+        {
+            return this.fileName;
+        }
     }
 }

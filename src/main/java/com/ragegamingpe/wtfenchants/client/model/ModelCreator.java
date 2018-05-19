@@ -17,11 +17,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 /**
- * Add getAllProperties, generateBlockState, generateBlockModel and register block to create models
- * Item models coming soon
+ * Add getAllProperties, generateBlockState, generateBlockModel, generateItemModel and register block to create models
  */
 public class ModelCreator
 {
@@ -59,6 +60,13 @@ public class ModelCreator
                 properties = new IProperty[0];
             }
 
+            IProperty[] ignoredProperties;
+            try {
+                ignoredProperties = (IProperty[]) clazzBlock.getMethod("getIgnoredProperties").invoke(clazzBlock);
+            } catch (NoSuchMethodException e) {
+                ignoredProperties = new IProperty[0];
+            }
+
             Class[] parameters = new Class[properties.length];
             int[] size = new int[properties.length];
             Collection[] values = new Collection[properties.length];
@@ -67,10 +75,11 @@ public class ModelCreator
                 parameters[i] = properties[i].getValueClass();
                 size[i] = properties[i].getAllowedValues().size() - 1;
                 values[i] = properties[i].getAllowedValues();
-                stateString.append(",").append(properties[i].getName()).append("=%s");
+                if (!Arrays.asList(ignoredProperties).contains(properties[i])) {
+                    stateString.append(",").append(properties[i].getName()).append("=%s");
+                }
             }
 
-            JsonObject variants = new JsonObject();
             Method generateBlockState;
             try {
                 generateBlockState = clazzBlock.getMethod("generateBlockState", parameters);
@@ -78,27 +87,43 @@ public class ModelCreator
                 generateBlockState = null;
             }
 
+//            JsonObject variants = new JsonObject();
+            Map<String, JsonObject> blockstates = new HashMap<>();
             if (generateBlockState != null) {
-                if (generateBlockState.getReturnType() != JsonObject.class)
+                if (generateBlockState.getReturnType() != JsonObject.class && generateBlockState.getReturnType() != Pair.class)
                     throw new Exception("Return type MUST be JsonObject");
 
-                List<String> modelsGenerated = new ArrayList<>();
+                List<String> blockModelsGenerated = new ArrayList<>();
+                List<String> itemModelsGenerated = new ArrayList<>();
                 while (size[0] >= 0) {
                     Object[] objParameters = new Object[parameters.length];
                     for (int i = 0; i < objParameters.length; i++) {
                         objParameters[i] = values[i].toArray()[size[i]];
                     }
 
-                    JsonObject jsonObject = (JsonObject) generateBlockState.invoke(clazzBlock, objParameters);
-                    if (!jsonObject.has("model"))
+                    String fileName;
+                    JsonObject variant;
+                    if (generateBlockState.getReturnType() == Pair.class) {
+                        Pair<String, JsonObject> pair = (Pair) generateBlockState.invoke(clazzBlock, objParameters);
+                        fileName = pair.getLeft();
+                        variant = pair.getRight();
+                    } else {
+                        fileName = regName;
+                        variant = (JsonObject) generateBlockState.invoke(clazzBlock, objParameters);
+                    }
+                    if (!variant.has("model"))
                         throw new Exception("generateBlockState must return a model within the JSON object.");
 
-                    variants.add(String.format(stateString.substring(1), getString(objParameters)), jsonObject);
+                    JsonObject variants = blockstates.getOrDefault(fileName, new JsonObject());
+                    variants.add(String.format(stateString.substring(1), getStrings(objParameters, ignoredProperties)), variant);
+                    blockstates.put(fileName, variants);
 
-                    if (!modelsGenerated.contains(jsonObject.get("model").toString())) {
+                    if (!blockModelsGenerated.contains(variant.get("model").toString())) {
                         createBlockModel(clazzBlock, regName, parameters, objParameters);
-                        modelsGenerated.add(jsonObject.get("model").toString());
+                        blockModelsGenerated.add(variant.get("model").toString());
                     }
+
+                    createItemModel(clazzBlock, regName, parameters, objParameters, itemModelsGenerated);
 
                     int currentIndex = parameters.length - 1;
                     size[currentIndex]--;
@@ -112,20 +137,20 @@ public class ModelCreator
                 }
             } else {
                 System.out.println("Generating default block state for " + regName);
-                JsonObject object = new JsonObject();
-                object.addProperty("model", LibMisc.MOD_ID + ":" + regName);
-                variants.add("normal", object);
-
+                blockstates.put(regName, generateDefaultBlockState(regName));
                 createBlockModel(clazzBlock, regName);
+                createItemModel(clazzBlock, regName);
             }
 
-            JsonObject blockstates = new JsonObject();
-            blockstates.add("variants", variants);
+            for (Map.Entry<String, JsonObject> blockstate : blockstates.entrySet()) {
+                JsonObject object = new JsonObject();
+                object.add("variants", blockstate.getValue());
 
-            FileWriter writer = new FileWriter(System.getProperty("user.dir") + "/src/main/resources/assets/" + LibMisc.MOD_ID + "/blockstates/" + regName + ".json");
-            writer.write(blockstates.toString());
-            writer.close();
-            System.out.println("Created blockstates for " + regName);
+                FileWriter writer = new FileWriter(System.getProperty("user.dir") + "/src/main/resources/assets/" + LibMisc.MOD_ID + "/blockstates/" + blockstate.getKey() + ".json");
+                writer.write(object.toString());
+                writer.close();
+                System.out.println("Created blockstates for " + blockstate.getKey());
+            }
         } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
@@ -162,19 +187,19 @@ public class ModelCreator
             }
 
         } catch (NoSuchMethodException e) {
-            System.out.println("Creating default model for " + fileName);
-            file = "{\n" +
-                    "    \"parent\": \"block/cube_all\",\n" +
-                    "    \"textures\": {\n" +
-                    "        \"all\": \"" + LibMisc.MOD_ID + ":blocks/" + regName + "\"\n" +
-                    "    }\n" +
-                    "}\n";
+            System.out.println("Creating default block model for " + fileName);
+            file = generateDefaultBlockModel(regName).toString();
         }
 
+        String[] split;
+        if ((split = fileName.split("/")).length > 1) {
+            split[split.length - 1] = "";
+            Files.createDirectories(Paths.get(System.getProperty("user.dir") + "/src/main/resources/assets/" + LibMisc.MOD_ID + "/models/block/" + String.join("/", split)));
+        }
         FileWriter writer = new FileWriter(System.getProperty("user.dir") + "/src/main/resources/assets/" + LibMisc.MOD_ID + "/models/block/" + fileName + ".json");
         writer.write(file);
         writer.close();
-        System.out.println("Created model " + fileName + ".json");
+        System.out.println("Created block model " + fileName + ".json");
     }
 
     private static void createBlockModel(Class<? extends ModBlock> block, String regName) throws Exception
@@ -182,15 +207,141 @@ public class ModelCreator
         createBlockModel(block, regName, new Class[0], new Object[0]);
     }
 
-    private static String[] getString(Object[] objParameters)
+    private static void createItemModel(Class<? extends ModBlock> block, String regName, Class[] parameters, Object[] objParameters, List<String> itemModelsGenerated) throws Exception
     {
-        String[] strings = new String[objParameters.length];
+        String file = "";
+        String fileName = regName;
+        try {
+            Method generateBlockModel = block.getMethod("generateItemModel", parameters);
+            Object modelInformation = generateBlockModel.invoke(block, objParameters); // String|JsonObject|Pair<String, String|JsonObject>
 
-        for (int i = 0; i < objParameters.length; i++) {
-            strings[i] = String.valueOf(objParameters[i]);
+            if (generateBlockModel.getReturnType() == String.class) {
+                file = (String) modelInformation;
+            } else if (generateBlockModel.getReturnType() == JsonObject.class) {
+                file = ((JsonObject) modelInformation).toString();
+            } else if (generateBlockModel.getReturnType() == Pair.class) { // Pair<String, String|JsonObject>
+                Pair info = (Pair) modelInformation;
+                if (!(info.getLeft() instanceof String)) {
+                    throw new Exception("Left side of Pair MUST be a String of the file name");
+                }
+
+                fileName = (String) info.getLeft();
+                if (info.getRight() instanceof String) {
+                    file = (String) info.getRight();
+                } else if (info.getRight() instanceof JsonObject) {
+                    file = ((JsonObject) info.getRight()).toString();
+                } else {
+                    throw new Exception("Right side of Pair MUST be a String or JsonObject");
+                }
+            } else {
+                throw new Exception("generateItemModel method MUST return either String or JsonObject");
+            }
+
+        } catch (NoSuchMethodException e) {
+            System.out.println("Creating default item model for " + fileName);
+            file = generateDefaultItemModel(regName).toString();
         }
 
-        return strings;
+        if (itemModelsGenerated.contains(fileName)) return;
+
+        String[] split;
+        if ((split = fileName.split("/")).length > 1) {
+            split[split.length - 1] = "";
+            Files.createDirectories(Paths.get(System.getProperty("user.dir") + "/src/main/resources/assets/" + LibMisc.MOD_ID + "/models/item/" + String.join("/", split)));
+        }
+        FileWriter writer = new FileWriter(System.getProperty("user.dir") + "/src/main/resources/assets/" + LibMisc.MOD_ID + "/models/item/" + fileName + ".json");
+        writer.write(file);
+        writer.close();
+
+        itemModelsGenerated.add(fileName);
+        System.out.println("Created item model " + fileName + ".json");
+    }
+
+    private static void createItemModel(Class<? extends ModBlock> block, String regName) throws Exception
+    {
+        createItemModel(block, regName, new Class[0], new Object[0], new ArrayList<>());
+    }
+
+    private static String[] getStrings(Object[] objParameters, IProperty[] ignoredProperties)
+    {
+        List<String> strings = new ArrayList<>();
+
+        for (int i = 0; i < objParameters.length; i++) {
+            boolean flag = false;
+            for (int j = 0; j < ignoredProperties.length; j++) {
+                if (objParameters[i].getClass() == ignoredProperties[j].getValueClass())
+                    flag = true;
+            }
+
+            if (!flag)
+                strings.add(String.valueOf(objParameters[i]));
+        }
+
+        return strings.toArray(new String[0]);
+    }
+
+    public static JsonObject generateDefaultBlockState(String regName)
+    {
+        JsonObject object = new JsonObject();
+        object.addProperty("model", LibMisc.MOD_ID + ":" + regName);
+        JsonObject variants = new JsonObject();
+        variants.add("normal", object);
+
+        return variants;
+    }
+
+    public static JsonObject generateDefaultBlockModel(String regName)
+    {
+        JsonParser parser = new JsonParser();
+        JsonObject object = parser.parse("{" +
+                "    \"parent\": \"block/cube_all\"," +
+                "    \"textures\": {" +
+                "        \"all\": \"" + LibMisc.MOD_ID + ":blocks/" + regName + "\"" +
+                "    }" +
+                "}").getAsJsonObject();
+        return object;
+    }
+
+    public static JsonObject generateDefaultItemModel(String regName)
+    {
+        JsonParser parser = new JsonParser();
+        JsonObject object = parser.parse("{" +
+                "  \"parent\": \"" + LibMisc.MOD_ID + ":block/" + regName + "\"," +
+                "  \"display\": {" +
+                "    \"gui\": {" +
+                "      \"rotation\": [30, 225, 0]," +
+                "      \"translation\": [0, 0, 0]," +
+                "      \"scale\": [0.625, 0.625, 0.625]" +
+                "    }," +
+                "    \"ground\": {" +
+                "      \"rotation\": [0, 0, 0]," +
+                "      \"translation\": [0, 3, 0]," +
+                "      \"scale\": [0.25, 0.25, 0.25]" +
+                "    }," +
+                "    \"fixed\": {" +
+                "      \"rotation\": [0, 0, 0]," +
+                "      \"translation\": [0, 0, 0]," +
+                "      \"scale\": [0.5, 0.5, 0.5]" +
+                "    }," +
+                "    \"thirdperson_righthand\": {" +
+                "      \"rotation\": [75, 45, 0]," +
+                "      \"translation\": [0, 2.5, 0]," +
+                "      \"scale\": [0.375, 0.375, 0.375]" +
+                "    }," +
+                "    \"firstperson_righthand\": {" +
+                "      \"rotation\": [0, 45, 0]," +
+                "      \"translation\": [0, 0, 0]," +
+                "      \"scale\": [0.40, 0.40, 0.40]" +
+                "    }," +
+                "    \"firstperson_lefthand\": {" +
+                "      \"rotation\": [0, 225, 0]," +
+                "      \"translation\": [0, 0, 0]," +
+                "      \"scale\": [0.40, 0.40, 0.40]" +
+                "    }" +
+                "  }" +
+                "}").getAsJsonObject();
+
+        return object;
     }
 
     private static boolean createBlockInformation(String key)
