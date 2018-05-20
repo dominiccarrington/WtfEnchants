@@ -1,6 +1,6 @@
 package com.ragegamingpe.wtfenchants.common.block.base;
 
-import com.ragegamingpe.wtfenchants.client.model.ModelLoader;
+import com.ragegamingpe.wtfenchants.client.model.ModelRegister;
 import com.ragegamingpe.wtfenchants.common.lib.LibMisc;
 import com.ragegamingpe.wtfenchants.common.lib.ModBlocks;
 import net.minecraft.block.Block;
@@ -41,7 +41,7 @@ public class ModBlock extends Block implements IModBlock
     @Override
     public void registerRender()
     {
-        ModelLoader.registerItemModel(this, 0, getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
+        ModelRegister.registerItemModel(this, 0, getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
     }
 
     protected static AxisAlignedBB createAABB(int x1, int y1, int z1, int x2, int y2, int z2)

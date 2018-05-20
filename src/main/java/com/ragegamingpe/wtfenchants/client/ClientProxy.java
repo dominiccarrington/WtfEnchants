@@ -5,7 +5,6 @@ import com.ragegamingpe.wtfenchants.common.block.base.IModBlock;
 import com.ragegamingpe.wtfenchants.common.item.base.IModItem;
 import com.ragegamingpe.wtfenchants.common.lib.ModBlocks;
 import com.ragegamingpe.wtfenchants.common.lib.ModItems;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiEnchantment;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -16,6 +15,7 @@ import net.minecraft.inventory.ContainerEnchantment;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -47,7 +47,7 @@ public class ClientProxy extends CommonProxy
             ItemMeshDefinition def = item.registerCustomMeshDefinition();
 
             if (def == null) item.registerRender();
-            else Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, def);
+            else ModelLoader.setCustomMeshDefinition(item, def);
         });
     }
 

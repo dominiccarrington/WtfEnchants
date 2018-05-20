@@ -9,7 +9,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class ModelLoader
+public class ModelRegister
 {
     public static void registerItemModel(Block block, int meta, String file)
     {
