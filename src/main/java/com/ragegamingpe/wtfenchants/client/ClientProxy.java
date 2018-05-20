@@ -8,14 +8,12 @@ import com.ragegamingpe.wtfenchants.common.lib.ModItems;
 import net.minecraft.client.gui.GuiEnchantment;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.ContainerEnchantment;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.GuiScreenEvent;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -43,12 +41,7 @@ public class ClientProxy extends CommonProxy
     {
         super.init(event);
         ModBlocks.ALL_BLOCKS.forEach(IModBlock::registerRender);
-        ModItems.ALL_ITEMS.forEach((item) -> {
-            ItemMeshDefinition def = item.registerCustomMeshDefinition();
-
-            if (def == null) item.registerRender();
-            else ModelLoader.setCustomMeshDefinition(item, def);
-        });
+        ModItems.ALL_ITEMS.forEach(IModItem::registerRender);
     }
 
     private int slot = 0;
