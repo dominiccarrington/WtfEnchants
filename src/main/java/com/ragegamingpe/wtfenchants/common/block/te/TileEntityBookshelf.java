@@ -14,8 +14,8 @@ import java.util.List;
 
 public class TileEntityBookshelf extends ModBaseTEInventory
 {
-    private int books;
-    public final List<BlockPos> accessedBySorters = new ArrayList<>();
+    protected int books;
+    protected final List<BlockPos> accessedBySorters = new ArrayList<>();
 
     public TileEntityBookshelf()
     {

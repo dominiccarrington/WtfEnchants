@@ -2,6 +2,7 @@ package com.ragegamingpe.wtfenchants.common;
 
 import com.ragegamingpe.wtfenchants.common.block.base.ModBlock;
 import com.ragegamingpe.wtfenchants.common.block.te.TileEntityBookshelf;
+import com.ragegamingpe.wtfenchants.common.block.te.TileEntityCommonBookshelf;
 import com.ragegamingpe.wtfenchants.common.block.te.TileEntitySorter;
 import com.ragegamingpe.wtfenchants.common.block.te.TileEntityXpStore;
 import com.ragegamingpe.wtfenchants.common.command.WtfCommand;
@@ -60,6 +61,7 @@ public class CommonProxy
         NetworkRegistry.INSTANCE.registerGuiHandler(WtfEnchants.instance, new GuiHandler());
         MessageHandler.init();
 
+        GameRegistry.registerTileEntity(TileEntityCommonBookshelf.class, LibMisc.MOD_ID + ":common_bookshelf");
         GameRegistry.registerTileEntity(TileEntityBookshelf.class, LibMisc.MOD_ID + ":bookshelf");
         GameRegistry.registerTileEntity(TileEntitySorter.class, LibMisc.MOD_ID + ":sorter");
         GameRegistry.registerTileEntity(TileEntityXpStore.class, LibMisc.MOD_ID + ":xp_store");
@@ -93,8 +95,8 @@ public class CommonProxy
     {
         ItemBlock[] itemBlocks = new ItemBlock[ModBlocks.ALL_BLOCKS.size()];
         for (int i = 0; i < ModBlocks.ALL_BLOCKS.size(); i++) {
-            Block block = ModBlocks.ALL_BLOCKS.get(i);
-            itemBlocks[i] = (ItemBlock) new ItemBlock(block).setRegistryName(block.getRegistryName());
+            ModBlock block = ModBlocks.ALL_BLOCKS.get(i);
+            itemBlocks[i] = block.getItemBlock();
         }
         event.getRegistry().registerAll(itemBlocks);
 

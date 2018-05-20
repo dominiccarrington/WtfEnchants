@@ -7,6 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.util.math.AxisAlignedBB;
 
 public class ModBlock extends Block implements IModBlock
@@ -47,5 +48,10 @@ public class ModBlock extends Block implements IModBlock
     protected static AxisAlignedBB createAABB(int x1, int y1, int z1, int x2, int y2, int z2)
     {
         return new AxisAlignedBB(x1 / 16F, y1 / 16F, z1 / 16F, x2 / 16F, y2 / 16F, z2 / 16F);
+    }
+
+    public ItemBlock getItemBlock()
+    {
+        return (ItemBlock) new ItemBlock(this).setRegistryName(this.getRegistryName());
     }
 }

@@ -1,0 +1,23 @@
+{
+  "type": "wtfenchants:bookshelf",
+  "pattern": [
+    "sss",
+    "bbb",
+    "sss"
+  ],
+  "variants": {
+    "item": "#BOOKSHELF"
+  },
+  "key": {
+    "b": {
+      "item": "minecraft:book"
+    },
+    "s": {
+      "item": "#BOOKSHELF"
+    }
+  },
+  "result": {
+    "item": "wtfenchants:common_bookshelf",
+    "data": 0
+  }
+}

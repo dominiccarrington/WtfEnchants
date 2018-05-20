@@ -1,0 +1,11 @@
+[
+  {
+    "name": "BOOKSHELF",
+    "ingredient": [
+      {
+        "type": "forge:ore_dict",
+        "ore": "slabWood"
+      }
+    ]
+  }
+]

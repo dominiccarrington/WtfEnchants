@@ -118,11 +118,7 @@ public class ModelCreator
                     variants.add(String.format(stateString.substring(1), getStrings(objParameters, ignoredProperties)), variant);
                     blockstates.put(fileName, variants);
 
-                    if (!blockModelsGenerated.contains(variant.get("model").toString())) {
-                        createBlockModel(clazzBlock, regName, parameters, objParameters);
-                        blockModelsGenerated.add(variant.get("model").toString());
-                    }
-
+                    createBlockModel(clazzBlock, regName, parameters, objParameters, blockModelsGenerated);
                     createItemModel(clazzBlock, regName, parameters, objParameters, itemModelsGenerated);
 
                     int currentIndex = parameters.length - 1;
@@ -156,7 +152,7 @@ public class ModelCreator
         }
     }
 
-    private static void createBlockModel(Class<? extends ModBlock> block, String regName, Class[] parameters, Object[] objParameters) throws Exception
+    private static void createBlockModel(Class<? extends ModBlock> block, String regName, Class[] parameters, Object[] objParameters, List<String> blockModelsGenerated) throws Exception
     {
         String file = "";
         String fileName = regName;
@@ -191,6 +187,8 @@ public class ModelCreator
             file = generateDefaultBlockModel(regName).toString();
         }
 
+        if (blockModelsGenerated.contains(fileName)) return;
+
         String[] split;
         if ((split = fileName.split("/")).length > 1) {
             split[split.length - 1] = "";
@@ -199,12 +197,14 @@ public class ModelCreator
         FileWriter writer = new FileWriter(System.getProperty("user.dir") + "/src/main/resources/assets/" + LibMisc.MOD_ID + "/models/block/" + fileName + ".json");
         writer.write(file);
         writer.close();
+
+        blockModelsGenerated.add(fileName);
         System.out.println("Created block model " + fileName + ".json");
     }
 
     private static void createBlockModel(Class<? extends ModBlock> block, String regName) throws Exception
     {
-        createBlockModel(block, regName, new Class[0], new Object[0]);
+        createBlockModel(block, regName, new Class[0], new Object[0], new ArrayList<>());
     }
 
     private static void createItemModel(Class<? extends ModBlock> block, String regName, Class[] parameters, Object[] objParameters, List<String> itemModelsGenerated) throws Exception

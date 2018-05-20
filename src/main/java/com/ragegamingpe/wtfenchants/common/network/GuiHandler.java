@@ -4,7 +4,7 @@ import com.ragegamingpe.wtfenchants.client.gui.container.GuiContainerBookshelf;
 import com.ragegamingpe.wtfenchants.client.gui.container.GuiContainerDisenchantment;
 import com.ragegamingpe.wtfenchants.client.gui.container.GuiContainerSorter;
 import com.ragegamingpe.wtfenchants.client.gui.container.GuiContainerXpStore;
-import com.ragegamingpe.wtfenchants.common.block.te.TileEntityBookshelf;
+import com.ragegamingpe.wtfenchants.common.block.te.TileEntityCommonBookshelf;
 import com.ragegamingpe.wtfenchants.common.block.te.TileEntitySorter;
 import com.ragegamingpe.wtfenchants.common.block.te.TileEntityXpStore;
 import com.ragegamingpe.wtfenchants.common.container.ContainerBookshelf;
@@ -30,7 +30,7 @@ public class GuiHandler implements IGuiHandler
         TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
         switch (ID) {
             case BOOKSHELF:
-                return new ContainerBookshelf(player.inventory, (TileEntityBookshelf) te);
+                return new ContainerBookshelf(player.inventory, (TileEntityCommonBookshelf) te);
             case SORTER:
                 return new ContainerSorter(player.inventory, (TileEntitySorter) te, new BlockPos(x, y, z));
             case DISENCHANTING_TABLE:
@@ -47,7 +47,7 @@ public class GuiHandler implements IGuiHandler
         TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
         switch (ID) {
             case BOOKSHELF:
-                return new GuiContainerBookshelf(player.inventory, (TileEntityBookshelf) te);
+                return new GuiContainerBookshelf(player.inventory, (TileEntityCommonBookshelf) te);
             case SORTER:
                 return new GuiContainerSorter(player, (TileEntitySorter) te, new BlockPos(x, y, z));
             case DISENCHANTING_TABLE:

@@ -1,0 +1,5 @@
+{
+  "recipes": {
+    "bookshelf": "com.ragegamingpe.wtfenchants.common.recipe.BookshelfRecipeFactory"
+  }
+}
