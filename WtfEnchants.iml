@@ -737,6 +737,30 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar:///Users/Dominic/.gradle/caches/minecraft/deobfedDeps/deobf/mezz/jei/jei_1.12.2/4.9.0.163/jei_1.12.2-4.9.0.163.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar:///Users/Dominic/.gradle/caches/minecraft/deobfedDeps/deobf/mezz/jei/jei_1.12.2/4.9.0.163/jei_1.12.2-4.9.0.163-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="RUNTIME">
+      <library>
+        <CLASSES>
+          <root url="jar:///Users/Dominic/.gradle/caches/modules-2/files-2.1/mezz.jei/jei_1.12.2/4.9.0.163/f8aa7a2b5d6d897dbbe19ace6371df96dc1195bd/jei_1.12.2-4.9.0.163.jar!/"/>
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar:///Users/Dominic/.gradle/caches/modules-2/files-2.1/mezz.jei/jei_1.12.2/4.9.0.163/32504e8a992bfe91f719446e543be2f66f563ffb/jei_1.12.2-4.9.0.163-javadoc.jar!/"/>
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar:///Users/Dominic/.gradle/caches/modules-2/files-2.1/mezz.jei/jei_1.12.2/4.9.0.163/74c1ce8fe0fdc4bb55afceec638e75f319806b44/jei_1.12.2-4.9.0.163-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>

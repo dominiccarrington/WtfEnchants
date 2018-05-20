@@ -1,0 +1,20 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "sss",
+    "bbb",
+    "sss"
+  ],
+  "key": {
+    "b": {
+      "item": "minecraft:book"
+    },
+    "s": {
+      "item": "minecraft:wooden_slab",
+      "data": 3
+    }
+  },
+  "result": {
+    "item": "wtfenchants:jungle_bookshelf"
+  }
+}

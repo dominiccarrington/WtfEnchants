@@ -11,7 +11,12 @@ enchantment.wtfenchants:felling.name=Felling
 enchantment.wtfenchants:height.name=Height
 enchantment.wtfenchants:width.name=Width
 
-tile.wtfenchants:bookshelf.name=Bookshelf
+tile.wtfenchants:oak_bookshelf.name=Oak Bookshelf
+tile.wtfenchants:spruce_bookshelf.name=Spruce Bookshelf
+tile.wtfenchants:birch_bookshelf.name=Birch Bookshelf
+tile.wtfenchants:jungle_bookshelf.name=Jungle Bookshelf
+tile.wtfenchants:acacia_bookshelf.name=Acacia Bookshelf
+tile.wtfenchants:dark_oak_bookshelf.name=Dark Oak Bookshelf
 container.wtfenchants:bookshelf.name=Bookshelf
 
 tile.wtfenchants:sorter.name=Sorter
