@@ -3,7 +3,7 @@ package com.ragegamingpe.wtfenchants.common.block;
 import com.google.gson.JsonObject;
 import com.ragegamingpe.wtfenchants.common.WtfEnchants;
 import com.ragegamingpe.wtfenchants.common.block.base.ModBlockContainer;
-import com.ragegamingpe.wtfenchants.common.block.te.TileEntityCommonBookshelf;
+import com.ragegamingpe.wtfenchants.common.block.te.TileEntityBookshelf;
 import com.ragegamingpe.wtfenchants.common.block.te.TileEntitySorter;
 import com.ragegamingpe.wtfenchants.common.lib.LibMisc;
 import com.ragegamingpe.wtfenchants.common.network.GuiHandler;
@@ -173,9 +173,9 @@ public class BlockSorter extends ModBlockContainer
 
                         if (checkedLocations.contains(check)) continue;
 
-                        if (world.getBlockState(check).getBlock() instanceof BlockCommonBookshelf && world.getTileEntity(check) instanceof TileEntityCommonBookshelf) {
+                        if (world.getBlockState(check).getBlock() instanceof BlockBookshelf && world.getTileEntity(check) instanceof TileEntityBookshelf) {
                             bookshelves.add((IInventory) world.getTileEntity(check));
-                            ((TileEntityCommonBookshelf) Objects.requireNonNull(world.getTileEntity(check))).addSorter(pos);
+                            ((TileEntityBookshelf) Objects.requireNonNull(world.getTileEntity(check))).addSorter(pos);
 
                             checkedLocations.add(check);
                             currentChecks.add(check);

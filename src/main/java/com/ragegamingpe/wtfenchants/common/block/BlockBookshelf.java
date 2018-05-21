@@ -4,8 +4,9 @@ import com.ragegamingpe.wtfenchants.common.block.base.ModBlockInventory;
 import com.ragegamingpe.wtfenchants.common.block.property.PropertyString;
 import com.ragegamingpe.wtfenchants.common.block.property.PropertyUnlistedDirection;
 import com.ragegamingpe.wtfenchants.common.block.property.PropertyUnlistedInteger;
-import com.ragegamingpe.wtfenchants.common.block.te.TileEntityCommonBookshelf;
+import com.ragegamingpe.wtfenchants.common.block.te.TileEntityBookshelf;
 import com.ragegamingpe.wtfenchants.common.block.te.TileEntitySorter;
+import com.ragegamingpe.wtfenchants.common.helper.NBTHelper;
 import com.ragegamingpe.wtfenchants.common.item.ItemBookshelfBlock;
 import com.ragegamingpe.wtfenchants.common.network.GuiHandler;
 import net.minecraft.block.Block;
@@ -36,9 +37,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import static com.ragegamingpe.wtfenchants.client.model.CommonBookshelfModel.getTagSafe;
-
-public class BlockCommonBookshelf extends ModBlockInventory
+public class BlockBookshelf extends ModBlockInventory
 {
     public static final PropertyUnlistedInteger BOOKS = new PropertyUnlistedInteger("books", 0, 14);
     public static final PropertyUnlistedDirection FACING = new PropertyUnlistedDirection("facing", EnumFacing.Plane.HORIZONTAL);
@@ -50,7 +49,7 @@ public class BlockCommonBookshelf extends ModBlockInventory
             createAABB(0, 0, 0, 8, 16, 16)
     };
 
-    public BlockCommonBookshelf()
+    public BlockBookshelf()
     {
         super(Material.WOOD, "bookshelf");
 
@@ -80,9 +79,9 @@ public class BlockCommonBookshelf extends ModBlockInventory
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
     {
         TileEntity te = source.getTileEntity(pos);
-        if (te instanceof TileEntityCommonBookshelf) {
-            if (((TileEntityCommonBookshelf) te).getFacing().ordinal() >= 2)
-                return BOUNDING_BOXES_AABB[((TileEntityCommonBookshelf) te).getFacing().ordinal() - 2];
+        if (te instanceof TileEntityBookshelf) {
+            if (((TileEntityBookshelf) te).getFacing().ordinal() >= 2)
+                return BOUNDING_BOXES_AABB[((TileEntityBookshelf) te).getFacing().ordinal() - 2];
         }
 
         return FULL_BLOCK_AABB;
@@ -119,8 +118,8 @@ public class BlockCommonBookshelf extends ModBlockInventory
         IExtendedBlockState extendedState = (IExtendedBlockState) state;
 
         TileEntity te = world.getTileEntity(pos);
-        if (te != null && te instanceof TileEntityCommonBookshelf) {
-            TileEntityCommonBookshelf table = (TileEntityCommonBookshelf) te;
+        if (te != null && te instanceof TileEntityBookshelf) {
+            TileEntityBookshelf table = (TileEntityBookshelf) te;
             return table.writeExtendedBlockState(extendedState);
         }
 
@@ -153,11 +152,11 @@ public class BlockCommonBookshelf extends ModBlockInventory
     {
         super.onBlockPlacedBy(world, pos, state, placer, stack);
 
-        NBTTagCompound tag = getTagSafe(stack);
+        NBTTagCompound tag = NBTHelper.getTagSafe(stack);
         TileEntity te = world.getTileEntity(pos);
-        if (te != null && te instanceof TileEntityCommonBookshelf) {
-            TileEntityCommonBookshelf table = (TileEntityCommonBookshelf) te;
-            NBTTagCompound feetTag = tag.getCompoundTag(TileEntityCommonBookshelf.PLANKS_TAG);
+        if (te != null && te instanceof TileEntityBookshelf) {
+            TileEntityBookshelf table = (TileEntityBookshelf) te;
+            NBTTagCompound feetTag = tag.getCompoundTag(TileEntityBookshelf.PLANKS_TAG);
             if (feetTag == null) {
                 feetTag = new NBTTagCompound();
             }
@@ -174,8 +173,8 @@ public class BlockCommonBookshelf extends ModBlockInventory
             if (teCheck instanceof TileEntitySorter) {
                 ((TileEntitySorter) teCheck).deleteCachedInventories();
                 break;
-            } else if (teCheck instanceof TileEntityCommonBookshelf) {
-                ((TileEntityCommonBookshelf) teCheck).updateSorters();
+            } else if (teCheck instanceof TileEntityBookshelf) {
+                ((TileEntityBookshelf) teCheck).updateSorters();
                 break;
             }
         }
@@ -191,7 +190,7 @@ public class BlockCommonBookshelf extends ModBlockInventory
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
     {
         TileEntity te = worldIn.getTileEntity(pos);
-        if (te instanceof TileEntityCommonBookshelf) ((TileEntityCommonBookshelf) te).updateSorters();
+        if (te instanceof TileEntityBookshelf) ((TileEntityBookshelf) te).updateSorters();
 
         super.breakBlock(worldIn, pos, state);
     }
@@ -218,7 +217,7 @@ public class BlockCommonBookshelf extends ModBlockInventory
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta)
     {
-        return new TileEntityCommonBookshelf();
+        return new TileEntityBookshelf();
     }
 
     @Override
@@ -227,7 +226,7 @@ public class BlockCommonBookshelf extends ModBlockInventory
         return (ItemBlock) new ItemBookshelfBlock().setRegistryName(this.getRegistryName());
     }
 
-    public static ItemStack createItemstack(BlockCommonBookshelf block, int itemDamage, Block blockFromItem, int meta)
+    public static ItemStack createItemstack(BlockBookshelf block, int itemDamage, Block blockFromItem, int meta)
     {
         ItemStack stack = new ItemStack(block, 1, itemDamage);
 
@@ -236,7 +235,7 @@ public class BlockCommonBookshelf extends ModBlockInventory
             NBTTagCompound tag = new NBTTagCompound();
             NBTTagCompound subTag = new NBTTagCompound();
             blockStack.writeToNBT(subTag);
-            tag.setTag(TileEntityCommonBookshelf.PLANKS_TAG, subTag);
+            tag.setTag(TileEntityBookshelf.PLANKS_TAG, subTag);
             stack.setTagCompound(tag);
         }
 

@@ -1,4 +1,4 @@
-package com.ragegamingpe.wtfenchants.client.model;
+package com.ragegamingpe.wtfenchants.client.model.baked;
 
 import com.google.common.base.Function;
 import com.google.common.cache.Cache;
@@ -6,8 +6,11 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import com.ragegamingpe.wtfenchants.common.block.BlockCommonBookshelf;
-import com.ragegamingpe.wtfenchants.common.block.te.TileEntityCommonBookshelf;
+import com.ragegamingpe.wtfenchants.client.model.ModelHelper;
+import com.ragegamingpe.wtfenchants.client.model.TRSRBakedModel;
+import com.ragegamingpe.wtfenchants.common.block.BlockBookshelf;
+import com.ragegamingpe.wtfenchants.common.block.te.TileEntityBookshelf;
+import com.ragegamingpe.wtfenchants.common.helper.NBTHelper;
 import com.ragegamingpe.wtfenchants.common.lib.LibMisc;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -20,7 +23,6 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -47,9 +49,9 @@ import java.util.concurrent.ExecutionException;
  * Amended from Tinkers Construct
  */
 @SideOnly(Side.CLIENT)
-public class CommonBookshelfModel implements IBakedModel
+public class BookshelfModel implements IBakedModel
 {
-    static final Logger log = LogManager.getLogger(LibMisc.MOD_NAME + " - Common Bookshelf Model");
+    static final Logger log = LogManager.getLogger(LibMisc.MOD_NAME + " - Bookshelf Model");
 
     private final IBakedModel standard;
     private final IModel[] bookshelfModels;
@@ -64,7 +66,7 @@ public class CommonBookshelfModel implements IBakedModel
             .maximumSize(30)
             .build();
 
-    public CommonBookshelfModel(IBakedModel standard, IModel[] bookshelfModels, VertexFormat format)
+    public BookshelfModel(IBakedModel standard, IModel[] bookshelfModels, VertexFormat format)
     {
         this.standard = standard;
         this.bookshelfModels = bookshelfModels;
@@ -74,7 +76,7 @@ public class CommonBookshelfModel implements IBakedModel
             return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString());
         };
         this.format = format;
-        this.transforms = getTransforms(standard);
+        this.transforms = ModelHelper.getTransforms(standard);
     }
 
     protected IBakedModel getActualModel(String texture, int books, EnumFacing facing)
@@ -131,22 +133,22 @@ public class CommonBookshelfModel implements IBakedModel
 
         if (state instanceof IExtendedBlockState) {
             IExtendedBlockState extendedState = (IExtendedBlockState) state;
-            if (extendedState.getUnlistedNames().contains(BlockCommonBookshelf.TEXTURE)) {
-                texture = extendedState.getValue(BlockCommonBookshelf.TEXTURE);
+            if (extendedState.getUnlistedNames().contains(BlockBookshelf.TEXTURE)) {
+                texture = extendedState.getValue(BlockBookshelf.TEXTURE);
             }
 
-            if (extendedState.getUnlistedNames().contains(BlockCommonBookshelf.FACING)) {
-                face = extendedState.getValue((IUnlistedProperty<EnumFacing>) BlockCommonBookshelf.FACING);
+            if (extendedState.getUnlistedNames().contains(BlockBookshelf.FACING)) {
+                face = extendedState.getValue((IUnlistedProperty<EnumFacing>) BlockBookshelf.FACING);
             }
 
-            if (extendedState.getUnlistedNames().contains(BlockCommonBookshelf.BOOKS)) {
-                books = extendedState.getValue((IUnlistedProperty<Integer>) BlockCommonBookshelf.BOOKS);
+            if (extendedState.getUnlistedNames().contains(BlockBookshelf.BOOKS)) {
+                books = extendedState.getValue((IUnlistedProperty<Integer>) BlockBookshelf.BOOKS);
             }
 
             // remove all world specific data
             // This is so that the next call to getQuads from the transformed TRSRModel doesn't do this again
             // otherwise table models inside table model items recursively calls this with the state of the original table
-            state = extendedState.withProperty((IUnlistedProperty<EnumFacing>) BlockCommonBookshelf.FACING, null);
+            state = extendedState.withProperty((IUnlistedProperty<EnumFacing>) BlockBookshelf.FACING, null);
         }
 
         // models are symmetric, no need to rotate if there's nothing on it where rotation matters, so we just use default
@@ -205,35 +207,6 @@ public class CommonBookshelfModel implements IBakedModel
         return Pair.of(this, pair.getRight());
     }
 
-    public static ImmutableMap<ItemCameraTransforms.TransformType, TRSRTransformation> getTransforms(IBakedModel model)
-    {
-        ImmutableMap.Builder<ItemCameraTransforms.TransformType, TRSRTransformation> builder = ImmutableMap.builder();
-        for (ItemCameraTransforms.TransformType type : ItemCameraTransforms.TransformType.values()) {
-            TRSRTransformation transformation = new TRSRTransformation(model.handlePerspective(type).getRight());
-            if (!transformation.equals(TRSRTransformation.identity())) {
-                builder.put(type, TRSRTransformation.blockCenterToCorner(transformation));
-            }
-        }
-        return builder.build();
-    }
-
-    public static TextureAtlasSprite getTextureFromBlock(Block block, int meta)
-    {
-        IBlockState state = block.getStateFromMeta(meta);
-        return Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getTexture(state);
-    }
-
-    public static NBTTagCompound getTagSafe(ItemStack stack)
-    {
-        // yes, the null checks aren't needed anymore, but they don't hurt either.
-        // After all the whole purpose of this function is safety/processing possibly invalid input ;)
-        if (stack == null || stack.getItem() == null || stack.isEmpty() || !stack.hasTagCompound()) {
-            return new NBTTagCompound();
-        }
-
-        return stack.getTagCompound();
-    }
-
     private static class TableItemOverrideList extends ItemOverrideList
     {
 
@@ -248,15 +221,15 @@ public class CommonBookshelfModel implements IBakedModel
         @Override
         public IBakedModel handleItemState(@Nonnull IBakedModel originalModel, ItemStack stack, World world, EntityLivingBase entity)
         {
-            if (originalModel instanceof CommonBookshelfModel) {
+            if (originalModel instanceof BookshelfModel) {
                 // read out the data on the itemstack
-                ItemStack blockStack = new ItemStack(getTagSafe(stack).getCompoundTag(TileEntityCommonBookshelf.PLANKS_TAG));
+                ItemStack blockStack = new ItemStack(NBTHelper.getTagSafe(stack).getCompoundTag(TileEntityBookshelf.PLANKS_TAG));
                 if (!blockStack.isEmpty()) {
                     // get model from data
                     Block block = Block.getBlockFromItem(blockStack.getItem());
-                    String texture = getTextureFromBlock(block, blockStack.getItemDamage()).getIconName();
+                    String texture = ModelHelper.getTextureFromBlock(block, blockStack.getItemDamage()).getIconName();
 
-                    return ((CommonBookshelfModel) originalModel).getActualModel(texture, 14, null);
+                    return ((BookshelfModel) originalModel).getActualModel(texture, 14, null);
                 }
             }
 

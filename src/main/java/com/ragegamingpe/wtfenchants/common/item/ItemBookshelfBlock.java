@@ -1,6 +1,7 @@
 package com.ragegamingpe.wtfenchants.common.item;
 
-import com.ragegamingpe.wtfenchants.common.block.te.TileEntityCommonBookshelf;
+import com.ragegamingpe.wtfenchants.common.block.te.TileEntityBookshelf;
+import com.ragegamingpe.wtfenchants.common.helper.NBTHelper;
 import com.ragegamingpe.wtfenchants.common.lib.ModBlocks;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemColored;
@@ -12,7 +13,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import static com.ragegamingpe.wtfenchants.client.model.CommonBookshelfModel.getTagSafe;
 
 public class ItemBookshelfBlock extends ItemColored
 {
@@ -33,7 +33,7 @@ public class ItemBookshelfBlock extends ItemColored
 
     public static ItemStack getPlanksTag(ItemStack table)
     {
-        NBTTagCompound tag = getTagSafe(table).getCompoundTag(TileEntityCommonBookshelf.PLANKS_TAG);
+        NBTTagCompound tag = NBTHelper.getTagSafe(table).getCompoundTag(TileEntityBookshelf.PLANKS_TAG);
         return new ItemStack(tag);
     }
 }

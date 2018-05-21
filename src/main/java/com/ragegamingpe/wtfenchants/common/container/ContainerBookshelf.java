@@ -1,12 +1,12 @@
 package com.ragegamingpe.wtfenchants.common.container;
 
-import com.ragegamingpe.wtfenchants.common.block.te.TileEntityCommonBookshelf;
+import com.ragegamingpe.wtfenchants.common.block.te.TileEntityBookshelf;
 import com.ragegamingpe.wtfenchants.common.container.base.BaseContainer;
 import net.minecraft.inventory.IInventory;
 
 public class ContainerBookshelf extends BaseContainer
 {
-    public ContainerBookshelf(IInventory player, TileEntityCommonBookshelf te)
+    public ContainerBookshelf(IInventory player, TileEntityBookshelf te)
     {
         super(player, te);
 

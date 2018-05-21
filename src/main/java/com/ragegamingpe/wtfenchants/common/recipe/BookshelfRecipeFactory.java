@@ -3,7 +3,7 @@ package com.ragegamingpe.wtfenchants.common.recipe;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
-import com.ragegamingpe.wtfenchants.common.block.BlockCommonBookshelf;
+import com.ragegamingpe.wtfenchants.common.block.BlockBookshelf;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.InventoryCrafting;
@@ -66,8 +66,8 @@ public class BookshelfRecipeFactory implements IRecipeFactory
                 for (ItemStack ore : ingredients.getMatchingStacks()) {
                     ItemStack stack = craftMatrix.getStackInSlot(i);
                     if (OreDictionary.itemMatches(ore, stack, false) && Block.getBlockFromItem(stack.getItem()) != Blocks.AIR) {
-                        BlockCommonBookshelf block = (BlockCommonBookshelf) Block.getBlockFromItem(output.getItem());
-                        return BlockCommonBookshelf.createItemstack(block, output.getItemDamage(), Block.getBlockFromItem(stack.getItem()), stack.getItemDamage());
+                        BlockBookshelf block = (BlockBookshelf) Block.getBlockFromItem(output.getItem());
+                        return BlockBookshelf.createItemstack(block, output.getItemDamage(), Block.getBlockFromItem(stack.getItem()), stack.getItemDamage());
                     }
                 }
             }
@@ -81,14 +81,14 @@ public class BookshelfRecipeFactory implements IRecipeFactory
         {
             if (!(ingredients.getMatchingStacks().length == 0) && !output.isEmpty()) {
                 ItemStack stack = ingredients.getMatchingStacks()[0];
-                BlockCommonBookshelf block = (BlockCommonBookshelf) Block.getBlockFromItem(output.getItem());
+                BlockBookshelf block = (BlockBookshelf) Block.getBlockFromItem(output.getItem());
                 int meta = stack.getItemDamage();
 
                 if (meta == OreDictionary.WILDCARD_VALUE) {
                     meta = 0;
                 }
 
-                return BlockCommonBookshelf.createItemstack(block, output.getItemDamage(), Block.getBlockFromItem(stack.getItem()), meta);
+                return BlockBookshelf.createItemstack(block, output.getItemDamage(), Block.getBlockFromItem(stack.getItem()), meta);
             }
 
             return super.getRecipeOutput();

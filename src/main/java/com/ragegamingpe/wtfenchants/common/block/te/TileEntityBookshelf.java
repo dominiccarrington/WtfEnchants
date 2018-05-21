@@ -1,6 +1,7 @@
 package com.ragegamingpe.wtfenchants.common.block.te;
 
-import com.ragegamingpe.wtfenchants.common.block.BlockCommonBookshelf;
+import com.ragegamingpe.wtfenchants.client.model.ModelHelper;
+import com.ragegamingpe.wtfenchants.common.block.BlockBookshelf;
 import com.ragegamingpe.wtfenchants.common.block.te.base.ModBaseTEInventory;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -19,9 +20,7 @@ import net.minecraftforge.common.property.IUnlistedProperty;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ragegamingpe.wtfenchants.client.model.CommonBookshelfModel.getTextureFromBlock;
-
-public class TileEntityCommonBookshelf extends ModBaseTEInventory
+public class TileEntityBookshelf extends ModBaseTEInventory
 {
     public static final String PLANKS_TAG = "textureBlock";
     public static final String FACE_TAG = "facing";
@@ -29,7 +28,7 @@ public class TileEntityCommonBookshelf extends ModBaseTEInventory
 
     protected final List<BlockPos> accessedBySorters = new ArrayList<>();
 
-    public TileEntityCommonBookshelf()
+    public TileEntityBookshelf()
     {
         super("bookshelf", 14);
     }
@@ -44,20 +43,20 @@ public class TileEntityCommonBookshelf extends ModBaseTEInventory
             ItemStack stack = new ItemStack(getTileData().getCompoundTag(PLANKS_TAG));
             if (!stack.isEmpty()) {
                 Block block = Block.getBlockFromItem(stack.getItem());
-                texture = getTextureFromBlock(block, stack.getItemDamage()).getIconName();
+                texture = ModelHelper.getTextureFromBlock(block, stack.getItemDamage()).getIconName();
                 getTileData().setString("texture", texture);
             }
         }
 
         if (!texture.isEmpty()) {
-            state = state.withProperty(BlockCommonBookshelf.TEXTURE, texture);
+            state = state.withProperty(BlockBookshelf.TEXTURE, texture);
         }
 
         EnumFacing facing = getFacing();
-        state = state.withProperty((IUnlistedProperty<EnumFacing>) BlockCommonBookshelf.FACING, facing);
+        state = state.withProperty((IUnlistedProperty<EnumFacing>) BlockBookshelf.FACING, facing);
 
         int books = getBooks();
-        state = state.withProperty((IUnlistedProperty<Integer>) BlockCommonBookshelf.BOOKS, books);
+        state = state.withProperty((IUnlistedProperty<Integer>) BlockBookshelf.BOOKS, books);
 
         return state;
     }
@@ -83,7 +82,7 @@ public class TileEntityCommonBookshelf extends ModBaseTEInventory
     {
         if (id == 1) {
             getTileData().setInteger(BOOKS_TAG, type);
-            BlockCommonBookshelf.setState(type, this.world, this.pos);
+            BlockBookshelf.setState(type, this.world, this.pos);
             return true;
         }
 

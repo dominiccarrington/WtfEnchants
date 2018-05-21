@@ -1,6 +1,6 @@
 package com.ragegamingpe.wtfenchants.client;
 
-import com.ragegamingpe.wtfenchants.client.model.CommonBookshelfModel;
+import com.ragegamingpe.wtfenchants.client.model.baked.BookshelfModel;
 import com.ragegamingpe.wtfenchants.common.CommonProxy;
 import com.ragegamingpe.wtfenchants.common.WtfEnchants;
 import com.ragegamingpe.wtfenchants.common.block.base.IModBlock;
@@ -102,7 +102,7 @@ public class ClientProxy extends CommonProxy
             if (!flag) {
                 IBakedModel standard = event.getModelRegistry().getObject(modelVariantLocation);
                 if (standard instanceof IBakedModel) {
-                    IBakedModel finalModel = new CommonBookshelfModel(standard, models, DefaultVertexFormats.BLOCK);
+                    IBakedModel finalModel = new BookshelfModel(standard, models, DefaultVertexFormats.BLOCK);
 
                     event.getModelRegistry().putObject(modelVariantLocation, finalModel);
                 } else {

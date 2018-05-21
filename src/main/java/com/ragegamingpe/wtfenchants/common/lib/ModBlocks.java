@@ -1,6 +1,6 @@
 package com.ragegamingpe.wtfenchants.common.lib;
 
-import com.ragegamingpe.wtfenchants.common.block.BlockCommonBookshelf;
+import com.ragegamingpe.wtfenchants.common.block.BlockBookshelf;
 import com.ragegamingpe.wtfenchants.common.block.BlockDisenchantment;
 import com.ragegamingpe.wtfenchants.common.block.BlockSorter;
 import com.ragegamingpe.wtfenchants.common.block.BlockXpStore;
@@ -19,7 +19,7 @@ public class ModBlocks
     public static final ModBlock XP_STORE;
 
     static {
-        COMMON_BOOKSHELF = new BlockCommonBookshelf();
+        COMMON_BOOKSHELF = new BlockBookshelf();
         SORTER = new BlockSorter();
         DISENCHANTING_TABLE = new BlockDisenchantment();
         XP_STORE = new BlockXpStore();

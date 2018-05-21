@@ -1,6 +1,6 @@
 package com.ragegamingpe.wtfenchants.common.item.base;
 
-import com.ragegamingpe.wtfenchants.client.model.ModelRegister;
+import com.ragegamingpe.wtfenchants.client.model.ModelHelper;
 import com.ragegamingpe.wtfenchants.common.lib.LibMisc;
 import com.ragegamingpe.wtfenchants.common.lib.ModItems;
 import net.minecraft.creativetab.CreativeTabs;
@@ -33,6 +33,6 @@ public class ModItem extends Item implements IModItem
     @Override
     public void registerRender()
     {
-        ModelRegister.registerItemModel(this, 0, getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
+        ModelHelper.registerItemModel(this, 0, getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
     }
 }
