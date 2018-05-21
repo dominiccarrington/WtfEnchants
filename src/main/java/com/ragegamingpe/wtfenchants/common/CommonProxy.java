@@ -1,7 +1,6 @@
 package com.ragegamingpe.wtfenchants.common;
 
 import com.ragegamingpe.wtfenchants.common.block.base.ModBlock;
-import com.ragegamingpe.wtfenchants.common.block.te.TileEntityBookshelf;
 import com.ragegamingpe.wtfenchants.common.block.te.TileEntityCommonBookshelf;
 import com.ragegamingpe.wtfenchants.common.block.te.TileEntitySorter;
 import com.ragegamingpe.wtfenchants.common.block.te.TileEntityXpStore;
@@ -61,8 +60,7 @@ public class CommonProxy
         NetworkRegistry.INSTANCE.registerGuiHandler(WtfEnchants.instance, new GuiHandler());
         MessageHandler.init();
 
-        GameRegistry.registerTileEntity(TileEntityCommonBookshelf.class, LibMisc.MOD_ID + ":common_bookshelf");
-        GameRegistry.registerTileEntity(TileEntityBookshelf.class, LibMisc.MOD_ID + ":bookshelf");
+        GameRegistry.registerTileEntity(TileEntityCommonBookshelf.class, LibMisc.MOD_ID + ":bookshelf");
         GameRegistry.registerTileEntity(TileEntitySorter.class, LibMisc.MOD_ID + ":sorter");
         GameRegistry.registerTileEntity(TileEntityXpStore.class, LibMisc.MOD_ID + ":xp_store");
     }

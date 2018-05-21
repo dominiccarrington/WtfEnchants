@@ -4,7 +4,6 @@ import com.ragegamingpe.wtfenchants.common.block.base.ModBlockInventory;
 import com.ragegamingpe.wtfenchants.common.block.property.PropertyString;
 import com.ragegamingpe.wtfenchants.common.block.property.PropertyUnlistedDirection;
 import com.ragegamingpe.wtfenchants.common.block.property.PropertyUnlistedInteger;
-import com.ragegamingpe.wtfenchants.common.block.te.TileEntityBookshelf;
 import com.ragegamingpe.wtfenchants.common.block.te.TileEntityCommonBookshelf;
 import com.ragegamingpe.wtfenchants.common.block.te.TileEntitySorter;
 import com.ragegamingpe.wtfenchants.common.item.ItemBookshelfBlock;
@@ -22,6 +21,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -29,6 +29,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -49,7 +52,7 @@ public class BlockCommonBookshelf extends ModBlockInventory
 
     public BlockCommonBookshelf()
     {
-        super(Material.WOOD, "common_bookshelf");
+        super(Material.WOOD, "bookshelf");
 
         this.setHardness(2.0F);
         this.setResistance(5.0F);
@@ -125,6 +128,27 @@ public class BlockCommonBookshelf extends ModBlockInventory
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
+    public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list)
+    {
+        for (ItemStack stack : OreDictionary.getOres("slabWood")) {
+            Block block = getBlockFromItem(stack.getItem());
+            int blockMeta = stack.getItemDamage();
+
+            if (blockMeta == OreDictionary.WILDCARD_VALUE) {
+                NonNullList<ItemStack> subBlocks = NonNullList.create();
+                block.getSubBlocks(null, subBlocks);
+
+                for (ItemStack subBlock : subBlocks) {
+                    list.add(createItemstack(this, 0, getBlockFromItem(subBlock.getItem()), subBlock.getItemDamage()));
+                }
+            } else {
+                list.add(createItemstack(this, 0, block, blockMeta));
+            }
+        }
+    }
+
+    @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
     {
         super.onBlockPlacedBy(world, pos, state, placer, stack);
@@ -150,8 +174,8 @@ public class BlockCommonBookshelf extends ModBlockInventory
             if (teCheck instanceof TileEntitySorter) {
                 ((TileEntitySorter) teCheck).deleteCachedInventories();
                 break;
-            } else if (teCheck instanceof TileEntityBookshelf) {
-                ((TileEntityBookshelf) teCheck).updateSorters();
+            } else if (teCheck instanceof TileEntityCommonBookshelf) {
+                ((TileEntityCommonBookshelf) teCheck).updateSorters();
                 break;
             }
         }
@@ -167,7 +191,7 @@ public class BlockCommonBookshelf extends ModBlockInventory
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
     {
         TileEntity te = worldIn.getTileEntity(pos);
-        if (te instanceof TileEntityBookshelf) ((TileEntityBookshelf) te).updateSorters();
+        if (te instanceof TileEntityCommonBookshelf) ((TileEntityCommonBookshelf) te).updateSorters();
 
         super.breakBlock(worldIn, pos, state);
     }
@@ -208,7 +232,7 @@ public class BlockCommonBookshelf extends ModBlockInventory
         ItemStack stack = new ItemStack(block, 1, itemDamage);
 
         if (block != null) {
-            ItemStack blockStack = new ItemStack(blockFromItem, 1, itemDamage);
+            ItemStack blockStack = new ItemStack(blockFromItem, 1, meta);
             NBTTagCompound tag = new NBTTagCompound();
             NBTTagCompound subTag = new NBTTagCompound();
             blockStack.writeToNBT(subTag);

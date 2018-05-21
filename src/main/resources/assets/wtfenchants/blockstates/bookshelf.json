@@ -5,7 +5,7 @@
   },
   "variants": {
     "normal": {
-      "model": "wtfenchants:bookshelf/common/bookshelf_14"
+      "model": "wtfenchants:bookshelf/bookshelf_14"
     }
   }
 }

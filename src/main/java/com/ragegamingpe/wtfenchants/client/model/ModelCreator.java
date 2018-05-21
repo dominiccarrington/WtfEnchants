@@ -3,7 +3,6 @@ package com.ragegamingpe.wtfenchants.client.model;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.ragegamingpe.wtfenchants.common.block.BlockBookshelf;
 import com.ragegamingpe.wtfenchants.common.block.BlockDisenchantment;
 import com.ragegamingpe.wtfenchants.common.block.BlockSorter;
 import com.ragegamingpe.wtfenchants.common.block.base.ModBlock;
@@ -31,7 +30,7 @@ public class ModelCreator
 
     public static void main(String[] args) throws Exception
     {
-        registerBlock("bookshelf", BlockBookshelf.class);
+//        registerBlock("bookshelf", BlockBookshelf.class);
         registerBlock("sorter", BlockSorter.class);
         registerBlock("disenchanting_table", BlockDisenchantment.class);
 

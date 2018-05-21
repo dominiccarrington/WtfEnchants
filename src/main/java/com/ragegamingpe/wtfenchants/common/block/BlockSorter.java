@@ -3,7 +3,7 @@ package com.ragegamingpe.wtfenchants.common.block;
 import com.google.gson.JsonObject;
 import com.ragegamingpe.wtfenchants.common.WtfEnchants;
 import com.ragegamingpe.wtfenchants.common.block.base.ModBlockContainer;
-import com.ragegamingpe.wtfenchants.common.block.te.TileEntityBookshelf;
+import com.ragegamingpe.wtfenchants.common.block.te.TileEntityCommonBookshelf;
 import com.ragegamingpe.wtfenchants.common.block.te.TileEntitySorter;
 import com.ragegamingpe.wtfenchants.common.lib.LibMisc;
 import com.ragegamingpe.wtfenchants.common.network.GuiHandler;
@@ -149,6 +149,51 @@ public class BlockSorter extends ModBlockContainer
         return new TileEntitySorter();
     }
 
+    public static IInventory[] getAllBookshelvesConnected(World world, BlockPos pos)
+    {
+        if (world == null || pos == null) return null;
+
+        if (!(world.getBlockState(pos).getBlock() instanceof BlockSorter)) return null;
+
+        List<IInventory> bookshelves = new ArrayList<>(); // What I am finding
+
+        List<BlockPos> checkedLocations = new ArrayList<>(); // List of checked BlockPoses
+        Queue<BlockPos> currentChecks = new PriorityQueue<>(); // Queue of checks
+
+        currentChecks.add(pos);
+
+        while (currentChecks.size() > 0) {
+            BlockPos current = currentChecks.peek();
+            if (current == null) break; // WTF? Really, should not happen
+
+            for (int i = -1; i <= 1; i++) {
+                for (int j = -1; j <= 1; j++) {
+                    for (int k = -1; k <= 1; k++) {
+                        BlockPos check = current.add(i, j, k);
+
+                        if (checkedLocations.contains(check)) continue;
+
+                        if (world.getBlockState(check).getBlock() instanceof BlockCommonBookshelf && world.getTileEntity(check) instanceof TileEntityCommonBookshelf) {
+                            bookshelves.add((IInventory) world.getTileEntity(check));
+                            ((TileEntityCommonBookshelf) Objects.requireNonNull(world.getTileEntity(check))).addSorter(pos);
+
+                            checkedLocations.add(check);
+                            currentChecks.add(check);
+                        }
+                    }
+                }
+            }
+
+            currentChecks.remove(current);
+        }
+
+        if (bookshelves.size() == 0) {
+            return new IInventory[]{new InventoryBasic("", false, 0)};
+        }
+
+        return bookshelves.toArray(new IInventory[0]);
+    }
+
     public static IProperty[] getAllProperties()
     {
         return new IProperty[]{FACING};
@@ -278,50 +323,5 @@ public class BlockSorter extends ModBlockContainer
                 "    }\n" +
                 "  ]\n" +
                 "}";
-    }
-
-    public static IInventory[] getAllBookshelvesConnected(World world, BlockPos pos)
-    {
-        if (world == null || pos == null) return null;
-
-        if (!(world.getBlockState(pos).getBlock() instanceof BlockSorter)) return null;
-
-        List<IInventory> bookshelves = new ArrayList<>(); // What I am finding
-
-        List<BlockPos> checkedLocations = new ArrayList<>(); // List of checked BlockPoses
-        Queue<BlockPos> currentChecks = new PriorityQueue<>(); // Queue of checks
-
-        currentChecks.add(pos);
-
-        while (currentChecks.size() > 0) {
-            BlockPos current = currentChecks.peek();
-            if (current == null) break; // WTF? Really, should not happen
-
-            for (int i = -1; i <= 1; i++) {
-                for (int j = -1; j <= 1; j++) {
-                    for (int k = -1; k <= 1; k++) {
-                        BlockPos check = current.add(i, j, k);
-
-                        if (checkedLocations.contains(check)) continue;
-
-                        if (world.getBlockState(check).getBlock() instanceof BlockBookshelf && world.getTileEntity(check) instanceof TileEntityBookshelf) {
-                            bookshelves.add((IInventory) world.getTileEntity(check));
-                            ((TileEntityBookshelf) Objects.requireNonNull(world.getTileEntity(check))).addSorter(pos);
-
-                            checkedLocations.add(check);
-                            currentChecks.add(check);
-                        }
-                    }
-                }
-            }
-
-            currentChecks.remove(current);
-        }
-
-        if (bookshelves.size() == 0) {
-            return new IInventory[]{new InventoryBasic("", false, 0)};
-        }
-
-        return bookshelves.toArray(new IInventory[0]);
     }
 }

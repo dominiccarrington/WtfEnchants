@@ -64,7 +64,7 @@ public class ClientProxy extends CommonProxy
     public void onModelRegistry(ModelRegistryEvent event)
     {
         Item tableItem = Item.getItemFromBlock(ModBlocks.COMMON_BOOKSHELF);
-        ModelLoader.setCustomModelResourceLocation(tableItem, 0, new ModelResourceLocation(LibMisc.MOD_ID + ":common_bookshelf", "normal"));
+        ModelLoader.setCustomModelResourceLocation(tableItem, 0, new ModelResourceLocation(LibMisc.MOD_ID + ":bookshelf", "normal"));
     }
 
     @SubscribeEvent
@@ -72,11 +72,11 @@ public class ClientProxy extends CommonProxy
     {
         ResourceLocation[] bookshelves = new ResourceLocation[15];
         for (int i = 0; i < bookshelves.length; i++) {
-            bookshelves[i] = new ResourceLocation(LibMisc.MOD_ID, "block/bookshelf/common/bookshelf_" + i);
+            bookshelves[i] = new ResourceLocation(LibMisc.MOD_ID, "block/bookshelf/bookshelf_" + i);
         }
 
         replaceTableModel(
-                new ModelResourceLocation(LibMisc.MOD_ID + ":common_bookshelf", "normal"),
+                new ModelResourceLocation(LibMisc.MOD_ID + ":bookshelf", "normal"),
                 bookshelves,
                 event
         );
