@@ -1,9 +1,6 @@
 package com.ragegamingpe.wtfenchants.common.lib;
 
-import com.ragegamingpe.wtfenchants.common.block.BlockBookshelf;
-import com.ragegamingpe.wtfenchants.common.block.BlockDisenchantment;
-import com.ragegamingpe.wtfenchants.common.block.BlockSorter;
-import com.ragegamingpe.wtfenchants.common.block.BlockXpStore;
+import com.ragegamingpe.wtfenchants.common.block.*;
 import com.ragegamingpe.wtfenchants.common.block.base.ModBlock;
 
 import java.util.ArrayList;
@@ -17,11 +14,13 @@ public class ModBlocks
     public static final ModBlock SORTER;
     public static final ModBlock DISENCHANTING_TABLE;
     public static final ModBlock XP_STORE;
+    public static final ModBlock XP_FARMER;
 
     static {
         COMMON_BOOKSHELF = new BlockBookshelf();
         SORTER = new BlockSorter();
         DISENCHANTING_TABLE = new BlockDisenchantment();
         XP_STORE = new BlockXpStore();
+        XP_FARMER = new BlockXpFarmer();
     }
 }
