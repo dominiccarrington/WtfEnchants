@@ -16,6 +16,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -48,6 +49,8 @@ public class BlockBookshelf extends ModBlockInventory
             createAABB(8, 0, 0, 16, 16, 16),
             createAABB(0, 0, 0, 8, 16, 16)
     };
+
+    private static TileEntity teStore = null;
 
     public BlockBookshelf()
     {
@@ -181,18 +184,58 @@ public class BlockBookshelf extends ModBlockInventory
     }
 
     @Override
-    protected BlockStateContainer createBlockState()
-    {
-        return new ExtendedBlockState(this, new IProperty[]{}, new IUnlistedProperty[]{BOOKS, FACING, TEXTURE});
-    }
-
-    @Override
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
     {
         TileEntity te = worldIn.getTileEntity(pos);
+        teStore = te;
         if (te instanceof TileEntityBookshelf) ((TileEntityBookshelf) te).updateSorters();
 
         super.breakBlock(worldIn, pos, state);
+    }
+
+    @Override
+    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
+    {
+        super.getDrops(drops, world, pos, state, fortune);
+
+        TileEntity te;
+        if (teStore != null) {
+            te = teStore;
+        } else {
+            // Hope
+            te = world.getTileEntity(pos);
+        }
+
+        if (te instanceof TileEntityBookshelf) {
+            TileEntityBookshelf bookshelf = (TileEntityBookshelf) te;
+
+            for (ItemStack item : drops) {
+                if (item.getItem() == Item.getItemFromBlock(this)) {
+                    NBTTagCompound tag = NBTHelper.getTagSafe(item);
+
+                    // texture
+                    NBTTagCompound data = bookshelf.getTextureBlock();
+
+                    if (!data.hasNoTags()) {
+                        tag.setTag(TileEntityBookshelf.PLANKS_TAG, data);
+                        item.setTagCompound(tag);
+                    }
+                }
+            }
+            teStore = null;
+        }
+    }
+
+    @Override
+    public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state)
+    {
+        return super.getItem(worldIn, pos, state);
+    }
+
+    @Override
+    protected BlockStateContainer createBlockState()
+    {
+        return new ExtendedBlockState(this, new IProperty[]{}, new IUnlistedProperty[]{BOOKS, FACING, TEXTURE});
     }
 
     @Override
@@ -201,23 +244,22 @@ public class BlockBookshelf extends ModBlockInventory
         return EnumBlockRenderType.MODEL;
     }
 
+    @Nullable
+    @Override
+    public TileEntity createNewTileEntity(World worldIn, int meta)
+    {
+        return new TileEntityBookshelf();
+    }
+
     @Override
     protected int getGuiID()
     {
         return GuiHandler.BOOKSHELF;
     }
 
-
     @Override
     public void registerRender()
     {
-    }
-
-    @Nullable
-    @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta)
-    {
-        return new TileEntityBookshelf();
     }
 
     @Override
