@@ -1,21 +1,22 @@
 package com.ragegamingpe.wtfenchants.common.container;
 
-import com.ragegamingpe.wtfenchants.common.block.te.TileEntityXpStore;
+import com.ragegamingpe.wtfenchants.common.block.te.base.TEBasicExperience;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IContainerListener;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ContainerXpStore extends Container
+public class ContainerXp extends Container
 {
-    public TileEntityXpStore te;
+    public TEBasicExperience inventory;
     public int level;
     public float percentToLevel;
 
-    public ContainerXpStore(TileEntityXpStore te)
+    public ContainerXp(TEBasicExperience inventory)
     {
-        this.te = te;
+        this.inventory = inventory;
     }
 
     @Override
@@ -37,8 +38,8 @@ public class ContainerXpStore extends Container
 
     private void broadcastInformation(IContainerListener listener)
     {
-        listener.sendWindowProperty(this, 0, this.te.getHeldLevel());
-        listener.sendWindowProperty(this, 1, (int) (this.te.getPercentToNextLevel() * 100));
+        listener.sendWindowProperty(this, 0, this.inventory.getHeldLevel());
+        listener.sendWindowProperty(this, 1, (int) (this.inventory.getPercentToNextLevel() * 100));
     }
 
     @Override
@@ -56,6 +57,6 @@ public class ContainerXpStore extends Container
     @Override
     public boolean canInteractWith(EntityPlayer playerIn)
     {
-        return playerIn.getDistanceSq(this.te.getPos()) <= 64;
+        return playerIn.getDistanceSq(((TileEntity) this.inventory).getPos()) <= 64;
     }
 }

@@ -19,19 +19,19 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 
 import javax.annotation.Nullable;
 
-public class ModBaseTEInventory extends TileEntity implements IInventory
+public class TEBasicInventory extends TileEntity implements IInventory
 {
     private String name;
     private boolean hasCustomName = false;
     private int slots;
     protected NonNullList<ItemStack> inventory;
 
-    public ModBaseTEInventory()
+    public TEBasicInventory()
     {
 
     }
 
-    public ModBaseTEInventory(String name, int slots)
+    public TEBasicInventory(String name, int slots)
     {
         this.name = name;
         this.slots = slots;

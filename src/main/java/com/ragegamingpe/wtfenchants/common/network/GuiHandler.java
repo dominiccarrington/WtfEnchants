@@ -1,16 +1,14 @@
 package com.ragegamingpe.wtfenchants.common.network;
 
-import com.ragegamingpe.wtfenchants.client.gui.container.GuiContainerBookshelf;
-import com.ragegamingpe.wtfenchants.client.gui.container.GuiContainerDisenchantment;
-import com.ragegamingpe.wtfenchants.client.gui.container.GuiContainerSorter;
-import com.ragegamingpe.wtfenchants.client.gui.container.GuiContainerXpStore;
+import com.ragegamingpe.wtfenchants.client.gui.container.*;
 import com.ragegamingpe.wtfenchants.common.block.te.TileEntityBookshelf;
 import com.ragegamingpe.wtfenchants.common.block.te.TileEntitySorter;
 import com.ragegamingpe.wtfenchants.common.block.te.TileEntityXpStore;
+import com.ragegamingpe.wtfenchants.common.block.te.base.TEBasicExperience;
 import com.ragegamingpe.wtfenchants.common.container.ContainerBookshelf;
 import com.ragegamingpe.wtfenchants.common.container.ContainerDisenchantment;
 import com.ragegamingpe.wtfenchants.common.container.ContainerSorter;
-import com.ragegamingpe.wtfenchants.common.container.ContainerXpStore;
+import com.ragegamingpe.wtfenchants.common.container.ContainerXp;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -23,6 +21,7 @@ public class GuiHandler implements IGuiHandler
     public static final int SORTER = 1;
     public static final int DISENCHANTING_TABLE = 2;
     public static final int XP_STORE = 3;
+    public static final int GENERAL_XP = 4;
 
     @Override
     public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
@@ -36,7 +35,9 @@ public class GuiHandler implements IGuiHandler
             case DISENCHANTING_TABLE:
                 return new ContainerDisenchantment(player, world, new BlockPos(x, y, z));
             case XP_STORE:
-                return new ContainerXpStore((TileEntityXpStore) te);
+                return new ContainerXp((TileEntityXpStore) te);
+            case GENERAL_XP:
+                return new ContainerXp((TEBasicExperience) te);
         }
         return null;
     }
@@ -54,6 +55,8 @@ public class GuiHandler implements IGuiHandler
                 return new GuiContainerDisenchantment(player, world, new BlockPos(x, y, z));
             case XP_STORE:
                 return new GuiContainerXpStore((TileEntityXpStore) te);
+            case GENERAL_XP:
+                return new GuiContainerXp((TEBasicExperience) te);
         }
         return null;
     }

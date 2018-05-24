@@ -15,6 +15,7 @@ public class ModBlocks
     public static final ModBlock DISENCHANTING_TABLE;
     public static final ModBlock XP_STORE;
     public static final ModBlock XP_FARMER;
+    public static final ModBlock XP_FUNNEL;
 
     static {
         COMMON_BOOKSHELF = new BlockBookshelf();
@@ -22,5 +23,6 @@ public class ModBlocks
         DISENCHANTING_TABLE = new BlockDisenchantment();
         XP_STORE = new BlockXpStore();
         XP_FARMER = new BlockXpFarmer();
+        XP_FUNNEL = new BlockXpFunnel();
     }
 }

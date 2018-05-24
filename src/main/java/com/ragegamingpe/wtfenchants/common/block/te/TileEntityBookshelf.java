@@ -2,7 +2,7 @@ package com.ragegamingpe.wtfenchants.common.block.te;
 
 import com.ragegamingpe.wtfenchants.client.model.ModelHelper;
 import com.ragegamingpe.wtfenchants.common.block.BlockBookshelf;
-import com.ragegamingpe.wtfenchants.common.block.te.base.ModBaseTEInventory;
+import com.ragegamingpe.wtfenchants.common.block.te.base.TEBasicInventory;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Items;
@@ -20,7 +20,7 @@ import net.minecraftforge.common.property.IUnlistedProperty;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TileEntityBookshelf extends ModBaseTEInventory
+public class TileEntityBookshelf extends TEBasicInventory
 {
     public static final String PLANKS_TAG = "textureBlock";
     public static final String FACE_TAG = "facing";

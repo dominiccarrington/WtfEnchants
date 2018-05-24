@@ -11,8 +11,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import javax.annotation.Nullable;
 
-import static com.ragegamingpe.wtfenchants.common.block.te.TileEntityXpFarmer.FAKE_PLAYER_NAME;
-
 public class BlockXpFarmer extends ModBlockContainer
 {
     public static int configRadius;
@@ -35,7 +33,7 @@ public class BlockXpFarmer extends ModBlockContainer
     public static void onExperienceDrops(LivingExperienceDropEvent event)
     {
         if (event.getAttackingPlayer() instanceof FakePlayer) {
-            if (event.getAttackingPlayer().getGameProfile().getName() == FAKE_PLAYER_NAME) {
+            if (event.getAttackingPlayer().getGameProfile().getName() == "[Minecraft]") {
                 event.setDroppedExperience((int) Math.floor(event.getOriginalExperience() * configXpPenalty));
             }
         }

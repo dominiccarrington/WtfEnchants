@@ -1,7 +1,7 @@
 package com.ragegamingpe.wtfenchants.common.block.base;
 
 import com.ragegamingpe.wtfenchants.common.WtfEnchants;
-import com.ragegamingpe.wtfenchants.common.block.te.base.ModBaseTEInventory;
+import com.ragegamingpe.wtfenchants.common.block.te.base.TEBasicInventory;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -51,8 +51,8 @@ public abstract class ModBlockInventory extends ModBlockContainer
     public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
     {
         TileEntity te = worldIn.getTileEntity(pos);
-        if (stack.hasDisplayName() && te instanceof ModBaseTEInventory)
-            ((ModBaseTEInventory) te).setCustomName(stack.getDisplayName());
+        if (stack.hasDisplayName() && te instanceof TEBasicInventory)
+            ((TEBasicInventory) te).setCustomName(stack.getDisplayName());
     }
 
     protected abstract int getGuiID();

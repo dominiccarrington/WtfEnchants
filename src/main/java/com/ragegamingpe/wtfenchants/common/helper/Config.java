@@ -3,6 +3,7 @@ package com.ragegamingpe.wtfenchants.common.helper;
 import com.google.common.base.CaseFormat;
 import com.ragegamingpe.wtfenchants.common.block.BlockXpFarmer;
 import com.ragegamingpe.wtfenchants.common.block.base.ModBlock;
+import com.ragegamingpe.wtfenchants.common.block.te.TileEntityXpFunnel;
 import com.ragegamingpe.wtfenchants.common.enchantment.base.ModBaseEnchantment;
 import com.ragegamingpe.wtfenchants.common.lib.LibMisc;
 import com.ragegamingpe.wtfenchants.common.lib.ModEnchantments;
@@ -51,6 +52,8 @@ public class Config
 
         BlockXpFarmer.configRadius = getInstance().get(CATEGORY_BLOCK, "XP Farmer Radius", 5).getInt();
         BlockXpFarmer.configXpPenalty = getInstance().get(CATEGORY_BLOCK, "XP Farmer Penalty", 0.75, "The percentage of the XP that drops. 0 means no XP drops, 1 means no penality", 0, 1).getDouble();
+
+        TileEntityXpFunnel.configTransferPerOperation = getInstance().get(CATEGORY_BLOCK, "XP Funnel Transfer Per Operation", 10, "The maxmium of expirence transferred every 4 redstone ticks").getInt();
 
         //TODO add WTF enchant effects to config
 

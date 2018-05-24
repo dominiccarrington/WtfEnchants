@@ -2,11 +2,9 @@ package com.ragegamingpe.wtfenchants.common;
 
 import com.ragegamingpe.wtfenchants.common.block.BlockXpFarmer;
 import com.ragegamingpe.wtfenchants.common.block.base.ModBlock;
-import com.ragegamingpe.wtfenchants.common.block.te.TileEntityBookshelf;
-import com.ragegamingpe.wtfenchants.common.block.te.TileEntitySorter;
-import com.ragegamingpe.wtfenchants.common.block.te.TileEntityXpFarmer;
-import com.ragegamingpe.wtfenchants.common.block.te.TileEntityXpStore;
+import com.ragegamingpe.wtfenchants.common.block.te.*;
 import com.ragegamingpe.wtfenchants.common.command.WtfCommand;
+import com.ragegamingpe.wtfenchants.common.command.XpDebugCommand;
 import com.ragegamingpe.wtfenchants.common.enchantment.base.ModBaseEnchantment;
 import com.ragegamingpe.wtfenchants.common.helper.Config;
 import com.ragegamingpe.wtfenchants.common.item.base.ModItem;
@@ -66,6 +64,7 @@ public class CommonProxy
         GameRegistry.registerTileEntity(TileEntitySorter.class, LibMisc.MOD_ID + ":sorter");
         GameRegistry.registerTileEntity(TileEntityXpStore.class, LibMisc.MOD_ID + ":xp_store");
         GameRegistry.registerTileEntity(TileEntityXpFarmer.class, LibMisc.MOD_ID + ":xp_farmer");
+        GameRegistry.registerTileEntity(TileEntityXpFunnel.class, LibMisc.MOD_ID + ":xp_funnel");
     }
 
     public void init(FMLInitializationEvent event)
@@ -85,6 +84,10 @@ public class CommonProxy
     public void serverStarting(FMLServerStartingEvent event)
     {
         event.registerServerCommand(new WtfCommand());
+
+        if (WtfEnchants.isDebugEnvironment()) {
+            event.registerServerCommand(new XpDebugCommand());
+        }
     }
 
     @SubscribeEvent

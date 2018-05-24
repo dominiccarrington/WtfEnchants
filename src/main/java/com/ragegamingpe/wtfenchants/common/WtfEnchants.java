@@ -49,4 +49,9 @@ public class WtfEnchants
     {
         proxy.serverStarting(event);
     }
+
+    public static boolean isDebugEnvironment()
+    {
+        return LibMisc.VERSION.contains("GRADLE");
+    }
 }
