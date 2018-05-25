@@ -78,8 +78,8 @@ public class TileEntityXpFunnel extends TEBasicExperience implements ITickable
             int amount = Math.min(configTransferPerOperation, this.getTotalExperience());
             amount = Math.min(amount, receiver.getStorageRemaining());
 
-            this.addExperience(-amount);
-            receiver.addExperience(amount);
+            int leftOver = receiver.addExperience(amount); // leftOver shouldn't happen but in case...
+            this.addExperience(-amount + leftOver);
         }
     }
 
