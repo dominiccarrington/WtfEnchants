@@ -61,25 +61,39 @@ public class TileEntityXpFunnel extends TEBasicExperience implements ITickable
 
     private void handleXpTransfer()
     {
-        if (this.getTotalExperience() <= 0) {
-            return;
+        if (!this.isFull()) {
+            BlockPos check = pos.up();
+
+            if (this.world.isBlockLoaded(check) && this.world.getTileEntity(check) instanceof TEBasicExperience) {
+                TEBasicExperience sender = (TEBasicExperience) this.world.getTileEntity(check);
+                assert sender != null;
+
+                if (sender.getTotalExperience() > 0) {
+                    int amount = Math.min(configTransferPerOperation, sender.getTotalExperience());
+                    amount = Math.min(amount, this.getStorageRemaining());
+
+                    int leftOver = this.addExperience(amount); // leftOver shouldn't happen but in case...
+                    sender.addExperience(-amount + leftOver);
+                }
+            }
         }
 
-        EnumFacing facing = BlockXpFunnel.getFacing(this.getBlockMetadata());
-        BlockPos check = pos.offset(facing);
+        if (this.getTotalExperience() > 0) {
+            EnumFacing facing = BlockXpFunnel.getFacing(this.getBlockMetadata());
+            BlockPos check = pos.offset(facing);
 
-        if (this.world.isBlockLoaded(check) &&
-                this.world.getTileEntity(check) instanceof TEBasicExperience) {
-            TEBasicExperience receiver = (TEBasicExperience) this.world.getTileEntity(check);
-            assert receiver != null;
+            if (this.world.isBlockLoaded(check) && this.world.getTileEntity(check) instanceof TEBasicExperience) {
+                TEBasicExperience receiver = (TEBasicExperience) this.world.getTileEntity(check);
+                assert receiver != null;
 
-            if (receiver.isFull()) return;
+                if (receiver.isFull()) return;
 
-            int amount = Math.min(configTransferPerOperation, this.getTotalExperience());
-            amount = Math.min(amount, receiver.getStorageRemaining());
+                int amount = Math.min(configTransferPerOperation, this.getTotalExperience());
+                amount = Math.min(amount, receiver.getStorageRemaining());
 
-            int leftOver = receiver.addExperience(amount); // leftOver shouldn't happen but in case...
-            this.addExperience(-amount + leftOver);
+                int leftOver = receiver.addExperience(amount); // leftOver shouldn't happen but in case...
+                this.addExperience(-amount + leftOver);
+            }
         }
     }
 
