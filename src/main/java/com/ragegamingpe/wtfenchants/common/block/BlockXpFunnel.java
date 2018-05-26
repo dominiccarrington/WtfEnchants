@@ -1,10 +1,11 @@
 package com.ragegamingpe.wtfenchants.common.block;
 
 import com.google.common.collect.ImmutableList;
-import com.ragegamingpe.wtfenchants.common.block.base.ModBlockInventory;
+import com.ragegamingpe.wtfenchants.common.block.base.ModBlockExperienceContainer;
 import com.ragegamingpe.wtfenchants.common.block.te.TileEntityXpFunnel;
 import com.ragegamingpe.wtfenchants.common.network.GuiHandler;
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
@@ -35,7 +36,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class BlockXpFunnel extends ModBlockInventory
+public class BlockXpFunnel extends ModBlockExperienceContainer
 {
     public static final PropertyDirection FACING = PropertyDirection.create("facing", p_apply_1_ -> p_apply_1_ != EnumFacing.UP);
     public static final PropertyBool ENABLED = PropertyBool.create("enabled");
@@ -69,15 +70,11 @@ public class BlockXpFunnel extends ModBlockInventory
     public BlockXpFunnel()
     {
         super(Material.IRON, MapColor.STONE, "xp_funnel");
+        this.setHardness(3.0F);
+        this.setResistance(8.0F);
+        this.setSoundType(SoundType.METAL);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.DOWN).withProperty(ENABLED, true));
         this.setCreativeTab(CreativeTabs.REDSTONE);
-    }
-
-    @Nullable
-    @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta)
-    {
-        return new TileEntityXpFunnel();
     }
 
     @Override
@@ -146,17 +143,6 @@ public class BlockXpFunnel extends ModBlockInventory
                 worldIn.setTileEntity(pos, tileentity);
             }
         }
-    }
-
-    @Override
-    public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
-    {
-        TileEntity tileentity = worldIn.getTileEntity(pos);
-
-        if (tileentity instanceof TileEntityXpFunnel) {
-        }
-
-        super.breakBlock(worldIn, pos, state);
     }
 
     @Override
@@ -241,6 +227,13 @@ public class BlockXpFunnel extends ModBlockInventory
     protected BlockStateContainer createBlockState()
     {
         return new BlockStateContainer(this, FACING, ENABLED);
+    }
+
+    @Nullable
+    @Override
+    public TileEntity createNewTileEntity(World worldIn, int meta)
+    {
+        return new TileEntityXpFunnel();
     }
 
     @Override

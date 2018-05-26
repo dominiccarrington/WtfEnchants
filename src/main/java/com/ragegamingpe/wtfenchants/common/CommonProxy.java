@@ -15,6 +15,7 @@ import com.ragegamingpe.wtfenchants.common.lib.ModItems;
 import com.ragegamingpe.wtfenchants.common.network.GuiHandler;
 import com.ragegamingpe.wtfenchants.common.network.MessageHandler;
 import net.minecraft.block.Block;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
@@ -59,12 +60,6 @@ public class CommonProxy
 
         NetworkRegistry.INSTANCE.registerGuiHandler(WtfEnchants.instance, new GuiHandler());
         MessageHandler.init();
-
-        GameRegistry.registerTileEntity(TileEntityBookshelf.class, LibMisc.MOD_ID + ":bookshelf");
-        GameRegistry.registerTileEntity(TileEntitySorter.class, LibMisc.MOD_ID + ":sorter");
-        GameRegistry.registerTileEntity(TileEntityXpStore.class, LibMisc.MOD_ID + ":xp_store");
-        GameRegistry.registerTileEntity(TileEntityXpFarmer.class, LibMisc.MOD_ID + ":xp_farmer");
-        GameRegistry.registerTileEntity(TileEntityXpFunnel.class, LibMisc.MOD_ID + ":xp_funnel");
     }
 
     public void init(FMLInitializationEvent event)
@@ -94,6 +89,12 @@ public class CommonProxy
     public void registerBlocks(RegistryEvent.Register<Block> event)
     {
         event.getRegistry().registerAll(ModBlocks.ALL_BLOCKS.toArray(new ModBlock[0]));
+
+        GameRegistry.registerTileEntity(TileEntityBookshelf.class, LibMisc.MOD_ID + ":bookshelf");
+        GameRegistry.registerTileEntity(TileEntitySorter.class, LibMisc.MOD_ID + ":sorter");
+        GameRegistry.registerTileEntity(TileEntityXpStore.class, LibMisc.MOD_ID + ":xp_store");
+        GameRegistry.registerTileEntity(TileEntityXpFarmer.class, LibMisc.MOD_ID + ":xp_farmer");
+        GameRegistry.registerTileEntity(TileEntityXpFunnel.class, LibMisc.MOD_ID + ":xp_funnel");
     }
 
     @SubscribeEvent
@@ -103,10 +104,19 @@ public class CommonProxy
         for (int i = 0; i < ModBlocks.ALL_BLOCKS.size(); i++) {
             ModBlock block = ModBlocks.ALL_BLOCKS.get(i);
             itemBlocks[i] = block.getItemBlock();
+
+            if (WtfEnchants.isDebugEnvironment() && !I18n.hasKey(itemBlocks[i].getUnlocalizedName() + ".name")) {
+                WtfEnchants.logger.error(itemBlocks[i].getUnlocalizedName() + " doesn't have a translation");
+            }
         }
         event.getRegistry().registerAll(itemBlocks);
 
         event.getRegistry().registerAll(ModItems.ALL_ITEMS.toArray(new ModItem[0]));
+        ModItems.ALL_ITEMS.forEach((item) -> {
+            if (WtfEnchants.isDebugEnvironment() && !I18n.hasKey(item.getUnlocalizedName() + ".name")) {
+                WtfEnchants.logger.error(item.getUnlocalizedName() + " doesn't have a translation");
+            }
+        });
     }
 
     @SubscribeEvent
@@ -114,6 +124,12 @@ public class CommonProxy
     {
         List<ModBaseEnchantment> tempStore = new ArrayList<>(ModEnchantments.ALL_ENCHANTMENTS);
         tempStore.removeIf(enchantment -> !enchantment.isEnabled());
+
+        ModEnchantments.ALL_ENCHANTMENTS.forEach(enchantment -> {
+            if (WtfEnchants.isDebugEnvironment() && !I18n.hasKey(enchantment.getName())) {
+                WtfEnchants.logger.error(enchantment.getName() + " doesn't have a translation");
+            }
+        });
 
         event.getRegistry().registerAll(tempStore.toArray(new ModBaseEnchantment[0]));
     }

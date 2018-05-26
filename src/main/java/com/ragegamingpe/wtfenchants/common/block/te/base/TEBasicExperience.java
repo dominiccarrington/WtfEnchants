@@ -118,6 +118,11 @@ public abstract class TEBasicExperience extends TileEntity
         return this.getMaximumStorage() - this.getTotalExperience();
     }
 
+    public int getComparatorOutput()
+    {
+        return (int) (((double) this.getTotalExperience() / (double) this.getMaximumStorage()) * (double) 15);
+    }
+
     public abstract FakePlayer getFakePlayer();
 
     public static int calculatePlayerExperience(EntityPlayer player)
