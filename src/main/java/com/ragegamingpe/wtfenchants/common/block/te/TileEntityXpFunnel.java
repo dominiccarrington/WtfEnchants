@@ -68,7 +68,8 @@ public class TileEntityXpFunnel extends TEBasicExperience implements ITickable
                 TEBasicExperience sender = (TEBasicExperience) this.world.getTileEntity(check);
                 assert sender != null;
 
-                if (sender.getTotalExperience() > 0) {
+                // Don't use TileEntityXpFunnel here, use sending logic instead of the sucking logic
+                if (!(sender instanceof TileEntityXpFunnel) && sender.getTotalExperience() > 0) {
                     int amount = Math.min(configTransferPerOperation, sender.getTotalExperience());
                     amount = Math.min(amount, this.getStorageRemaining());
 
