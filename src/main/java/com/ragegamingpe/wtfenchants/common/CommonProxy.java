@@ -95,6 +95,12 @@ public class CommonProxy
         GameRegistry.registerTileEntity(TileEntityXpStore.class, LibMisc.MOD_ID + ":xp_store");
         GameRegistry.registerTileEntity(TileEntityXpFarmer.class, LibMisc.MOD_ID + ":xp_farmer");
         GameRegistry.registerTileEntity(TileEntityXpFunnel.class, LibMisc.MOD_ID + ":xp_funnel");
+
+        ModBlocks.ALL_BLOCKS.forEach(block -> {
+            if (WtfEnchants.isDebugEnvironment() && block.getCreativeTabToDisplayOn() == null) {
+                WtfEnchants.logger.error(block.getUnlocalizedName() + " is not a member of a Creative Tab (This may not be a bug!)");
+            }
+        });
     }
 
     @SubscribeEvent
@@ -115,6 +121,10 @@ public class CommonProxy
         ModItems.ALL_ITEMS.forEach((item) -> {
             if (WtfEnchants.isDebugEnvironment() && !I18n.hasKey(item.getUnlocalizedName() + ".name")) {
                 WtfEnchants.logger.error(item.getUnlocalizedName() + " doesn't have a translation");
+            }
+
+            if (WtfEnchants.isDebugEnvironment() && item.getCreativeTab() == null) {
+                WtfEnchants.logger.error(item.getUnlocalizedName() + " is not a member of a Creative Tab (This may not be a bug!)");
             }
         });
     }

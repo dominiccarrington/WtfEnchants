@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.ragegamingpe.wtfenchants.common.block.BlockDisenchantment;
 import com.ragegamingpe.wtfenchants.common.block.BlockSorter;
+import com.ragegamingpe.wtfenchants.common.block.BlockXpStore;
 import com.ragegamingpe.wtfenchants.common.block.base.ModBlock;
 import com.ragegamingpe.wtfenchants.common.lib.LibMisc;
 import net.minecraft.block.properties.IProperty;
@@ -33,6 +34,7 @@ public class ModelCreator
 //        registerBlock("bookshelf", BlockBookshelf.class);
         registerBlock("sorter", BlockSorter.class);
         registerBlock("disenchanting_table", BlockDisenchantment.class);
+        registerBlock("xp_store", BlockXpStore.class);
 
         for (Map.Entry<String, Class<? extends ModBlock>> block : BLOCKS.entrySet()) {
             if (createBlockInformation(block.getKey())) {

@@ -1,5 +1,6 @@
 {
   "sorter": true,
+  "xp_store": true,
   "bookshelf": true,
   "disenchanting_table": true
 }
