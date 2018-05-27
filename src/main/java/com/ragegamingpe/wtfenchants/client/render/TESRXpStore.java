@@ -28,7 +28,8 @@ public class TESRXpStore extends TileEntitySpecialRenderer<TileEntityXpStore>
         if (entity == null)
             entity = new EntityXPOrb(Minecraft.getMinecraft().world, posX, posY, posZ, 2477);
 
-        entity.xpColor++;
+        te.renderXpColor++;
+        entity.xpColor = te.renderXpColor;
         float f = 0.53125F;
         float f1 = Math.max(entity.width, entity.height);
 

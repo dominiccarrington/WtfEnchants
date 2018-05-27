@@ -11,6 +11,8 @@ import java.util.UUID;
 
 public class TileEntityXpStore extends TEBasicExperience
 {
+    public int renderXpColor = 0;
+
     @Override
     public FakePlayer getFakePlayer()
     {
