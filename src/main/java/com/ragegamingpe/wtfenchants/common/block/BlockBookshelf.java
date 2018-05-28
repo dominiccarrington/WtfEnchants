@@ -7,18 +7,17 @@ import com.ragegamingpe.wtfenchants.common.block.property.PropertyUnlistedIntege
 import com.ragegamingpe.wtfenchants.common.block.te.TileEntityBookshelf;
 import com.ragegamingpe.wtfenchants.common.block.te.TileEntitySorter;
 import com.ragegamingpe.wtfenchants.common.helper.NBTHelper;
-import com.ragegamingpe.wtfenchants.common.item.ItemBookshelfBlock;
 import com.ragegamingpe.wtfenchants.common.network.GuiHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -39,6 +38,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 
 /**
  * FIX: PICK BLOCK
@@ -257,9 +257,19 @@ public class BlockBookshelf extends ModBlockInventory
     }
 
     @Override
-    public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state)
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-        return super.getItem(worldIn, pos, state);
+        super.addInformation(stack, worldIn, tooltip, flagIn);
+        if (!stack.hasTagCompound()) return;
+
+        ItemStack legs = getPlanksTag(stack);
+        if (!legs.isEmpty()) tooltip.add(legs.getDisplayName());
+    }
+
+    public static ItemStack getPlanksTag(ItemStack table)
+    {
+        NBTTagCompound tag = NBTHelper.getTagSafe(table).getCompoundTag(TileEntityBookshelf.PLANKS_TAG);
+        return new ItemStack(tag);
     }
 
     @Override
@@ -290,12 +300,6 @@ public class BlockBookshelf extends ModBlockInventory
     @Override
     public void registerRender()
     {
-    }
-
-    @Override
-    public ItemBlock getItemBlock()
-    {
-        return (ItemBlock) new ItemBookshelfBlock().setRegistryName(this.getRegistryName());
     }
 
     public static ItemStack createItemstack(BlockBookshelf block, int itemDamage, Block blockFromItem, int meta)
