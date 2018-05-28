@@ -20,6 +20,7 @@ public class ModEnchantments
     public static final ModBaseEnchantment HEIGHT;
     public static final ModBaseEnchantment QUICK_DRAW;
     public static final ModBaseEnchantment SOULBOUND;
+    public static final SuperSoftEnchantment SUPER_SOFT;
     public static final ModBaseEnchantment WIDTH;
     public static final ModBaseEnchantment WTF;
 
@@ -34,6 +35,7 @@ public class ModEnchantments
         HEIGHT = new HeightEnchantment();
         QUICK_DRAW = new QuickDrawEnchantment();
         SOULBOUND = new SoulboundEnchantment();
+        SUPER_SOFT = new SuperSoftEnchantment();
         WIDTH = new WidthEnchantment();
         WTF = new WtfEnchantment();
     }
