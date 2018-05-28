@@ -9,6 +9,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
 public class ExplosionEnchantment extends ModBaseEnchantment
 {
@@ -18,7 +19,7 @@ public class ExplosionEnchantment extends ModBaseEnchantment
     }
 
     @Override
-    public void onEntityDeath(EntityLivingBase entity, DamageSource source, ItemStack enchantItem, Integer lvl)
+    public void onEntityDeath(LivingDeathEvent event, EntityLivingBase entity, DamageSource source, ItemStack enchantItem, Integer lvl)
     {
         World world = entity.getEntityWorld();
         world.createExplosion(entity, entity.posX, entity.posY, entity.posZ, 1.5F * lvl, false);

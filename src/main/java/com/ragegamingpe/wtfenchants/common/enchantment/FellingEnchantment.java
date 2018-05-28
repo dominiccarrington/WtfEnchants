@@ -9,6 +9,7 @@ import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.event.world.BlockEvent;
 
 import java.util.List;
 
@@ -38,10 +39,9 @@ public class FellingEnchantment extends ModBaseEnchantment
     }
 
     @Override
-    public float onToolUse(EntityPlayer harvester, IBlockState state, BlockPos pos, ItemStack stack, int fortuneLevel, List<ItemStack> drops)
+    public void onBlockBrokenDrops(BlockEvent.HarvestDropsEvent event, EntityPlayer harvester, IBlockState state, BlockPos pos, ItemStack stack, int fortuneLevel, List<ItemStack> drops)
     {
         onToolUse(harvester, state, pos, stack, fortuneLevel, drops, false);
-        return 1.0F;
     }
 
     private void onToolUse(EntityPlayer harvester, IBlockState state, BlockPos pos, ItemStack stack, int fortuneLevel, List<ItemStack> drops, boolean fired)

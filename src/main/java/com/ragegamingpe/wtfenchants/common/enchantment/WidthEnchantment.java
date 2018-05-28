@@ -8,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.world.BlockEvent;
 
 import java.util.List;
 
@@ -46,9 +47,8 @@ public class WidthEnchantment extends ModBaseEnchantment
     }
 
     @Override
-    public float onToolUse(EntityPlayer harvester, IBlockState state, BlockPos pos, ItemStack stack, int fortuneLevel, List<ItemStack> drops)
+    public void onBlockBrokenDrops(BlockEvent.HarvestDropsEvent event, EntityPlayer harvester, IBlockState state, BlockPos pos, ItemStack stack, int fortuneLevel, List<ItemStack> drops)
     {
         drops.addAll(HandlerHeightWidth.getDrops());
-        return super.onToolUse(harvester, state, pos, stack, fortuneLevel, drops);
     }
 }

@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class GodsEyeEnchantment extends ModBaseEnchantment
 {
@@ -15,7 +16,7 @@ public class GodsEyeEnchantment extends ModBaseEnchantment
     }
 
     @Override
-    public void onArmorTick(EntityPlayer player, ItemStack armorPiece, int lvl)
+    public void onArmorTick(TickEvent.PlayerTickEvent event, EntityPlayer player, ItemStack armorPiece, int lvl)
     {
         player.addPotionEffect(new PotionEffect(MobEffects.NIGHT_VISION, 220, 0, true, false));
     }

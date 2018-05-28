@@ -157,7 +157,7 @@ public class CommonProxy
 
                 for (Map.Entry<Enchantment, Integer> enchant : enchantments.entrySet()) {
                     if (enchant.getKey() instanceof ModBaseEnchantment) {
-                        ((ModBaseEnchantment) enchant.getKey()).onArmorTick(player, armorPiece, enchant.getValue());
+                        ((ModBaseEnchantment) enchant.getKey()).onArmorTick(event, player, armorPiece, enchant.getValue());
                     }
                 }
             }
@@ -173,7 +173,22 @@ public class CommonProxy
 
             for (Map.Entry<Enchantment, Integer> enchant : enchantments.entrySet()) {
                 if (enchant.getKey() instanceof ModBaseEnchantment) {
-                    event.setDropChance(((ModBaseEnchantment) enchant.getKey()).onToolUse(event.getHarvester(), event.getState(), event.getPos(), stack, event.getFortuneLevel(), event.getDrops()));
+                    ((ModBaseEnchantment) enchant.getKey()).onBlockBrokenDrops(event, event.getHarvester(), event.getState(), event.getPos(), stack, event.getFortuneLevel(), event.getDrops());
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onBlockBroken(BlockEvent.BreakEvent event)
+    {
+        if (event.getPlayer() != null) {
+            ItemStack stack = event.getPlayer().getHeldItemMainhand();
+            Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(stack);
+
+            for (Map.Entry<Enchantment, Integer> enchant : enchantments.entrySet()) {
+                if (enchant.getKey() instanceof ModBaseEnchantment) {
+                    ((ModBaseEnchantment) enchant.getKey()).onBlockBroken(event, event.getPlayer(), event.getState(), event.getPos(), stack);
                 }
             }
         }
@@ -190,7 +205,7 @@ public class CommonProxy
 
             for (Map.Entry<Enchantment, Integer> enchant : enchantments.entrySet()) {
                 if (enchant.getKey() instanceof ModBaseEnchantment) {
-                    ((ModBaseEnchantment) enchant.getKey()).onEntityDeath(event.getEntityLiving(), event.getSource(), stack, enchant.getValue());
+                    ((ModBaseEnchantment) enchant.getKey()).onEntityDeath(event, event.getEntityLiving(), event.getSource(), stack, enchant.getValue());
                 }
             }
         }
@@ -207,7 +222,7 @@ public class CommonProxy
 
             for (Map.Entry<Enchantment, Integer> enchant : enchantments.entrySet()) {
                 if (enchant.getKey() instanceof ModBaseEnchantment) {
-                    ((ModBaseEnchantment) enchant.getKey()).onEntityDeathDrops(event.getEntityLiving(), event.getSource(), stack, event.getDrops(), enchant.getValue());
+                    ((ModBaseEnchantment) enchant.getKey()).onEntityDeathDrops(event, event.getEntityLiving(), event.getSource(), stack, event.getDrops(), enchant.getValue());
                 }
             }
         }

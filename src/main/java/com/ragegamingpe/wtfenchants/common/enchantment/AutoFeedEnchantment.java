@@ -8,6 +8,7 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumHand;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class AutoFeedEnchantment extends ModBaseEnchantment
 {
@@ -19,7 +20,7 @@ public class AutoFeedEnchantment extends ModBaseEnchantment
     }
 
     @Override
-    public void onArmorTick(EntityPlayer player, ItemStack armorPiece, int lvl)
+    public void onArmorTick(TickEvent.PlayerTickEvent event, EntityPlayer player, ItemStack armorPiece, int lvl)
     {
         if (++delay >= 100) {
             delay = 0;

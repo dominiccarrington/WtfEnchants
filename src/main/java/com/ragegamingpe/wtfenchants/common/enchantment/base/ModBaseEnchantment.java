@@ -13,6 +13,10 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.List;
 
@@ -36,22 +40,26 @@ public class ModBaseEnchantment extends Enchantment
 
     }
 
-    public void onArmorTick(EntityPlayer player, ItemStack armorPiece, int lvl)
+    public void onArmorTick(TickEvent.PlayerTickEvent event, EntityPlayer player, ItemStack armorPiece, int lvl)
     {
 
     }
 
-    public float onToolUse(EntityPlayer harvester, IBlockState state, BlockPos pos, ItemStack stack, int fortuneLevel, List<ItemStack> drops)
-    {
-        return 1.0F;
-    }
-
-    public void onEntityDeath(EntityLivingBase entity, DamageSource source, ItemStack enchantItem, Integer lvl)
+    public void onBlockBroken(BlockEvent.BreakEvent event, EntityPlayer harvester, IBlockState state, BlockPos pos, ItemStack stack)
     {
 
     }
 
-    public void onEntityDeathDrops(EntityLivingBase entity, DamageSource source, ItemStack stack, List<EntityItem> drops, Integer lvl)
+    public void onBlockBrokenDrops(BlockEvent.HarvestDropsEvent event, EntityPlayer harvester, IBlockState state, BlockPos pos, ItemStack stack, int fortuneLevel, List<ItemStack> drops)
+    {
+    }
+
+    public void onEntityDeath(LivingDeathEvent event, EntityLivingBase entity, DamageSource source, ItemStack enchantItem, Integer lvl)
+    {
+
+    }
+
+    public void onEntityDeathDrops(LivingDropsEvent event, EntityLivingBase entity, DamageSource source, ItemStack stack, List<EntityItem> drops, Integer lvl)
     {
 
     }
