@@ -62,16 +62,19 @@ public abstract class TEBasicExperience extends TileEntity
         return calculatePlayerExperience(this.getFakePlayer());
     }
 
-    public void addExperienceLevel(int levels)
+    public int addExperienceLevel(int levels)
     {
+        int leftOver = 0;
         if (levels <= 0) {
             this.getFakePlayer().addExperienceLevel(levels);
         } else {
             for (int i = 0; i < levels; i++) {
-                this.addExperience(calculateXpCap(this.getHeldLevel() + i));
+                leftOver += this.addExperience(calculateXpCap(this.getHeldLevel() + i));
             }
         }
         this.markDirty();
+
+        return leftOver;
     }
 
     public int addExperience(int amount)

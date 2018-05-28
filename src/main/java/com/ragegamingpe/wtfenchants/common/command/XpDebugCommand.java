@@ -34,7 +34,7 @@ public class XpDebugCommand extends CommandBase
     {
         EntityPlayer player;
         TEBasicExperience teBasicExperience = null;
-        if (args.length == 3) {
+        if (args.length >= 3) {
             World world = server.getEntityWorld();
             BlockPos pos = parseBlockPos(sender, args, 0, false);
 
@@ -53,14 +53,33 @@ public class XpDebugCommand extends CommandBase
             player = getCommandSenderAsPlayer(sender);
         }
 
-        sender.sendMessage(new TextComponentString("==== " + player.toString() + " ===="));
-        sender.sendMessage(new TextComponentString("XP: " + player.experience));
-        sender.sendMessage(new TextComponentString("XP Level: " + player.experienceLevel));
-        sender.sendMessage(new TextComponentString("XP Total: " + player.experienceTotal));
+        if (args.length == 0 || args.length == 3) {
+            sender.sendMessage(new TextComponentString("==== " + player.toString() + " ===="));
+            sender.sendMessage(new TextComponentString("XP: " + player.experience));
+            sender.sendMessage(new TextComponentString("XP Level: " + player.experienceLevel));
+            sender.sendMessage(new TextComponentString("XP Total: " + player.experienceTotal));
 
-        if (player instanceof FakePlayer && teBasicExperience != null) {
-            sender.sendMessage(new TextComponentString("Max Store: " + teBasicExperience.getMaximumStorage()));
-            sender.sendMessage(new TextComponentString("Is Full: " + teBasicExperience.isFull()));
+            if (player instanceof FakePlayer && teBasicExperience != null) {
+                sender.sendMessage(new TextComponentString("Max Store: " + teBasicExperience.getMaximumStorage()));
+                sender.sendMessage(new TextComponentString("Is Full: " + teBasicExperience.isFull()));
+            }
+        } else if (args.length == 5) {
+            String action = args[3];
+            String amount = args[4];
+
+            switch (action) {
+                case "add":
+                    if (amount.toLowerCase().contains("l")) {
+                        int leftOver = teBasicExperience.addExperienceLevel(Integer.valueOf(amount.substring(0, amount.length() - 1)));
+                        sender.sendMessage(new TextComponentString("Added " + amount + " experience levels to TE"));
+                        sender.sendMessage(new TextComponentString("Left Over: " + leftOver));
+                    } else {
+                        int leftOver = teBasicExperience.addExperience(Integer.valueOf(amount));
+                        sender.sendMessage(new TextComponentString("Added " + amount + " experience to TE"));
+                        sender.sendMessage(new TextComponentString("Left Over: " + leftOver));
+                    }
+                    break;
+            }
         }
     }
 
