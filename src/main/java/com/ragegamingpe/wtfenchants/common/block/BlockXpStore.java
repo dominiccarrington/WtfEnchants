@@ -7,6 +7,7 @@ import com.ragegamingpe.wtfenchants.common.network.GuiHandler;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.BlockPos;
@@ -25,6 +26,7 @@ public class BlockXpStore extends ModBlockExperienceContainer
         super(Material.ROCK, MapColor.RED, "xp_store");
         this.setHardness(5.0F);
         this.setResistance(2000.0F);
+        this.setCreativeTab(CreativeTabs.MISC);
     }
 
     @Override

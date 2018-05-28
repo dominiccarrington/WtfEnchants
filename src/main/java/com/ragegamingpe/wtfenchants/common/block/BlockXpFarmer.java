@@ -3,6 +3,7 @@ package com.ragegamingpe.wtfenchants.common.block;
 import com.ragegamingpe.wtfenchants.common.block.base.ModBlockContainer;
 import com.ragegamingpe.wtfenchants.common.block.te.TileEntityXpFarmer;
 import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
@@ -19,6 +20,9 @@ public class BlockXpFarmer extends ModBlockContainer
     public BlockXpFarmer()
     {
         super(Material.IRON, "xp_farmer");
+        this.setHardness(5.0F);
+        this.setResistance(10.0F);
+        this.setCreativeTab(CreativeTabs.MISC);
     }
 
     @Nullable

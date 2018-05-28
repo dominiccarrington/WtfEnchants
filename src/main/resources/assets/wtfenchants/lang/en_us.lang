@@ -5,6 +5,7 @@ enchantment.wtfenchants:envenomation.name=Envenomation
 enchantment.wtfenchants:explosion.name=Explosion
 enchantment.wtfenchants:gods_eye.name=Gods Eye
 enchantment.wtfenchants:quick_draw.name=Quick Draw
+enchantment.wtfenchants:super_soft.name=Super Soft
 enchantment.wtfenchants:soulbound.name=Soulbound
 enchantment.wtfenchants:wtf.name=Wtf???
 enchantment.wtfenchants:felling.name=Felling
@@ -18,3 +19,9 @@ tile.wtfenchants:sorter.name=Sorter
 
 tile.wtfenchants:disenchanting_table.name=Disenchanting Table
 container.wtfenchants:disenchantment.name=Disenchanting
+
+tile.wtfenchants:xp_store.name=Experience Store
+
+tile.wtfenchants:xp_farmer.name=Experience Farmer
+
+tile.wtfenchants:xp_funnel.name=Experience Funnel
