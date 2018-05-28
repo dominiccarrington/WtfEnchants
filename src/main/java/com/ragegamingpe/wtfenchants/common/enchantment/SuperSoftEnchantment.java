@@ -1,9 +1,11 @@
 package com.ragegamingpe.wtfenchants.common.enchantment;
 
 import com.ragegamingpe.wtfenchants.common.enchantment.base.ModBaseEnchantment;
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Enchantments;
@@ -12,11 +14,15 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -104,11 +110,32 @@ public class SuperSoftEnchantment extends ModBaseEnchantment
             World world = player.getEntityWorld();
             TileEntity te = world.getTileEntity(event.getPos());
 
-            NBTTagCompound compound = stack.getTagCompound();
-            if (te instanceof TileEntityMobSpawner && !world.isRemote && te.onlyOpsCanSetNbt() && (player == null || !player.canUseCommandBlock())) {
-                compound = compound.getCompoundTag("BlockEntityTag");
-                TileEntityMobSpawner spawner = (TileEntityMobSpawner) te;
-                spawner.getSpawnerBaseLogic().readFromNBT(compound);
+            if (stack.hasTagCompound() && te instanceof TileEntityMobSpawner && !world.isRemote && te.onlyOpsCanSetNbt() && (player == null || !player.canUseCommandBlock())) {
+                NBTTagCompound compound = stack.getTagCompound();
+                assert compound != null;
+                if (compound.hasKey("BlockEntityTag")) {
+                    compound = compound.getCompoundTag("BlockEntityTag");
+                    TileEntityMobSpawner spawner = (TileEntityMobSpawner) te;
+                    spawner.getSpawnerBaseLogic().readFromNBT(compound);
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    @SideOnly(Side.CLIENT)
+    public void onItemHover(ItemTooltipEvent event)
+    {
+        ItemStack stack = event.getItemStack();
+        if (Block.getBlockFromItem(stack.getItem()) == Blocks.MOB_SPAWNER) {
+            // {MaxNearbyEntities:6s,RequiredPlayerRange:16s,SpawnCount:4s,SpawnData:{id:"minecraft:pig"},MaxSpawnDelay:800s,Delay:595s,x:44,y:67,z:237,id:"wtfenchants:mob_spawner",SpawnRange:4s,MinSpawnDelay:200s,SpawnPotentials:[{Entity:{id:"minecraft:pig"},Weight:1}]}
+            if (stack.hasTagCompound() && stack.getTagCompound().hasKey("BlockEntityTag")) {
+                NBTTagCompound blockEntityTag = stack.getTagCompound().getCompoundTag("BlockEntityTag");
+
+                String id = blockEntityTag.getCompoundTag("SpawnData").getString("id");
+
+                String name = EntityList.getTranslationName(new ResourceLocation(id));
+                event.getToolTip().add(1, name);
             }
         }
     }
