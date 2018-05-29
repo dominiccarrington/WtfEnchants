@@ -2,6 +2,8 @@ package com.ragegamingpe.wtfenchants.common.enchantment;
 
 import com.ragegamingpe.wtfenchants.common.WtfEnchants;
 import com.ragegamingpe.wtfenchants.common.enchantment.base.ModBaseEnchantment;
+import com.ragegamingpe.wtfenchants.common.helper.Config;
+import com.ragegamingpe.wtfenchants.common.lib.LibMisc;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.Entity;
@@ -20,6 +22,9 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import org.apache.commons.lang3.tuple.MutablePair;
@@ -42,6 +47,97 @@ public class WtfEnchantment extends ModBaseEnchantment
     public WtfEnchantment()
     {
         super("wtf", Enchantment.Rarity.RARE, EnumEnchantmentType.ARMOR);
+
+        registerEvents();
+    }
+
+    @Override
+    public void onUserHurt(EntityLivingBase user, Entity attacker, int level)
+    {
+        if (attacker instanceof EntityPlayer && !attacker.getEntityWorld().isRemote) {
+            // Start the random trolling
+
+            if (rand.nextFloat() <= level * 0.2) {
+                float a = rand.nextFloat();
+                for (Map.Entry<Consumer<EntityPlayer>, Float> event : WEIGHTED_EVENTS.entrySet()) {
+                    if ((a -= event.getValue()) <= 0) {
+                        event.getKey().accept((EntityPlayer) attacker);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public int getMinEnchantability(int enchantmentLevel)
+    {
+        return 20 + (enchantmentLevel - 1) * 5;
+    }
+
+    @Override
+    public int getMaxEnchantability(int enchantmentLevel)
+    {
+        return this.getMinEnchantability(enchantmentLevel) + 20;
+    }
+
+    @Override
+    public int getMaxLevel()
+    {
+        return 3;
+    }
+
+    @Override
+    public void onPostInit()
+    {
+        MinecraftForge.EVENT_BUS.register(this);
+    }
+
+    @SubscribeEvent
+    public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event)
+    {
+        if (event.getModID().equals(LibMisc.MOD_ID)) {
+            registerEvents();
+        }
+    }
+
+    private static <T> T getRandomElement(Random rand, T[] array)
+    {
+        return array[(int) Math.floor(rand.nextFloat() * array.length)];
+    }
+
+    private static <T> T getRandomElement(Random rand, List<T> list)
+    {
+        return list.get((int) Math.floor(rand.nextFloat() * list.size()));
+    }
+
+    private static void registerEvent(int weight, String name, Consumer<EntityPlayer> event)
+    {
+        boolean enabled = Config.getInstance().get(Config.CATEGORY_WTF, name, true).getBoolean();
+
+        if (enabled) EVENTS.put(new MutablePair<>(weight, name), event);
+        WtfEnchants.logger.info("Event " + name + ": " + (enabled ? "enabled" : "disabled"));
+    }
+
+    public static void calculateWeights()
+    {
+        WEIGHTED_EVENTS.clear();
+
+        Set<Pair<Integer, String>> info = EVENTS.keySet();
+        float sum = 0;
+        for (Pair<Integer, String> weight : info) sum += weight.getLeft();
+
+        for (Map.Entry<Pair<Integer, String>, Consumer<EntityPlayer>> event : EVENTS.entrySet()) {
+            WEIGHTED_EVENTS.put(event.getValue(), event.getKey().getLeft() / sum);
+        }
+
+        WtfEnchants.logger.info("Calculated weighted probabilities of " + WEIGHTED_EVENTS.values().size() + " events");
+    }
+
+    public static void registerEvents()
+    {
+        EVENTS.clear();
+        WtfEnchants.logger.info("WTF Enchant: Registering Events");
 
         registerEvent(Rarity.COMMON, "message", (player) -> player.sendMessage(new TextComponentString("Well... This is awkward.")));
 
@@ -123,73 +219,6 @@ public class WtfEnchantment extends ModBaseEnchantment
         });
 
         calculateWeights();
-    }
-
-    @Override
-    public void onUserHurt(EntityLivingBase user, Entity attacker, int level)
-    {
-        if (attacker instanceof EntityPlayer && !attacker.getEntityWorld().isRemote) {
-            // Start the random trolling
-
-//            if (rand.nextFloat() <= level * 0.15) {
-            float a = rand.nextFloat();
-            for (Map.Entry<Consumer<EntityPlayer>, Float> event : WEIGHTED_EVENTS.entrySet()) {
-                if ((a -= event.getValue()) <= 0) {
-                    event.getKey().accept((EntityPlayer) attacker);
-                    break;
-                }
-            }
-//            }
-        }
-    }
-
-    public static void calculateWeights()
-    {
-        WEIGHTED_EVENTS.clear();
-
-        Set<Pair<Integer, String>> info = EVENTS.keySet();
-        float sum = 0;
-        for (Pair<Integer, String> weight : info) sum += weight.getLeft();
-
-        for (Map.Entry<Pair<Integer, String>, Consumer<EntityPlayer>> event : EVENTS.entrySet()) {
-            WEIGHTED_EVENTS.put(event.getValue(), event.getKey().getLeft() / sum);
-        }
-
-        WtfEnchants.logger.info("Calculated weighted probabilities of " + WEIGHTED_EVENTS.values().size() + " events");
-    }
-
-    @Override
-    public int getMinEnchantability(int enchantmentLevel)
-    {
-        return 20 + (enchantmentLevel - 1) * 5;
-    }
-
-    @Override
-    public int getMaxEnchantability(int enchantmentLevel)
-    {
-        return this.getMinEnchantability(enchantmentLevel) + 20;
-    }
-
-    @Override
-    public int getMaxLevel()
-    {
-        return 3;
-    }
-
-    private static void registerEvent(int weight, String name, Consumer<EntityPlayer> event)
-    {
-        // TODO Check if disabled by config
-        EVENTS.put(new MutablePair<>(weight, name), event);
-    }
-
-    private static <T> T getRandomElement(Random rand, T[] array)
-    {
-        return array[(int) Math.floor(rand.nextFloat() * array.length)];
-    }
-
-    private static <T> T getRandomElement(Random rand, List<T> list)
-    {
-        return list.get((int) Math.floor(rand.nextFloat() * list.size()));
     }
 
     static class Rarity

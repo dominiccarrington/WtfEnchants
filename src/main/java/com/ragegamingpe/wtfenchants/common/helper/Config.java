@@ -19,6 +19,7 @@ public class Config
 {
     public static final String CATEGORY_ENCHANTS = "enchantments";
     public static final String CATEGORY_BLOCK = "blocks";
+    public static final String CATEGORY_WTF = "wtf_enchant";
 
     public static Map<Class<? extends ModBaseEnchantment>, Boolean> enchantsEnabled = new HashMap<>();
     public static Map<String, Boolean> wtfEventEnabled = new HashMap<>();    // Coming Soon (TM)
@@ -55,8 +56,6 @@ public class Config
 
         TileEntityXpFunnel.configTransferPerOperation = getInstance().get(CATEGORY_BLOCK, "XP Funnel Transfer Per Operation", 10, "The maxmium of expirence transferred every 4 redstone ticks").getInt();
 
-        //TODO add WTF enchant effects to config
-
         if (instance.hasChanged())
             instance.save();
     }
@@ -64,6 +63,8 @@ public class Config
     @SubscribeEvent
     public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event)
     {
-        if (event.getModID().equals(LibMisc.MOD_ID)) sync();
+        if (event.getModID().equals(LibMisc.MOD_ID)) {
+            sync();
+        }
     }
 }
