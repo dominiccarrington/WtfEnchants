@@ -1,0 +1,20 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "g g",
+    "gig",
+    " g "
+  ],
+  "key": {
+    "g": {
+      "type": "forge:ore_dict",
+      "ore": "ingotGold"
+    },
+    "i": {
+      "item": "minecraft:iron_bars"
+    }
+  },
+  "result": {
+    "item": "wtfenchants:xp_funnel"
+  }
+}

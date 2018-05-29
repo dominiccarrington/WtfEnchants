@@ -2,5 +2,6 @@
   "sorter": true,
   "xp_store": true,
   "bookshelf": true,
-  "disenchanting_table": true
+  "disenchanting_table": true,
+  "xp_farmer": true
 }

@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.ragegamingpe.wtfenchants.common.block.BlockDisenchantment;
 import com.ragegamingpe.wtfenchants.common.block.BlockSorter;
+import com.ragegamingpe.wtfenchants.common.block.BlockXpFarmer;
 import com.ragegamingpe.wtfenchants.common.block.BlockXpStore;
 import com.ragegamingpe.wtfenchants.common.block.base.ModBlock;
 import com.ragegamingpe.wtfenchants.common.lib.LibMisc;
@@ -35,6 +36,7 @@ public class ModelCreator
         registerBlock("sorter", BlockSorter.class);
         registerBlock("disenchanting_table", BlockDisenchantment.class);
         registerBlock("xp_store", BlockXpStore.class);
+        registerBlock("xp_farmer", BlockXpFarmer.class);
 
         for (Map.Entry<String, Class<? extends ModBlock>> block : BLOCKS.entrySet()) {
             if (createBlockInformation(block.getKey())) {
