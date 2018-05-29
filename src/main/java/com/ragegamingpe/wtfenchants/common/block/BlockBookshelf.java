@@ -40,9 +40,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-/**
- * FIX: PICK BLOCK
- */
 public class BlockBookshelf extends ModBlockInventory
 {
     public static final PropertyUnlistedInteger BOOKS = new PropertyUnlistedInteger("books", 0, 14);
