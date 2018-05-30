@@ -4,12 +4,17 @@ import com.ragegamingpe.wtfenchants.client.render.TESRXpStore;
 import com.ragegamingpe.wtfenchants.common.block.base.ModBlockExperienceContainer;
 import com.ragegamingpe.wtfenchants.common.block.te.TileEntityXpStore;
 import com.ragegamingpe.wtfenchants.common.network.GuiHandler;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -18,6 +23,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class BlockXpStore extends ModBlockExperienceContainer
 {
@@ -49,6 +55,44 @@ public class BlockXpStore extends ModBlockExperienceContainer
 
     @Override
     public boolean isOpaqueCube(IBlockState state)
+    {
+        return false;
+    }
+
+    private static NBTTagCompound teInformation;
+
+    @Override
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
+    {
+        teInformation = worldIn.getTileEntity(pos).writeToNBT(new NBTTagCompound());
+        super.breakBlock(worldIn, pos, state);
+    }
+
+
+    @Override
+    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
+    {
+        super.getDrops(drops, world, pos, state, fortune);
+        for (ItemStack drop : drops) {
+            if (Block.getBlockFromItem(drop.getItem()) == this) {
+                drop.setTagInfo("BlockEntityTag", teInformation);
+                teInformation = null;
+            }
+        }
+    }
+
+    @Override
+    public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced)
+    {
+        super.addInformation(stack, player, tooltip, advanced);
+        if (stack != null && stack.getTagCompound() != null) {
+            NBTTagCompound blockEntity = stack.getTagCompound().getCompoundTag("BlockEntityTag");
+            tooltip.add(1, "Levels: " + blockEntity.getInteger("XpLevel"));
+        }
+    }
+
+    @Override
+    protected boolean dumpXpOnBreak()
     {
         return false;
     }

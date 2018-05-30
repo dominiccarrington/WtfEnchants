@@ -40,7 +40,7 @@ public abstract class ModBlockExperienceContainer extends ModBlockContainer
     {
         TileEntity tileentity = worldIn.getTileEntity(pos);
 
-        if (tileentity instanceof TEBasicExperience) {
+        if (tileentity instanceof TEBasicExperience && dumpXpOnBreak()) {
             int i = ((TEBasicExperience) tileentity).getTotalExperience();
             while (i > 0) {
                 int j = EntityXPOrb.getXPSplit(i);
@@ -50,6 +50,11 @@ public abstract class ModBlockExperienceContainer extends ModBlockContainer
         }
 
         super.breakBlock(worldIn, pos, state);
+    }
+
+    protected boolean dumpXpOnBreak()
+    {
+        return true;
     }
 
     @Override
